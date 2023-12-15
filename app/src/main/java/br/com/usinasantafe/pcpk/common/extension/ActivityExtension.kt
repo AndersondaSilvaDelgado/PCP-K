@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.usinasantafe.pcpk.R
 
 
 fun Activity.hideKeyboard(){
@@ -28,23 +29,23 @@ fun Activity.hideKeyboard(){
 //    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 //}
 //
-//fun Fragment.showGenericAlertDialog(message: String, context: Context){
-//    AlertDialog.Builder(context).apply {
-//        setMessage(message)
-//        setPositiveButton(getString(R.string.texto_padrao_ok)){ dialog, _ ->
-//            dialog.dismiss()
-//        }
-//    }.show()
-//}
-//
-//fun Activity.showGenericAlertDialog(message: String, context: Context){
-//    AlertDialog.Builder(context).apply {
-//        setMessage(message)
-//        setPositiveButton(getString(R.string.texto_padrao_ok)){ dialog, _ ->
-//            dialog.dismiss()
-//        }
-//    }.show()
-//}
+fun Fragment.showGenericAlertDialog(message: String, context: Context){
+    AlertDialog.Builder(context).apply {
+        setMessage(message)
+        setPositiveButton(getString(R.string.texto_padrao_ok)){ dialog, _ ->
+            dialog.dismiss()
+        }
+    }.show()
+}
+
+fun Activity.showGenericAlertDialog(message: String, context: Context){
+    AlertDialog.Builder(context).apply {
+        setMessage(message)
+        setPositiveButton(getString(R.string.texto_padrao_ok)){ dialog, _ ->
+            dialog.dismiss()
+        }
+    }.show()
+}
 //
 //fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText){
 //    with(layoutBotoesBinding){
@@ -199,14 +200,14 @@ fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment){
     }
     hideKeyboard()
 }
-//
-//fun Fragment.onBackPressed(callback: () -> Unit){
-//    val funReturn: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-//        override fun handleOnBackPressed() {
-//            callback.invoke()
-//        }
-//    }
-//    requireActivity().onBackPressedDispatcher.addCallback(
-//        this, funReturn
-//    )
-//}
+
+fun Fragment.onBackPressed(callback: () -> Unit){
+    val funReturn: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            callback.invoke()
+        }
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(
+        this, funReturn
+    )
+}

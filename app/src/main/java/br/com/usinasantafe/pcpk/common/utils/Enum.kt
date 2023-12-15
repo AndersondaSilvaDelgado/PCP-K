@@ -1,4 +1,4 @@
-package br.com.usinasantafe.cmm.common.utils
+package br.com.usinasantafe.pcpk.common.utils
 
 enum class StatusData { INITIATE, OPEN, CLOSE  }
 enum class StatusConnection { OFFLINE, ONLINE }

@@ -23,7 +23,7 @@
             android:name=".features.presenter.view.own.OwnActivity"
             android:exported="false" />
         <activity
-            android:name=".features.presenter.view.common.CommonActivity"
+            android:name=".features.presenter.view.initial.InitialActivity"
             android:exported="false" />
         <activity
             android:name=".features.presenter.view.splash.SplashActivity"

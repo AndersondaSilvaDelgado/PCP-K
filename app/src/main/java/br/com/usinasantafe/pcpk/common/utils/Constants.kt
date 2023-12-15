@@ -1,8 +1,7 @@
-package br.com.usinasantafe.cmm.common.utils
+package br.com.usinasantafe.pcpk.common.utils
 
-const val BASE_URL = "https://www.usinasantafe.com.br/cmmdev/view/"
-const val BASE_SHARE_PREFERENCES = "cmm"
-const val BASE_DB = "cmm.db"
+const val BASE_SHARE_PREFERENCES = "pcp"
+const val BASE_DB = "pcp.db"
 const val VERSION_DB = 1
 
 const val BASE_SHARE_PREFERENCES_TABLE_CONFIG = "config"
@@ -80,7 +79,7 @@ const val WEB_SAVE_CHECK_LIST = "save-checklist.php"
 const val WEB_SAVE_FERTIRRIGACAO = "save-fertirrigacao.php"
 const val WEB_SAVE_MOTOMEC = "save-motomec.php"
 
-const val WEB_UPDATE_APP = "update-app.php"
+const val WEB_SAVE_TOKEN = "token.php"
 
 const val WEB_RETURN_CLEAR_EQUIP = "Equipamento Inexistente!"
 const val WEB_RETURN_CLEAR_OS = "OS Inexistente!"
