@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".PCP"
         android:allowBackup="true"
@@ -14,13 +17,13 @@
         android:theme="@style/Theme.PCPK"
         tools:targetApi="31">
         <activity
-            android:name=".features.presenter.view.foreign.ForeignActivity"
+            android:name=".features.presenter.view.visitterc.VisitTercActivity"
             android:exported="false" />
         <activity
-            android:name=".features.presenter.view.residence.ResidenceActivity"
+            android:name=".features.presenter.view.residencia.ResidenciaActivity"
             android:exported="false" />
         <activity
-            android:name=".features.presenter.view.own.OwnActivity"
+            android:name=".features.presenter.view.proprio.ProprioActivity"
             android:exported="false" />
         <activity
             android:name=".features.presenter.view.initial.InitialActivity"

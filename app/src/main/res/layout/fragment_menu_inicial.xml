@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/text_view_principal"
-        style="@style/text_view_titulo_lista"
+        style="@style/text_view_title_list"
         android:text="@string/texto_menu_principal" />
 
     <androidx.recyclerview.widget.RecyclerView

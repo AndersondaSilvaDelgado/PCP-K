@@ -15,7 +15,7 @@ import br.com.usinasantafe.pcpk.common.utils.StatusRecover
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.databinding.FragmentConfigBinding
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
-import br.com.usinasantafe.pcpk.features.presenter.model.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.ConfigFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.ConfigViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,17 +43,23 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
 
     private fun observeState(){
         viewModel.uiLiveData.observe(viewLifecycleOwner) {
-                state -> handleStateChange(state)
+            state -> handleStateChange(state)
         }
+    }
+
+    private fun startEvents() {
+        with(binding) {
+            buttonAtualBaseDados.isEnabled = false
+            textStatusAtualDados.isVisible = false
+            progressBarAtualDados.isVisible = false
+        }
+        viewModel.recoverDataConfig()
     }
 
     private fun setListener() {
         with(binding) {
             buttonAtualBaseDados.setOnClickListener {
-                typeUpdate = true
-                textStatusAtualDados.isVisible = true
-                progressBarAtualDados.isVisible = true
-                viewModel.updateDataBaseInitial()
+                handleUpdateBD()
             }
             buttonSalvarConfig.setOnClickListener {
                 val nroEquip = editTextNroAparelhoConfig.text.toString().trim()
@@ -61,24 +67,14 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
                 if(validate(nroEquip, senha)){
                     typeUpdate = false
                     viewModel.saveDataConfig(nroEquip, senha)
-                } else {
-                    showGenericAlertDialog(getString(R.string.texto_config_invalida), requireContext())
+                    return@setOnClickListener
                 }
+                showGenericAlertDialog(getString(R.string.texto_config_invalida), requireContext())
             }
             buttonCancConfig.setOnClickListener {
                 fragmentAttachListenerInitial?.goMenuInicial()
             }
         }
-    }
-
-    private fun startEvents() {
-        with(binding) {
-            buttonSalvarConfig.isEnabled = false
-            textStatusAtualDados.isVisible = false
-            progressBarAtualDados.isVisible = false
-        }
-        viewModel.recoverDataConfig()
-        viewModel.checkUpdateData()
     }
 
     private fun validate(nroEquip: String, senha: String) : Boolean {
@@ -89,8 +85,8 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
         when(state){
             is ConfigFragmentState.RecoverConfig -> handleConfig(state.config)
             is ConfigFragmentState.FeedbackLoadingDataBase -> handleLoadingDataBase(state.statusUpdateDataBase)
-            is ConfigFragmentState.FeedbackLoadingEquip -> handleLoadingEquip(state.statusUpdateEquip)
-            is ConfigFragmentState.IsCheckUpdate -> binding.buttonSalvarConfig.isEnabled = state.isCheckUpdate
+            is ConfigFragmentState.FeedbackLoadingToken -> handleLoadingToken(state.statusToken)
+            is ConfigFragmentState.IsCheckUpdate -> binding.buttonAtualBaseDados.isEnabled = state.isCheckUpdate
             is ConfigFragmentState.SetResultUpdate -> handleStatus(state.resultUpdateDatabase)
         }
     }
@@ -99,6 +95,7 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
         with(binding) {
             editTextNroAparelhoConfig.setText(config.nroAparelhoConfig.toString())
             editTextSenhaConfig.setText(config.passwordConfig)
+            buttonAtualBaseDados.isEnabled = true
         }
     }
 
@@ -108,13 +105,13 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
                 if(typeUpdate){
                     textStatusAtualDados.text = resultUpdateDatabase.describe
                     progressBarAtualDados.progress = resultUpdateDatabase.percentage
-                } else {
-                    if(genericDialogProgressBar == null){
-                        showProgressBar()
-                    }
-                    describeRecover = resultUpdateDatabase.describe
-                    genericDialogProgressBar!!.setValue(resultUpdateDatabase)
+                    return
                 }
+                if(genericDialogProgressBar == null){
+                    showProgressBar()
+                }
+                describeRecover = resultUpdateDatabase.describe
+                genericDialogProgressBar!!.setValue(resultUpdateDatabase)
             }
         }
     }
@@ -126,11 +123,11 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
         }
     }
 
-    private fun handleLoadingEquip(statusRecover: StatusRecover){
+    private fun handleLoadingToken(statusRecover: StatusRecover){
         when(statusRecover){
             StatusRecover.SUCCESS -> {
                 hideProgressBar()
-                fragmentAttachListenerInitial?.goSplash()
+                handleUpdateBD()
             }
             StatusRecover.FAILURE -> {
                 hideProgressBar()
@@ -138,8 +135,17 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
             }
             StatusRecover.EMPTY -> {
                 hideProgressBar()
-                showGenericAlertDialog(getString(R.string.texto_dado_invalido, "EQUIPAMENTO"), requireContext())
+                showGenericAlertDialog(getString(R.string.texto_dado_invalido, "TOKEN"), requireContext())
             }
+        }
+    }
+
+    private fun handleUpdateBD(){
+        with(binding) {
+            typeUpdate = true
+            textStatusAtualDados.isVisible = true
+            progressBarAtualDados.isVisible = true
+            viewModel.updateDataBaseInitial()
         }
     }
 
@@ -162,11 +168,13 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
     private fun handleCheckUpdate(isCheckUpdate: Boolean){
         with(binding) {
             if(isCheckUpdate){
-                showGenericAlertDialog(getString(R.string.texto_update_sucess), requireContext())
-            } else {
-                showGenericAlertDialog(getString(R.string.texto_update_failure, textStatusAtualDados.text), requireContext())
+                showGenericAlertDialog(
+                    getString(R.string.texto_update_sucess),
+                    requireContext(),
+                ) { fragmentAttachListenerInitial?.goMenuInicial() }
+                return
             }
-            buttonSalvarConfig.isEnabled = isCheckUpdate
+            showGenericAlertDialog(getString(R.string.texto_update_failure, textStatusAtualDados.text), requireContext())
         }
     }
 

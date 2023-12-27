@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import br.com.usinasantafe.pcpk.databinding.DialogProgressBarGenericBinding
-import br.com.usinasantafe.pcpk.features.presenter.model.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 
 class GenericDialogProgressBar(
     context: Context

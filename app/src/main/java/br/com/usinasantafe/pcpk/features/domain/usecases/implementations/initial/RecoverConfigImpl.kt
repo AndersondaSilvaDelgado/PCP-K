@@ -8,9 +8,11 @@ import javax.inject.Inject
 class RecoverConfigImpl @Inject constructor (
     private val configRepository: ConfigRepository
 ): RecoverConfig {
+
     override suspend fun invoke(): Config? {
         if (configRepository.hasConfig())
             return configRepository.getConfig()
         return null
     }
+
 }

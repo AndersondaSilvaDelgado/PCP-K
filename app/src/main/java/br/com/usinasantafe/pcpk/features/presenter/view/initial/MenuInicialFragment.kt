@@ -9,6 +9,7 @@ import br.com.usinasantafe.pcpk.BuildConfig
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.databinding.FragmentMenuInicialBinding
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.MenuInicialFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.MenuInicialViewModel
@@ -33,15 +34,15 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
     }
 
     private fun observeState(){
-//        viewModel.uiLiveData.observe(viewLifecycleOwner) {
-//            state -> handleStateChange(state)
-//        }
+        viewModel.uiLiveData.observe(viewLifecycleOwner) {
+            state -> handleStateChange(state)
+        }
     }
 
     private fun viewList() {
 
         val opcaoMenu = listOf(
-            "BOLETIM",
+            "APONTAMENTO",
             "CONFIGURAÇÃO",
             "SAIR",
         )
@@ -49,7 +50,7 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
         val listAdapter = CustomAdapter(opcaoMenu).apply {
             onItemClick = { text, _ ->
                 when(text){
-                    "BOLETIM" -> eventBoletim()
+                    "APONTAMENTO" -> eventApont()
                     "CONFIGURAÇÃO" -> eventConfig()
                     "SAIR" -> eventSair()
                 }
@@ -65,8 +66,8 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
         binding.textViewPrincipal.text = "PRINCIPAL - V " + BuildConfig.VERSION_NAME
     }
 
-    private fun eventBoletim(){
-//        viewModel.checkAccessBoletim()
+    private fun eventApont(){
+        viewModel.checkAccessApont()
     }
 
     private fun eventConfig(){
@@ -82,11 +83,16 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
 
     private fun handleStateChange(state: MenuInicialFragmentState){
         when(state){
-            is MenuInicialFragmentState.HasConfig -> {}
-            is MenuInicialFragmentState.GetStatusSend -> {}
-            is MenuInicialFragmentState.SetResultUpdate -> {}
-            is MenuInicialFragmentState.FeedbackLoadingDataBase -> {}
+            is MenuInicialFragmentState.HasAcessApont -> handleAcessApont(state.hasAcessApont)
         }
+    }
+
+    private fun handleAcessApont(hasAcessApont: Boolean){
+        if(!hasAcessApont){
+            showGenericAlertDialog(getString(R.string.texto_falha_acesso_apont), requireContext())
+            return
+        }
+        fragmentAttachListenerInitial?.goMatricVigia()
     }
 
     override fun onAttach(context: Context) {

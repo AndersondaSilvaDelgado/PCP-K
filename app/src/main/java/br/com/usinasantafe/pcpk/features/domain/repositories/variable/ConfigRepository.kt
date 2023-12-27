@@ -9,6 +9,8 @@ interface ConfigRepository {
 
     suspend fun getConfig(): Config
 
-    suspend fun recoverToken(nroAparelho: String): Flow<Result<Config>>
+    suspend fun saveConfig(config: Config)
+
+    suspend fun recoverToken(config: Config): Flow<Result<Config>>
 
 }

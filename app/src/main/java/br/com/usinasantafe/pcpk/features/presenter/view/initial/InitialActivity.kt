@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.extension.replaceFragment
 import br.com.usinasantafe.pcpk.databinding.ActivityInitialBinding
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.VisitTercActivity
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.ProprioActivity
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.ResidenciaActivity
 import br.com.usinasantafe.pcpk.features.presenter.view.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,16 +34,46 @@ class InitialActivity : AppCompatActivity(), FragmentAttachListenerInitial {
         replaceFragment(SenhaFragment())
     }
 
+    override fun goMovVisitTerc() {
+        val intent = Intent(this, VisitTercActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    override fun goMovProprio() {
+        val intent = Intent(this, ProprioActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    override fun goMovResidencia() {
+        val intent = Intent(this, ResidenciaActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
     override fun goConfigFragment() {
         replaceFragment(ConfigFragment())
+    }
+
+    override fun goLocalInicial() {
+        replaceFragment(LocalListFragment())
     }
 
     override fun goMenuInicial() {
         replaceFragment(MenuInicialFragment())
     }
 
+    override fun goNomeVigia() {
+        replaceFragment(NomeVigiaFragment())
+    }
+
     override fun goMatricVigia() {
         replaceFragment(MatricVigiaFragment())
+    }
+
+    override fun goMenuApont() {
+        replaceFragment(MenuApontListFragment())
     }
 
     override fun goSplash() {

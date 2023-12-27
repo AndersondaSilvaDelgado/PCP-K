@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.external.webservices
 
+import android.content.Context
 import android.content.res.Resources
 import br.com.usinasantafe.pcpk.R
 import com.google.gson.Gson
@@ -28,8 +29,8 @@ object AppRetrofit {
 
     private fun gson(): Gson = GsonBuilder().create()
 
-    fun getInstance(): Retrofit = Retrofit.Builder()
-            .baseUrl(Resources.getSystem().getString(R.string.base_url))
+    fun getInstance(appContext: Context): Retrofit = Retrofit.Builder()
+            .baseUrl(appContext.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create(gson()))
             .client(httpClient())
             .build()

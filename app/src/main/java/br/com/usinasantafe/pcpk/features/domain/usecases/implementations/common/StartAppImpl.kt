@@ -8,6 +8,7 @@ class StartAppImpl @Inject constructor (
 ): StartApp {
 
     override suspend fun invoke(): PointerStart {
+
         return PointerStart.MENUINICIAL
     }
 

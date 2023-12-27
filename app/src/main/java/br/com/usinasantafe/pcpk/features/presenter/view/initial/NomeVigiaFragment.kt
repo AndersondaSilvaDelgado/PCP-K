@@ -1,33 +1,81 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.initial
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
+import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
+import br.com.usinasantafe.pcpk.databinding.FragmentNomeVigiaBinding
+import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.NomeVigiaFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.NomeVigiaViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class NomeVigiaFragment : Fragment() {
+@AndroidEntryPoint
+class NomeVigiaFragment : BaseFragment<FragmentNomeVigiaBinding>(
+    R.layout.fragment_nome_vigia,
+    FragmentNomeVigiaBinding::bind
+) {
 
-    companion object {
-        fun newInstance() = NomeVigiaFragment()
+    private val viewModel: NomeVigiaViewModel by viewModels()
+    private var fragmentAttachListenerInitial: FragmentAttachListenerInitial? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeState()
+        startEvents()
+        setListener()
+
     }
 
-    private lateinit var viewModel: NomeVigiaViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_nome_vigia, container, false)
+    private fun observeState(){
+        viewModel.uiLiveData.observe(viewLifecycleOwner) {
+            state -> handleStateChange(state)
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NomeVigiaViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun startEvents() {
+        viewModel.recoverDataNomeVigia()
+    }
+
+    private fun setListener() {
+        with(binding) {
+            buttonOkNome.setOnClickListener {
+                fragmentAttachListenerInitial?.goLocalInicial()
+            }
+            buttonCancNome.setOnClickListener {
+                fragmentAttachListenerInitial?.goMatricVigia()
+            }
+        }
+    }
+
+    private fun handleStateChange(state: NomeVigiaFragmentState){
+        when(state){
+            is NomeVigiaFragmentState.GetNomeVigia -> handleNomeVigia(state.nomeVigia)
+        }
+    }
+
+    private fun handleNomeVigia(nome: String){
+        with(binding) {
+            textViewNome.text = nome
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is FragmentAttachListenerInitial){
+            fragmentAttachListenerInitial = context
+        }
+        onBackPressed {
+            fragmentAttachListenerInitial?.goMatricVigia()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentAttachListenerInitial = null
     }
 
 }

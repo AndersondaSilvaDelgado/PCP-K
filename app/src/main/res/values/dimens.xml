@@ -9,4 +9,5 @@
     <dimen name="fonte_botao_avulso">20dp</dimen>
     <dimen name="progress_bar_config">100dp</dimen>
     <dimen name="progress_bar">50dp</dimen>
+    <dimen name="fonte_menu_atividade">10dp</dimen>
 </resources>

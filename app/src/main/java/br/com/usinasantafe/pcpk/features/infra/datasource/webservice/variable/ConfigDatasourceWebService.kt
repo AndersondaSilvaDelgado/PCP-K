@@ -6,6 +6,7 @@ import br.com.usinasantafe.pcpk.features.infra.models.webservice.ConfigWebServic
 import kotlinx.coroutines.flow.Flow
 
 interface ConfigDatasourceWebService {
+
     suspend fun recoverToken(config: ConfigWebServiceModelOutput): Flow<Result<ConfigWebServiceModelInput>>
 
 }

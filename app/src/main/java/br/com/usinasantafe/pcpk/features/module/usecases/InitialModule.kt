@@ -1,11 +1,7 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.initial.CheckPasswordConfigImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.initial.RecoverConfigImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.initial.SaveConfigImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.CheckPasswordConfig
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverConfig
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.SaveConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.initial.*
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,7 +14,7 @@ interface InitialModule {
 
     @Singleton
     @Binds
-    fun bindRecoverConfig(usecase: RecoverConfigImpl): RecoverConfig
+    fun bindCheckAcessApont(usecase: CheckAcessApontImpl): CheckAcessApont
 
     @Singleton
     @Binds
@@ -26,6 +22,30 @@ interface InitialModule {
 
     @Singleton
     @Binds
-    fun bindSaveConfig(usecase: SaveConfigImpl): SaveConfig
+    fun bindInitialConfig(usecase: InitialConfigImpl): InitialConfig
+
+    @Singleton
+    @Binds
+    fun bindRecoverConfig(usecase: RecoverConfigImpl): RecoverConfig
+
+    @Singleton
+    @Binds
+    fun bindRecoverListLocal(usecase: RecoverListLocalImpl): RecoverListLocal
+
+    @Singleton
+    @Binds
+    fun bindRecoverNomeVigia(usecase: RecoverNomeVigiaImpl): RecoverNomeVigia
+
+    @Singleton
+    @Binds
+    fun bindSetCheckUpdateBDConfig(usecase: SetCheckUpdateBDConfigImpl): SetCheckUpdateBDConfig
+
+    @Binds
+    @Singleton
+    fun bindSetLocal(usecase: SetLocalImpl): SetLocal
+
+    @Binds
+    @Singleton
+    fun bindSetMatricVigia(usecase: SetMatricVigiaImpl): SetMatricVigia
 
 }
