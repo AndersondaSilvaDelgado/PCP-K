@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.StatusRecover
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.WEB_RETURN_CLEAR_EQUIP
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.UpdateAllDataBase
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.InitialConfig
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverConfig
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModelOutput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
@@ -37,11 +37,7 @@ class ConfigViewModel @Inject constructor(
         _uiLiveData.value = ConfigFragmentState.FeedbackLoadingToken(statusRecover)
     }
 
-    private fun setCheckUpdate(isCheckUpdate: Boolean) {
-        _uiLiveData.value = ConfigFragmentState.IsCheckUpdate(isCheckUpdate)
-    }
-
-    private fun setConfig(config: Config) {
+    private fun setConfig(config: ConfigModelOutput) {
         _uiLiveData.value = ConfigFragmentState.RecoverConfig(config)
     }
 
@@ -52,13 +48,6 @@ class ConfigViewModel @Inject constructor(
     fun recoverDataConfig() = viewModelScope.launch {
         var config = recoverConfig()
         config?.let { setConfig(it) }
-    }
-
-    fun checkUpdateData() = viewModelScope.launch {
-        var ret = false
-        var config = recoverConfig()
-        config?.let { ret = true }
-        setCheckUpdate(ret)
     }
 
     fun saveDataConfig(nroAparelho: String, senha: String) =
@@ -114,7 +103,7 @@ class ConfigViewModel @Inject constructor(
 
 
 sealed class ConfigFragmentState {
-    data class RecoverConfig(val config: Config) : ConfigFragmentState()
+    data class RecoverConfig(val config: ConfigModelOutput) : ConfigFragmentState()
     data class FeedbackLoadingDataBase(val statusUpdateDataBase: StatusUpdate) :
         ConfigFragmentState()
     data class FeedbackLoadingToken(val statusToken: StatusRecover) : ConfigFragmentState()

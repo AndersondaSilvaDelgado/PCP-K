@@ -16,6 +16,7 @@ import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.databinding.FragmentConfigBinding
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModelOutput
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.ConfigFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.ConfigViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,10 +92,10 @@ class ConfigFragment : BaseFragment<FragmentConfigBinding>(
         }
     }
 
-    private fun handleConfig(config: Config){
+    private fun handleConfig(config: ConfigModelOutput){
         with(binding) {
-            editTextNroAparelhoConfig.setText(config.nroAparelhoConfig.toString())
-            editTextSenhaConfig.setText(config.passwordConfig)
+            editTextNroAparelhoConfig.setText(config.nroAparelho.toString())
+            editTextSenhaConfig.setText(config.senha)
             buttonAtualBaseDados.isEnabled = true
         }
     }

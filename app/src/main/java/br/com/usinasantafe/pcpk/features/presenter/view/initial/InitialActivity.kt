@@ -83,6 +83,6 @@ class InitialActivity : AppCompatActivity(), FragmentAttachListenerInitial {
     }
 
     private fun replaceFragment(fragment: Fragment){
-        replaceFragment(R.id.config_manager_fragment, fragment)
+        replaceFragment(R.id.initial_manager_fragment, fragment)
     }
 }

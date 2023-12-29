@@ -21,7 +21,7 @@ class MovResidenciaListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_mov_residencia_list, container, false)
+        return inflater.inflate(R.layout.fragment_mov_equip_residencia_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

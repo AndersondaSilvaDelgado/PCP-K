@@ -63,7 +63,6 @@ class MatricVigiaFragment : BaseFragment<FragmentMatricVigiaBinding>(
                 viewModel.updateDataColab()
             }
         }
-
     }
 
     private fun handleStateChange(state: MatricVigiaFragmentState) {

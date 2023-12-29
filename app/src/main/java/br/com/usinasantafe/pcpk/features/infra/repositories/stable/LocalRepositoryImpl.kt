@@ -42,4 +42,8 @@ class LocalRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun getLocalId(id: Long): Local {
+        return localDatasourceRoom.getLocalId(id).toLocal()
+    }
+
 }

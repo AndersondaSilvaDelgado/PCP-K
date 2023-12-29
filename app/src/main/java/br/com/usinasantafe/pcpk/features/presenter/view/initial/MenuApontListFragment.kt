@@ -8,6 +8,7 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.databinding.FragmentMenuApontListBinding
+import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModelOutput
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.MenuApontListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.MenuApontListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +28,7 @@ class MenuApontListFragment : BaseFragment<FragmentMenuApontListBinding>(
         observeState()
         viewList()
         setListener()
+        startEvents()
 
     }
 
@@ -59,10 +61,14 @@ class MenuApontListFragment : BaseFragment<FragmentMenuApontListBinding>(
         }
     }
 
+    private fun startEvents() {
+        viewModel.recoverDataConfig()
+    }
+
     private fun setListener() {
         with(binding) {
             buttonSairMenuApont.setOnClickListener {
-//                viewModel.updateDataLocal()
+                TODO()
             }
         }
     }
@@ -70,6 +76,14 @@ class MenuApontListFragment : BaseFragment<FragmentMenuApontListBinding>(
     private fun handleStateChange(state: MenuApontListFragmentState){
         when(state){
             is MenuApontListFragmentState.HasCloseMov -> {}
+            is MenuApontListFragmentState.RecoverConfig -> handleConfig(state.config)
+        }
+    }
+
+    private fun handleConfig(config: ConfigModelOutput){
+        with(binding) {
+            textViewVigia.text = config.nomeVigia
+            textViewLocal.text = config.local
         }
     }
 

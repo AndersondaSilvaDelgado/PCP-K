@@ -17,7 +17,7 @@ interface CommonModule {
 
     @Binds
     @Singleton
-    fun bindRecoverNomeColab(usecase: RecoverNomeColabImpl): RecoverNomeColab
+    fun bindRecoverBase(usecase: RecoverBaseImpl): RecoverBase
 
     @Binds
     @Singleton

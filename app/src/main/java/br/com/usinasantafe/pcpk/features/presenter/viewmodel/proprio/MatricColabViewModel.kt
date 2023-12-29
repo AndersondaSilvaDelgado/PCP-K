@@ -1,7 +1,81 @@
 package br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CheckMatricColab
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateColab
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetMatricMotoristaPassag
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MatricColabViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class MatricColabViewModel @Inject constructor(
+    private val checkMatricColab: CheckMatricColab,
+    private val setMatricMotoristaPassag: SetMatricMotoristaPassag,
+    private val updateColab: UpdateColab,
+) : ViewModel() {
+
+    private val _uiLiveData = MutableLiveData<MatricColabFragmentState>()
+    val uiLiveData: LiveData<MatricColabFragmentState> = _uiLiveData
+
+    private fun checkMatric(checkMatric: Boolean) {
+        _uiLiveData.value = MatricColabFragmentState.CheckMatric(checkMatric)
+    }
+
+    private fun checkSetMatricOperador(checkSetMatricOperador: Boolean) {
+        _uiLiveData.value = MatricColabFragmentState.CheckSetMatric(checkSetMatricOperador)
+    }
+
+    private fun setStatusUpdate(statusUpdate: StatusUpdate) {
+        _uiLiveData.value = MatricColabFragmentState.FeedbackUpdate(statusUpdate)
+    }
+
+    private fun setResultUpdate(resultUpdateDatabase: ResultUpdateDatabase){
+        _uiLiveData.value = MatricColabFragmentState.SetResultUpdate(resultUpdateDatabase)
+    }
+
+    fun checkMatricColaborador(matricVigia: String) = viewModelScope.launch {
+        checkMatric(checkMatricColab(matricVigia))
+    }
+
+    fun checkSetMatricVigia(matricVigia: String) = viewModelScope.launch {
+        checkSetMatricOperador(setMatricMotoristaPassag(matricVigia))
+    }
+
+    fun updateDataColab() =
+        viewModelScope.launch {
+            updateColab()
+                .catch { catch ->
+                    setResultUpdate(ResultUpdateDatabase(1, "Erro: $catch", 100, 100))
+                    setStatusUpdate(StatusUpdate.FAILURE)
+                }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = { resultUpdateDatabase ->
+                            setResultUpdate(resultUpdateDatabase)
+                            if (resultUpdateDatabase.percentage == 100) {
+                                setStatusUpdate(StatusUpdate.UPDATED)
+                            }
+                        },
+                        onFailure = { catch ->
+                            setResultUpdate(ResultUpdateDatabase(100, "Erro: $catch", 100))
+                            setStatusUpdate(StatusUpdate.FAILURE)
+                        })
+                }
+        }
+
+}
+
+
+sealed class MatricColabFragmentState {
+    data class CheckMatric(val checkMatric: Boolean) : MatricColabFragmentState()
+    data class CheckSetMatric(val checkSetMatric: Boolean) : MatricColabFragmentState()
+    data class FeedbackUpdate(val statusUpdate: StatusUpdate) : MatricColabFragmentState()
+    data class SetResultUpdate(val resultUpdateDatabase: ResultUpdateDatabase) : MatricColabFragmentState()
 }

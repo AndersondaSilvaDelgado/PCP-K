@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".features.presenter.view.proprio.MovProprioListFragment">
+    tools:context=".features.presenter.view.proprio.MovEquipProprioListFragment">
 
     <TextView
         android:id="@+id/text_view_vigia"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button_entrada_mov_proprio"
+            android:id="@+id/button_entrada_mov_equip_proprio"
             style="@style/botao_avulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -48,7 +48,7 @@
             android:text="@string/texto_entrada" />
 
         <Button
-            android:id="@+id/button_saida_mov_proprio"
+            android:id="@+id/button_saida_mov_equip_proprio"
             style="@style/botao_avulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -58,14 +58,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_mov_finalizado"
+        android:id="@+id/button_mov_equip_proprio_finalizado"
         style="@style/botao_avulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_mov_finalizado" />
 
     <Button
-        android:id="@+id/button_retornar_mov_proprio"
+        android:id="@+id/button_retornar_mov_equip_proprio"
         style="@style/botao_avulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

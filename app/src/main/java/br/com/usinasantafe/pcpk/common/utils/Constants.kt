@@ -5,11 +5,12 @@ const val BASE_DB = "pcp.db"
 const val VERSION_DB = 1
 
 const val BASE_SHARE_PREFERENCES_TABLE_CONFIG = "config"
-const val BASE_SHARE_PREFERENCES_TABLE_BOLETIM_MM = "boletim_mm"
-const val BASE_SHARE_PREFERENCES_TABLE_BOLETIM_FERT = "boletim_fert"
-const val BASE_SHARE_PREFERENCES_TABLE_APONT_MM = "apont_mm"
-const val BASE_SHARE_PREFERENCES_TABLE_APONT_FERT = "apont_fert"
-const val BASE_SHARE_PREFERENCES_TABLE_LIST_IMPLEMENTO = "list_implemento"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO = "mov_equip_proprio"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_PASSAG = "mov_equip_proprio_passag"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_PROPRIO_SEG = "mov_equip_proprio_seg"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_RESIDENCIA = "mov_equip_residencia"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC = "mov_equip_visit_terc"
+const val BASE_SHARE_PREFERENCES_TABLE_MOV_EQUIP_VISIT_TERC_PASSAG = "mov_equip_visit_terc_passag"
 
 const val TB_COLAB = "tb_colab"
 const val TB_EQUIP = "tb_equip"

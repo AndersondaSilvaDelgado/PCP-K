@@ -33,7 +33,8 @@
     <string name="texto_num0">0</string>
     <string name="texto_padrao_apagar">APAGAR</string>
     <string name="texto_campo_vazio">CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO %1$s PARA DAR CONTINUIDADE AO APONTAMENTO.</string>
-    <string name="texto_nome">NOME</string>
+    <string name="texto_nome_vigia">NOME VIGIA</string>
+    <string name="texto_nome_colab">NOME COLABORADOR</string>
     <string name="texto_local">LOCAL</string>
     <string name="texto_padrao_sair">SAIR</string>
     <string name="texto_menu">MENU</string>
@@ -41,4 +42,5 @@
     <string name="texto_entrada">ENTRADA</string>
     <string name="texto_saida">SAÍDA</string>
     <string name="texto_mov_finalizado">MOV. FINALIZADO</string>
+    <string name="texto_colab">MATRIC. COLABORADOR:</string>
 </resources>

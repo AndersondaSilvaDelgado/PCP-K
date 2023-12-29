@@ -21,7 +21,7 @@ class MovVisitTercListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_mov_visit_terc_list, container, false)
+        return inflater.inflate(R.layout.fragment_mov_equip_visit_terc_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

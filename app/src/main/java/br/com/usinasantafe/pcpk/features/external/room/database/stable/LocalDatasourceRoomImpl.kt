@@ -21,4 +21,8 @@ class LocalDatasourceRoomImpl @Inject constructor (
         return localDao.listAll()
     }
 
+    override suspend fun getLocalId(id: Long): LocalRoomModel {
+        return localDao.getLocalId(id)
+    }
+
 }

@@ -13,4 +13,6 @@ interface LocalRepository {
 
     suspend fun recoverAllLocal(nroAparelho: Long): Flow<Result<List<Local>>>
 
+    suspend fun getLocalId(id: Long): Local
+
 }

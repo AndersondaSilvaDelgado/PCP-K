@@ -10,4 +10,6 @@ interface LocalDatasourceRoom {
 
     suspend fun listAllLocal(): List<LocalRoomModel>
 
+    suspend fun getLocalId(id: Long): LocalRoomModel
+
 }
