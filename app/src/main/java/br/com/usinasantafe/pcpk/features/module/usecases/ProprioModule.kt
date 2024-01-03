@@ -14,15 +14,59 @@ interface ProprioModule {
 
     @Binds
     @Singleton
-    fun bindRecoverListMovEquipProprio(usecase: RecoverListMovEquipProprioImpl): RecoverListMovEquipProprio
+    fun bindClearEquipProprioSeg(usecase: ClearEquipProprioSegImpl): ClearEquipProprioSeg
 
     @Binds
     @Singleton
-    fun bindRecoverNomeColabMotoristaPassag(usecase: RecoverNomeColabMotoristaPassagImpl): RecoverNomeColabMotoristaPassag
+    fun bindDeleteColabPassag(usecase: DeleteColabPassagImpl): DeleteColabPassag
+
+    @Binds
+    @Singleton
+    fun bindDeleteEquipProprioSeg(usecase: DeleteEquipProprioSegImpl): DeleteEquipProprioSeg
+
+    @Binds
+    @Singleton
+    fun bindGetStatusMov(usecase: GetStatusMovImpl): GetStatusMov
+
+    @Binds
+    @Singleton
+    fun bindGetTipoMov(usecase: GetTipoMovImpl): GetTipoMov
+
+    @Binds
+    @Singleton
+    fun bindRecoverListEquipProprioSeg(usecase: RecoverListEquipProprioSegImpl): RecoverListEquipProprioSeg
+
+    @Binds
+    @Singleton
+    fun bindRecoverListMovEquipProprio(usecase: RecoverListMovEquipProprioOpenImpl): RecoverListMovEquipProprioOpen
+
+    @Binds
+    @Singleton
+    fun bindRecoverListPassag(usecase: RecoverListColabPassagImpl): RecoverListColabPassag
+
+    @Binds
+    @Singleton
+    fun bindRecoverNomeColabMotoristaPassag(usecase: RecoverNomeColabImpl): RecoverNomeColab
+
+    @Binds
+    @Singleton
+    fun bindSetDestinoProprio(usecase: SetDestinoProprioImpl): SetDestinoProprio
 
     @Binds
     @Singleton
     fun bindSetMatricMotoristaPassag(usecase: SetMatricMotoristaPassagImpl): SetMatricMotoristaPassag
+
+    @Binds
+    @Singleton
+    fun bindSetNotaFiscalProprio(usecase: SetNotaFiscalProprioImpl): SetNotaFiscalProprio
+
+    @Binds
+    @Singleton
+    fun bindSetNroVeiculoEquipSeg(usecase: SetNroVeiculoEquipSegImpl): SetNroVeiculoEquipSeg
+
+    @Binds
+    @Singleton
+    fun bindSetStatusMov(usecase: SetStatusMovImpl): SetStatusMov
 
     @Binds
     @Singleton

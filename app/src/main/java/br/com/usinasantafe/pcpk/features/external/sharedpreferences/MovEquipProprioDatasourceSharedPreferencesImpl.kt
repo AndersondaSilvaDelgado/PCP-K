@@ -17,10 +17,54 @@ class MovEquipProprioDatasourceSharedPreferencesImpl @Inject constructor(
         return Gson().fromJson(movEquipProprio, MovEquipProprio::class.java)
     }
 
+    override suspend fun setDestinoMovEquipProprio(destino: String): Boolean {
+        try {
+            val movEquipProprio = getMovEquipProprio()
+            movEquipProprio.destinoMovEquipProprio = destino
+            saveMovEquipProprio(movEquipProprio)
+        } catch(exception: Exception) {
+            return false
+        }
+        return true
+    }
+
     override suspend fun setMotoristaMovEquipProprio(nroMatric: Long): Boolean {
         try {
-            var movEquipProprio = getMovEquipProprio()
+            val movEquipProprio = getMovEquipProprio()
             movEquipProprio.nroMatricColabMovEquipProprio = nroMatric
+            saveMovEquipProprio(movEquipProprio)
+        } catch(exception: Exception) {
+            return false
+        }
+        return true
+    }
+
+    override suspend fun setNotaFiscalMovEquipProprio(notaFiscal: Long): Boolean {
+        try {
+            val movEquipProprio = getMovEquipProprio()
+            movEquipProprio.nroNotaFiscalMovEquipProprio = notaFiscal
+            saveMovEquipProprio(movEquipProprio)
+        } catch(exception: Exception) {
+            return false
+        }
+        return true
+    }
+
+    override suspend fun setObservMovEquipProprio(observ: String): Boolean {
+        try {
+            val movEquipProprio = getMovEquipProprio()
+            movEquipProprio.observMovEquipProprio = observ
+            saveMovEquipProprio(movEquipProprio)
+        } catch(exception: Exception) {
+            return false
+        }
+        return true
+    }
+
+    override suspend fun setVeiculoMovEquipProprio(idEquip: Long): Boolean {
+        try {
+            val movEquipProprio = getMovEquipProprio()
+            movEquipProprio.idEquipMovEquipProprio = idEquip
             saveMovEquipProprio(movEquipProprio)
         } catch(exception: Exception) {
             return false
@@ -30,7 +74,7 @@ class MovEquipProprioDatasourceSharedPreferencesImpl @Inject constructor(
 
     override suspend fun startMovEquipProprio(typeMov: TypeMov): Boolean {
         try {
-            var movEquipProprio = MovEquipProprio()
+            val movEquipProprio = MovEquipProprio()
             movEquipProprio.statusMovEquipProprio = StatusData.INITIATE
             movEquipProprio.tipoMovEquipProprio = typeMov
             saveMovEquipProprio(movEquipProprio)

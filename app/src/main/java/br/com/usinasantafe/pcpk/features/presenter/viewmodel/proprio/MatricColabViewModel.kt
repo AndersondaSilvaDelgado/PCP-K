@@ -28,7 +28,7 @@ class MatricColabViewModel @Inject constructor(
         _uiLiveData.value = MatricColabFragmentState.CheckMatric(checkMatric)
     }
 
-    private fun checkSetMatricOperador(checkSetMatricOperador: Boolean) {
+    private fun checkSetMatricColab(checkSetMatricOperador: Boolean) {
         _uiLiveData.value = MatricColabFragmentState.CheckSetMatric(checkSetMatricOperador)
     }
 
@@ -44,8 +44,8 @@ class MatricColabViewModel @Inject constructor(
         checkMatric(checkMatricColab(matricVigia))
     }
 
-    fun checkSetMatricVigia(matricVigia: String) = viewModelScope.launch {
-        checkSetMatricOperador(setMatricMotoristaPassag(matricVigia))
+    fun setMatricMotorista(matricVigia: String) = viewModelScope.launch {
+        checkSetMatricColab(setMatricMotoristaPassag(matricVigia))
     }
 
     fun updateDataColab() =
@@ -71,7 +71,6 @@ class MatricColabViewModel @Inject constructor(
         }
 
 }
-
 
 sealed class MatricColabFragmentState {
     data class CheckMatric(val checkMatric: Boolean) : MatricColabFragmentState()

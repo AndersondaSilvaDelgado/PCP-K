@@ -11,11 +11,10 @@ import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.Upd
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.InitialConfig
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverConfig
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
-import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModelOutput
+import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,7 +36,7 @@ class ConfigViewModel @Inject constructor(
         _uiLiveData.value = ConfigFragmentState.FeedbackLoadingToken(statusRecover)
     }
 
-    private fun setConfig(config: ConfigModelOutput) {
+    private fun setConfig(config: ConfigModel) {
         _uiLiveData.value = ConfigFragmentState.RecoverConfig(config)
     }
 
@@ -103,7 +102,7 @@ class ConfigViewModel @Inject constructor(
 
 
 sealed class ConfigFragmentState {
-    data class RecoverConfig(val config: ConfigModelOutput) : ConfigFragmentState()
+    data class RecoverConfig(val config: ConfigModel) : ConfigFragmentState()
     data class FeedbackLoadingDataBase(val statusUpdateDataBase: StatusUpdate) :
         ConfigFragmentState()
     data class FeedbackLoadingToken(val statusToken: StatusRecover) : ConfigFragmentState()

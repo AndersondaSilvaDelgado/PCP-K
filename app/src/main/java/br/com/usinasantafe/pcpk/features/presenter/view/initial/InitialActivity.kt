@@ -7,6 +7,13 @@ import androidx.fragment.app.Fragment
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.extension.replaceFragment
 import br.com.usinasantafe.pcpk.databinding.ActivityInitialBinding
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.ConfigFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.LocalListFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.MatricVigiaFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.MenuApontListFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.MenuInicialFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.NomeVigiaFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment.SenhaFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.VisitTercActivity
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.ProprioActivity
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.ResidenciaActivity

@@ -8,7 +8,15 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.extension.replaceFragment
 import br.com.usinasantafe.pcpk.databinding.ActivityProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity
-import br.com.usinasantafe.pcpk.features.presenter.view.splash.SplashActivity
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MovEquipProprioListFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.NomeColabFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.NotaFiscalProprioFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.ObservProprioFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.PassagColabListFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoSegProprioListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,12 +46,32 @@ class ProprioActivity : AppCompatActivity(), FragmentAttachListenerProprio {
         startActivity(intent)
     }
 
+    override fun goVeiculoProprio() {
+        replaceFragment(VeiculoProprioFragment())
+    }
+
     override fun goMatricColab() {
         replaceFragment(MatricColabFragment())
     }
 
-    override fun goListPassag() {
+    override fun goPassagList() {
         replaceFragment(PassagColabListFragment())
+    }
+
+    override fun goVeicSegList() {
+        replaceFragment(VeiculoSegProprioListFragment())
+    }
+
+    override fun goDestino() {
+        replaceFragment(DestinoProprioFragment())
+    }
+
+    override fun goNotaFiscal() {
+        replaceFragment(NotaFiscalProprioFragment())
+    }
+
+    override fun goObserv() {
+        replaceFragment(ObservProprioFragment())
     }
 
     override fun goNomeColab() {

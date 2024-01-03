@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.infra.repositories.stable
 
+import br.com.usinasantafe.pcpk.features.domain.entities.stable.Colab
 import br.com.usinasantafe.pcpk.features.domain.entities.stable.Equip
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcpk.features.infra.datasource.room.stable.EquipDatasourceRoom
@@ -36,6 +37,18 @@ class EquipRepositoryImpl @Inject constructor(
                     onFailure = { exception -> emit(Result.failure(exception)) }
                 )
             }
+    }
+
+    override suspend fun checkEquipNro(nro: Long): Boolean {
+        return equipDatasourceRoom.checkEquipNro(nro)
+    }
+
+    override suspend fun getEquipNro(nro: Long): Equip {
+        return equipDatasourceRoom.getEquipNro(nro).toEquip()
+    }
+
+    override suspend fun getEquipId(id: Long): Equip {
+        return equipDatasourceRoom.getEquipId(id).toEquip()
     }
 
 }

@@ -17,7 +17,11 @@ interface CommonModule {
 
     @Binds
     @Singleton
-    fun bindRecoverBase(usecase: RecoverBaseImpl): RecoverBase
+    fun bindCheckNroEquip(usecase: CheckNroEquipImpl): CheckNroEquip
+
+    @Binds
+    @Singleton
+    fun bindRecoverBase(usecase: RecoverHeaderImpl): RecoverHeader
 
     @Binds
     @Singleton

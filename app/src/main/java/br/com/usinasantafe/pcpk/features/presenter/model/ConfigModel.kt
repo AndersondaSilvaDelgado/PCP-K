@@ -2,18 +2,16 @@ package br.com.usinasantafe.pcpk.features.presenter.model
 
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
 
-data class ConfigModelOutput(
-    val nomeVigia: String? = null,
-    val local: String? = null,
-    val nroAparelho: Long? = null,
-    val senha: String? = null,
+data class ConfigModel(
+    val nroAparelho: Long,
+    val senha: String,
 )
 
-fun Config.toConfigModel(): ConfigModelOutput {
+fun Config.toConfigModel(): ConfigModel {
     return with(this){
-        ConfigModelOutput(
-            nroAparelho = this.nroAparelhoConfig,
-            senha = this.passwordConfig,
+        ConfigModel(
+            nroAparelho = this.nroAparelhoConfig!!,
+            senha = this.passwordConfig!!,
         )
     }
 }

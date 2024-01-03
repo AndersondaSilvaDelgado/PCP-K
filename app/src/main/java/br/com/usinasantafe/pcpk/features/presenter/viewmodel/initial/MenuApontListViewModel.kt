@@ -4,32 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.RecoverBase
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverConfig
-import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModelOutput
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.RecoverHeader
+import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuApontListViewModel @Inject constructor(
-    private val recoverBase: RecoverBase,
+    private val recoverHeader: RecoverHeader,
 ) : ViewModel() {
 
     private val _uiLiveData = MutableLiveData<MenuApontListFragmentState>()
     val uiLiveData: LiveData<MenuApontListFragmentState> = _uiLiveData
 
-    private fun setConfig(config: ConfigModelOutput) {
-        _uiLiveData.value = MenuApontListFragmentState.RecoverConfig(config)
+    private fun setHeader(header: HeaderModel) {
+        _uiLiveData.value = MenuApontListFragmentState.RecoverHeader(header)
     }
 
     fun recoverDataConfig() = viewModelScope.launch {
-        setConfig(recoverBase())
+        setHeader(recoverHeader())
     }
 
 }
 
 sealed class MenuApontListFragmentState {
-    data class RecoverConfig(val config: ConfigModelOutput) : MenuApontListFragmentState()
+    data class RecoverHeader(val header: HeaderModel) : MenuApontListFragmentState()
     data class HasCloseMov(val hasCloseMov: Boolean) : MenuApontListFragmentState()
 }

@@ -1,4 +1,8 @@
 package br.com.usinasantafe.pcpk.features.external.room.database.variable
 
-class MovEquipProprioPassagDatasourceRoomImpl {
+import br.com.usinasantafe.pcpk.features.infra.datasource.room.variable.MovEquipProprioPassagDatasourceRoom
+import javax.inject.Inject
+
+class MovEquipProprioPassagDatasourceRoomImpl @Inject constructor (
+): MovEquipProprioPassagDatasourceRoom {
 }

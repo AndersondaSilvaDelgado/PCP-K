@@ -17,4 +17,16 @@ class EquipDatasourceRoomImpl @Inject constructor (
         equipDao.deleteAll()
     }
 
+    override suspend fun checkEquipNro(nro: Long): Boolean {
+        return equipDao.checkEquipNro(nro) > 0
+    }
+
+    override suspend fun getEquipNro(nro: Long): EquipRoomModel {
+        return equipDao.getEquipNro(nro)
+    }
+
+    override suspend fun getEquipId(id: Long): EquipRoomModel {
+        return equipDao.getEquipId(id)
+    }
+
 }

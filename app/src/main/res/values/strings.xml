@@ -13,6 +13,7 @@
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
     <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
     <string name="texto_update_sucess">ATUALIZAÇÃO DA BASE DE DADOS REALIZADA COM SUCESSO!</string>
+    <string name="texto_failure_app">FALHA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI</string>
     <string name="texto_update_failure">FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>
     <string name="texto_dado_invalido">DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO %1$s FOI DIGITADO CORRETAMENTE.</string>
     <string name="texto_config_invalida">CAMPO VAZIO! POR FAVOR, PREENCHA TODOS OS CAMPOS PARA SALVAR AS CONFIGURAÇÕES.</string>
@@ -20,6 +21,7 @@
     <string name="texto_dado_invalido_com_atual">DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO %1$s FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.</string>
     <string name="texto_falha_insercao_campo">FALHA DE INSERÇÃO! OCORREU UMA FALHA NA INSERÇÃO DO CAMPO %1$s. POR FAVOR, ENTRE EM CONTATO COM TI.</string>
     <string name="texto_msg_atualizacao">OS DADOS DOS %1$s. FOI ATUALIZADA COM SUCESSO!</string>
+    <string name="texto_failure_delete">FALHA DE EXCLUSÃO DE %1$s! POR FAVOR ENTRE EM CONTATO COM TI</string>
     <string name="texto_matric_vigia">MATRIC. VIGIA:</string>
     <string name="texto_num1">1</string>
     <string name="texto_num2">2</string>
@@ -43,4 +45,11 @@
     <string name="texto_saida">SAÍDA</string>
     <string name="texto_mov_finalizado">MOV. FINALIZADO</string>
     <string name="texto_colab">MATRIC. COLABORADOR:</string>
+    <string name="texto_titulo_passageiro">PASSAGEIRO(S)</string>
+    <string name="texto_inserir">INSERIR</string>
+    <string name="texto_titulo_veiculo">VEÍCULO</string>
+    <string name="texto_veiculo_seg">VEÍCULO SECUNDÁRIO</string>
+    <string name="texto_titulo_destino">DESTINO</string>
+    <string name="texto_nota_fiscal">NOTA FISCAL</string>
+    <string name="texto_titulo_observ">OBSERVAÇÃO</string>
 </resources>

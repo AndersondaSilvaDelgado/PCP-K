@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".features.presenter.view.proprio.MovEquipProprioListFragment">
+    tools:context=".features.presenter.view.proprio.fragment.MovEquipProprioListFragment">
 
     <TextView
         android:id="@+id/text_view_vigia"
@@ -35,7 +35,7 @@
         tools:listitem="@layout/item_row_text" />
 
     <LinearLayout
-        android:id="@+id/layout_button"
+        android:id="@+id/layout_botoes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -56,13 +56,6 @@
             android:text="@string/texto_saida" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_mov_equip_proprio_finalizado"
-        style="@style/botao_avulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_mov_finalizado" />
 
     <Button
         android:id="@+id/button_retornar_mov_equip_proprio"

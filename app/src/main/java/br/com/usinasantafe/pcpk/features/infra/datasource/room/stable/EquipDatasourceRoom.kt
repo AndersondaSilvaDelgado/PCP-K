@@ -8,4 +8,10 @@ interface EquipDatasourceRoom {
 
     suspend fun deleteAllEquip()
 
+    suspend fun checkEquipNro(nro: Long): Boolean
+
+    suspend fun getEquipNro(nro: Long): EquipRoomModel
+
+    suspend fun getEquipId(id: Long): EquipRoomModel
+
 }

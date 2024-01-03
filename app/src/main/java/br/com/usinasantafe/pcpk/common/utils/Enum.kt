@@ -7,3 +7,4 @@ enum class StatusUpdate { UPDATED, FAILURE }
 enum class StatusRecover { SUCCESS, EMPTY, FAILURE }
 enum class PointerStart { MENUINICIAL, MENUAPONT, IMPLEMENTO, CHECKLIST }
 enum class FlagUpdate { OUTDATED, UPDATED }
+enum class StatusMovEquipProprio { ADDVEICULO, ADDVEICULOSEG, ADDMOTORISTA, ADDPASSAGEIRO }
