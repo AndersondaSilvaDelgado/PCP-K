@@ -17,7 +17,11 @@ interface CommonModule {
 
     @Binds
     @Singleton
-    fun bindCheckNroEquip(usecase: CheckNroEquipImpl): CheckNroEquip
+    fun bindCheckStatusSend(usecase: CheckStatusSendImpl): CheckStatusSend
+
+    @Binds
+    @Singleton
+    fun bindClosedAllMovEquip(usecase: SetStatusSendCloseAllMovImpl): SetStatusSendCloseAllMov
 
     @Binds
     @Singleton
@@ -25,6 +29,14 @@ interface CommonModule {
 
     @Binds
     @Singleton
+    fun bindSetStatusSendConfig(usecase: SetStatusSendConfigImpl): SetStatusSendConfig
+
+    @Binds
+    @Singleton
     fun bindStartAPP(usecase: StartAppImpl): StartApp
+
+    @Binds
+    @Singleton
+    fun bindStartProcessSendData(usecase: StartProcessSendDataImpl): StartProcessSendData
 
 }

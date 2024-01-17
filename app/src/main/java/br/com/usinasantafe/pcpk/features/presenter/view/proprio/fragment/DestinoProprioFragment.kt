@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentDestinoProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.DestinoProprioFragmentState
@@ -21,10 +23,19 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
 
     private val viewModel: DestinoProprioViewModel by viewModels()
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_FLOW_DESTINO_PROPRIO = "key_flow_destino_proprio";
+        const val KEY_POS_DESTINO_PROPRIO = "key_pos_destino_proprio";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_DESTINO_PROPRIO)!!]
+        pos = arguments?.getInt(KEY_POS_DESTINO_PROPRIO)!!
         observeState()
         setListener()
 
@@ -48,10 +59,14 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.setDestino(editTextDestino.text.toString())
+                viewModel.setDestino(editTextDestino.text.toString(), flowApp, pos)
             }
             buttonCancDestino.setOnClickListener {
-                fragmentAttachListenerProprio?.goPassagList()
+                if (flowApp == FlowApp.ADD) {
+                    fragmentAttachListenerProprio?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
+                    return@setOnClickListener
+                }
+                fragmentAttachListenerProprio?.goDetalhe(pos)
             }
         }
     }
@@ -59,8 +74,8 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
     private fun handleStateChange(state: DestinoProprioFragmentState) {
         when (state) {
             is DestinoProprioFragmentState.CheckSetDestino -> handleCheckSetDestino(state.check)
-            is DestinoProprioFragmentState.GoFragmentNotaFiscal -> fragmentAttachListenerProprio?.goNotaFiscal()
-            is DestinoProprioFragmentState.GoFragmentObserv -> fragmentAttachListenerProprio?.goObserv()
+            is DestinoProprioFragmentState.GoFragmentNotaFiscal -> handleGoFragmentNotaFiscal()
+            is DestinoProprioFragmentState.GoFragmentObserv -> handleGoFragmentObserv()
         }
     }
 
@@ -77,9 +92,23 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
         )
     }
 
+    private fun handleGoFragmentNotaFiscal(){
+        when(flowApp) {
+            FlowApp.ADD -> fragmentAttachListenerProprio?.goNotaFiscal(flowApp)
+            FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+        }
+    }
+
+    private fun handleGoFragmentObserv(){
+        when(flowApp) {
+            FlowApp.ADD -> fragmentAttachListenerProprio?.goObserv(flowApp)
+            FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is FragmentAttachListenerProprio){
+        if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
         }
     }

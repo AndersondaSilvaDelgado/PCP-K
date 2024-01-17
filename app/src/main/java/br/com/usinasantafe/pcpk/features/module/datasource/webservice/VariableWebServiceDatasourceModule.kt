@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcpk.features.module.datasource.webservice
 
-import br.com.usinasantafe.pcpk.features.external.webservices.datasource.variable.ConfigDatasourceWebServiceImpl
-import br.com.usinasantafe.pcpk.features.infra.datasource.webservice.variable.ConfigDatasourceWebService
+import br.com.usinasantafe.pcpk.features.external.webservices.datasource.variable.*
+import br.com.usinasantafe.pcpk.features.infra.datasource.webservice.variable.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,8 +12,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface VariableWebServiceDatasourceModule {
 
-    @Singleton
     @Binds
+    @Singleton
     fun bindConfigDatasourceWebService(dataSource: ConfigDatasourceWebServiceImpl): ConfigDatasourceWebService
+
+    @Binds
+    @Singleton
+    fun bindMovEquipProprioDatasourceWebService(dataSource: MovEquipProprioDatasourceWebServiceImpl): MovEquipProprioDatasourceWebService
+
+    @Binds
+    @Singleton
+    fun bindMovEquipVisitTercDatasourceWebService(dataSource: MovEquipVisitTercDatasourceWebServiceImpl): MovEquipVisitTercDatasourceWebService
+
+    @Binds
+    @Singleton
+    fun bindMovEquipResidenciaDatasourceWebService(dataSource: MovEquipResidenciaDatasourceWebServiceImpl): MovEquipResidenciaDatasourceWebService
 
 }

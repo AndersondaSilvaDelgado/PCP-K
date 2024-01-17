@@ -9,11 +9,26 @@ interface MovEquipProprioRepository {
 
     suspend fun checkAddVeiculoMovEquipProprio(): Boolean
 
+    suspend fun checkMovSend(): Boolean
+
     suspend fun getMatricMotoristaMovEquipProprio(): Long
 
-    suspend fun getTipoMovMovEquipProprio(): TypeMov
+    suspend fun getTipoMovEquipProprio(): TypeMov
 
     suspend fun listMovEquipProprioOpen(): List<MovEquipProprio>
+
+    suspend fun listMovEquipProprioEmpty(): List<MovEquipProprio>
+
+    suspend fun listMovEquipProprioSend(): List<MovEquipProprio>
+
+    suspend fun receiverSentMovEquipProprio(movEquipList: List<MovEquipProprio>): Boolean
+
+    suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Int
+
+    suspend fun sendMovEquipProprio(
+        movEquipList: List<MovEquipProprio>,
+        nroAparelho: Long
+    ): Result<List<MovEquipProprio>>
 
     suspend fun setDestinoMovEquipProprio(destino: String): Boolean
 
@@ -21,10 +36,32 @@ interface MovEquipProprioRepository {
 
     suspend fun setNotaFiscalMovEquipProprio(notaFiscal: Long): Boolean
 
-    suspend fun setObservMovEquipProprio(observ: String): Boolean
+    suspend fun setObservMovEquipProprio(observ: String?): Boolean
+
+    suspend fun setStatusSendClosedMov(movEquipProprio: MovEquipProprio): Boolean
 
     suspend fun setVeiculoMovEquipProprio(idEquip: Long): Boolean
 
     suspend fun startMovEquipProprio(typeMov: TypeMov): Boolean
+
+    suspend fun updateDestinoMovEquipProprio(
+        destino: String,
+        movEquipProprio: MovEquipProprio
+    ): Boolean
+
+    suspend fun updateMotoristaMovEquipProprio(
+        nroMatric: Long,
+        movEquipProprio: MovEquipProprio
+    ): Boolean
+
+    suspend fun updateNotaFiscalMovEquipProprio(
+        notaFiscal: Long,
+        movEquipProprio: MovEquipProprio
+    ): Boolean
+
+    suspend fun updateVeiculoMovEquipProprio(
+        idEquip: Long,
+        movEquipProprio: MovEquipProprio
+    ): Boolean
 
 }

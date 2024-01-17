@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CheckNroEquip
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.CheckNroEquip
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateEquip
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetNroVeiculoEquipSeg
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetNroEquip
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VeiculoProprioViewModel @Inject constructor(
     private val checkNroEquip: CheckNroEquip,
-    private val setNroVeiculoEquipSeg: SetNroVeiculoEquipSeg,
+    private val setNroEquip: SetNroEquip,
     private val updateEquip: UpdateEquip,
 ) : ViewModel() {
 
@@ -28,7 +29,7 @@ class VeiculoProprioViewModel @Inject constructor(
         _uiLiveData.value = VeiculoProprioFragmentState.CheckEquip(checkMatric)
     }
 
-    private fun checkSetMatricColab(checkSetMatricOperador: Boolean) {
+    private fun setCheckNroVeiculo(checkSetMatricOperador: Boolean) {
         _uiLiveData.value = VeiculoProprioFragmentState.CheckSetVeicEquipSeg(checkSetMatricOperador)
     }
 
@@ -44,8 +45,8 @@ class VeiculoProprioViewModel @Inject constructor(
         checkVeiculo(checkNroEquip(nroEquip))
     }
 
-    fun setMatricMotorista(nroEquip: String) = viewModelScope.launch {
-        checkSetMatricColab(setNroVeiculoEquipSeg(nroEquip))
+    fun setNroVeiculo(nroEquip: String, typeAddEquip: TypeAddEquip, pos: Int) = viewModelScope.launch {
+        setCheckNroVeiculo(setNroEquip(nroEquip, typeAddEquip, pos))
     }
 
     fun updateDataEquip() =

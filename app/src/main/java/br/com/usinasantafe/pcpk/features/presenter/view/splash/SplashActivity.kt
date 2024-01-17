@@ -10,6 +10,8 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.utils.PointerStart
 import br.com.usinasantafe.pcpk.databinding.ActivitySplashBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity.Companion.KEY_FLOW_INITIAL
+import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity.Companion.FlowInitial
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.splash.SplashState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.splash.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeState() {
         viewModel.uiLiveData.observe(this) {
-                state -> handleStateChange(state)
+            state -> handleStateChange(state)
         }
     }
 
@@ -72,6 +74,8 @@ class SplashActivity : AppCompatActivity() {
     private fun goMenuInicial(){
         val intent = Intent(this, InitialActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        var bundle = intent.extras
+        bundle?.putInt(KEY_FLOW_INITIAL, FlowInitial.START.ordinal)
         startActivity(intent)
     }
 

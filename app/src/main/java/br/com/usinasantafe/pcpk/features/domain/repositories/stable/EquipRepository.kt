@@ -8,14 +8,14 @@ interface EquipRepository {
 
     suspend fun addAllEquip(list: List<Equip>)
 
+    suspend fun checkEquipNro(nro: Long): Boolean
+
     suspend fun deleteAllEquip()
 
-    suspend fun recoverAllEquip(nroAparelho: Long): Flow<Result<List<Equip>>>
-
-    suspend fun checkEquipNro(nro: Long): Boolean
+    suspend fun getEquipId(id: Long): Equip
 
     suspend fun getEquipNro(nro: Long): Equip
 
-    suspend fun getEquipId(id: Long): Equip
+    suspend fun recoverAllEquip(nroAparelho: Long): Flow<Result<List<Equip>>>
 
 }

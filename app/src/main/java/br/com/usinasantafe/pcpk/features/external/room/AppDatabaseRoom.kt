@@ -3,7 +3,9 @@ package br.com.usinasantafe.pcpk.features.external.room
 import androidx.room.*
 import br.com.usinasantafe.pcpk.common.utils.VERSION_DB
 import br.com.usinasantafe.pcpk.features.external.room.dao.stable.*
+import br.com.usinasantafe.pcpk.features.external.room.dao.variable.*
 import br.com.usinasantafe.pcpk.features.infra.models.room.stable.*
+import br.com.usinasantafe.pcpk.features.infra.models.room.variable.*
 
 @Database(
     entities = [
@@ -12,6 +14,12 @@ import br.com.usinasantafe.pcpk.features.infra.models.room.stable.*
         LocalRoomModel::class,
         TerceiroRoomModel::class,
         VisitanteRoomModel::class,
+        MovEquipProprioRoomModel::class,
+        MovEquipProprioSegRoomModel::class,
+        MovEquipProprioPassagRoomModel::class,
+        MovEquipVisitTercRoomModel::class,
+        MovEquipVisitTercPassagRoomModel::class,
+        MovEquipResidenciaRoomModel::class,
                ], version = VERSION_DB, exportSchema = false
 )
 abstract class AppDatabaseRoom : RoomDatabase() {
@@ -20,6 +28,12 @@ abstract class AppDatabaseRoom : RoomDatabase() {
     abstract fun localDao(): LocalDao
     abstract fun terceiroDao(): TerceiroDao
     abstract fun visitanteDao(): VisitanteDao
+    abstract fun movEquipProprioDao(): MovEquipProprioDao
+    abstract fun movEquipProprioSegDao(): MovEquipProprioSegDao
+    abstract fun movEquipProprioPassagDao(): MovEquipProprioPassagDao
+    abstract fun movEquipVisitTercDao(): MovEquipVisitTercDao
+    abstract fun movEquipVisitTercPassagDao(): MovEquipVisitTercPassagDao
+    abstract fun movEquipResidenciaDao(): MovEquipResidenciaDao
 }
 
 

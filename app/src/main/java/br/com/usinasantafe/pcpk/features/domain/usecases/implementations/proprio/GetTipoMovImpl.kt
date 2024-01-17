@@ -10,7 +10,7 @@ class GetTipoMovImpl @Inject constructor(
 ): GetTipoMov {
 
     override suspend fun invoke(): TypeMov {
-        return movEquipProprioRepository.getTipoMovMovEquipProprio()
+        return movEquipProprioRepository.getTipoMovEquipProprio()
     }
 
 }

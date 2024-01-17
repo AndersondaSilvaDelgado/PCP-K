@@ -7,7 +7,13 @@ interface VisitanteRepository {
 
     suspend fun addAllVisitante(list: List<Visitante>)
 
+    suspend fun checkCPFVisitante(cpf: String): Boolean
+
     suspend fun deleteAllVisitante()
+
+    suspend fun getVisitanteCPF(cpf: String): Visitante
+
+    suspend fun getVisitanteId(id: Long): Visitante
 
     suspend fun recoverAllVisitante(nroAparelho: Long): Flow<Result<List<Visitante>>>
 

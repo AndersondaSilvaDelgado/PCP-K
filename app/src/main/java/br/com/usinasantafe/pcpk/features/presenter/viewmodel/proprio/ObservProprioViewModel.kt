@@ -21,8 +21,8 @@ class ObservProprioViewModel @Inject constructor(
         _uiLiveData.value = ObservProprioFragmentState.CheckSetObserv(check)
     }
 
-    fun setObserv(notaFiscal: String) = viewModelScope.launch {
-        checkSetObserv(setObservProprio(notaFiscal))
+    fun setObserv(observ: String?) = viewModelScope.launch {
+        checkSetObserv(setObservProprio(observ))
     }
 
 }

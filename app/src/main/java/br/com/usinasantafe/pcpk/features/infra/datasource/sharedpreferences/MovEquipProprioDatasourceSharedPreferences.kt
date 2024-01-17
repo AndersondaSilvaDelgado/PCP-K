@@ -2,10 +2,13 @@ package br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences
 
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprio
+import br.com.usinasantafe.pcpk.features.infra.models.sharedpreferences.MovEquipProprioSharedPreferencesModel
 
 interface MovEquipProprioDatasourceSharedPreferences {
 
-    suspend fun getMovEquipProprio(): MovEquipProprio
+    suspend fun clearMovEquipProprio(): Boolean
+
+    suspend fun getMovEquipProprio(): MovEquipProprioSharedPreferencesModel
 
     suspend fun setDestinoMovEquipProprio(destino: String): Boolean
 
@@ -13,7 +16,7 @@ interface MovEquipProprioDatasourceSharedPreferences {
 
     suspend fun setNotaFiscalMovEquipProprio(notaFiscal: Long): Boolean
 
-    suspend fun setObservMovEquipProprio(observ: String): Boolean
+    suspend fun setObservMovEquipProprio(observ: String?): Boolean
 
     suspend fun setVeiculoMovEquipProprio(idEquip: Long): Boolean
 

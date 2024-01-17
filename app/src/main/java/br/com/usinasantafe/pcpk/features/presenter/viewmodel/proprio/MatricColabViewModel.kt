@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CheckMatricColab
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateColab
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetMatricMotoristaPassag
@@ -17,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MatricColabViewModel @Inject constructor(
     private val checkMatricColab: CheckMatricColab,
-    private val setMatricMotoristaPassag: SetMatricMotoristaPassag,
     private val updateColab: UpdateColab,
 ) : ViewModel() {
 
@@ -26,10 +26,6 @@ class MatricColabViewModel @Inject constructor(
 
     private fun checkMatric(checkMatric: Boolean) {
         _uiLiveData.value = MatricColabFragmentState.CheckMatric(checkMatric)
-    }
-
-    private fun checkSetMatricColab(checkSetMatricOperador: Boolean) {
-        _uiLiveData.value = MatricColabFragmentState.CheckSetMatric(checkSetMatricOperador)
     }
 
     private fun setStatusUpdate(statusUpdate: StatusUpdate) {
@@ -42,10 +38,6 @@ class MatricColabViewModel @Inject constructor(
 
     fun checkMatricColaborador(matricVigia: String) = viewModelScope.launch {
         checkMatric(checkMatricColab(matricVigia))
-    }
-
-    fun setMatricMotorista(matricVigia: String) = viewModelScope.launch {
-        checkSetMatricColab(setMatricMotoristaPassag(matricVigia))
     }
 
     fun updateDataColab() =
@@ -74,7 +66,6 @@ class MatricColabViewModel @Inject constructor(
 
 sealed class MatricColabFragmentState {
     data class CheckMatric(val checkMatric: Boolean) : MatricColabFragmentState()
-    data class CheckSetMatric(val checkSetMatric: Boolean) : MatricColabFragmentState()
     data class FeedbackUpdate(val statusUpdate: StatusUpdate) : MatricColabFragmentState()
     data class SetResultUpdate(val resultUpdateDatabase: ResultUpdateDatabase) : MatricColabFragmentState()
 }

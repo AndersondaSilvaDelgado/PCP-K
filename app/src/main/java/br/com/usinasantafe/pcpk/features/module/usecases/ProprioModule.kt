@@ -14,19 +14,27 @@ interface ProprioModule {
 
     @Binds
     @Singleton
-    fun bindClearEquipProprioSeg(usecase: ClearEquipProprioSegImpl): ClearEquipProprioSeg
+    fun bindCheckDataSendEquipProprio(usecase: CheckDataSendMovEquipProprioImpl): CheckDataSendMovEquipProprio
 
     @Binds
     @Singleton
-    fun bindDeleteColabPassag(usecase: DeleteColabPassagImpl): DeleteColabPassag
+    fun bindCheckNroEquip(usecase: CheckNroEquipImpl): CheckNroEquip
 
     @Binds
     @Singleton
-    fun bindDeleteEquipProprioSeg(usecase: DeleteEquipProprioSegImpl): DeleteEquipProprioSeg
+    fun bindClearMovEquipProprioSeg(usecase: ClearEquipSegImpl): ClearEquipSeg
 
     @Binds
     @Singleton
-    fun bindGetStatusMov(usecase: GetStatusMovImpl): GetStatusMov
+    fun bindClosedMovEquipProprioSeg(usecase: SetStatusSendCloseMovProprioImpl): SetStatusSendCloseMovProprio
+
+    @Binds
+    @Singleton
+    fun bindDeleteColabPassag(usecase: DeletePassagColabImpl): DeletePassagColab
+
+    @Binds
+    @Singleton
+    fun bindDeleteEquipProprioSeg(usecase: DeleteEquipSegImpl): DeleteEquipSeg
 
     @Binds
     @Singleton
@@ -34,11 +42,23 @@ interface ProprioModule {
 
     @Binds
     @Singleton
+    fun bindReceiverSentDataMovEquipProprio(usecase: ReceiverSentDataMovEquipProprioImpl): ReceiverSentDataMovEquipProprio
+
+    @Binds
+    @Singleton
+    fun bindRecoverDetalheMovEquipProprio(usecase: RecoverDetalheMovEquipProprioImpl): RecoverDetalheMovEquipProprio
+
+    @Binds
+    @Singleton
+    fun bindRecoverListEquipProprioSeg(usecase: RecoverDetalheMovEquipProprio): RecoverDetalheMovEquipProprio
+
+    @Binds
+    @Singleton
     fun bindRecoverListEquipProprioSeg(usecase: RecoverListEquipProprioSegImpl): RecoverListEquipProprioSeg
 
     @Binds
     @Singleton
-    fun bindRecoverListMovEquipProprio(usecase: RecoverListMovEquipProprioOpenImpl): RecoverListMovEquipProprioOpen
+    fun bindRecoverListMovEquipProprioOpen(usecase: RecoverListMovEquipProprioOpenImpl): RecoverListMovEquipProprioOpen
 
     @Binds
     @Singleton
@@ -47,6 +67,14 @@ interface ProprioModule {
     @Binds
     @Singleton
     fun bindRecoverNomeColabMotoristaPassag(usecase: RecoverNomeColabImpl): RecoverNomeColab
+
+    @Binds
+    @Singleton
+    fun bindSaveMovEquipProprio(usecase: SaveMovEquipProprioOpenImpl): SaveMovEquipProprioOpen
+
+    @Binds
+    @Singleton
+    fun bindSendDataMovEquipProprio(usecase: SendDataMovEquipProprioImpl): SendDataMovEquipProprio
 
     @Binds
     @Singleton
@@ -62,11 +90,11 @@ interface ProprioModule {
 
     @Binds
     @Singleton
-    fun bindSetNroVeiculoEquipSeg(usecase: SetNroVeiculoEquipSegImpl): SetNroVeiculoEquipSeg
+    fun bindSetNroVeiculoEquipSeg(usecase: SetNroEquipImpl): SetNroEquip
 
     @Binds
     @Singleton
-    fun bindSetStatusMov(usecase: SetStatusMovImpl): SetStatusMov
+    fun bindSetObservProprio(usecase: SetObservProprioImpl): SetObservProprio
 
     @Binds
     @Singleton

@@ -6,9 +6,9 @@ interface ColabDatasourceRoom {
 
     suspend fun addAllColab(vararg colabRoomModels: ColabRoomModel)
 
-    suspend fun deleteAllColab()
-
     suspend fun checkColabMatric(matric: Long): Boolean
+
+    suspend fun deleteAllColab()
 
     suspend fun getColabMatric(matric: Long): ColabRoomModel
 

@@ -17,40 +17,65 @@ import br.com.usinasantafe.pcpk.databinding.LayoutBotoesBinding
 import br.com.usinasantafe.pcpk.databinding.LayoutBotoesSAtualBinding
 
 
-fun Activity.hideKeyboard(){
-    val imm: InputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+fun Activity.hideKeyboard() {
+    val imm: InputMethodManager =
+        getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     var view: View? = currentFocus
-    if(view == null){
+    if (view == null) {
         view = View(this)
     }
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun showToast(message: String, context: Context){
+fun showToast(message: String, context: Context) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
-fun Fragment.showGenericAlertDialog(message: String, context: Context, callback: () -> Unit){
+fun Fragment.showGenericAlertDialog(message: String, context: Context, callback: () -> Unit) {
     AlertDialog.Builder(context).apply {
         setMessage(message)
-        setPositiveButton(getString(R.string.texto_padrao_ok)){ _, _ ->
+        setPositiveButton(getString(R.string.texto_padrao_ok)) { _, _ ->
             callback.invoke()
         }
     }.show()
 }
 
-fun Fragment.showGenericAlertDialog(message: String, context: Context){
+fun Fragment.showGenericAlertDialog(message: String, context: Context) {
     AlertDialog.Builder(context).apply {
         setMessage(message)
-        setPositiveButton(getString(R.string.texto_padrao_ok)){ dialog, _ ->
+        setPositiveButton(getString(R.string.texto_padrao_ok)) { dialog, _ ->
             dialog.dismiss()
         }
     }.show()
 }
 
+fun Fragment.showGenericAlertDialogCheck(message: String, context: Context, callback: () -> Unit) {
+    AlertDialog.Builder(context)
+        .setMessage(message)
+        .setPositiveButton("SIM") { _, _ ->
+            callback.invoke()
+        }
+        .setNegativeButton("NÃO", null)
+        .create()
+        .show()
+}
 
-fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText){
-    with(layoutBotoesBinding){
+fun setListenerButtonsCPF(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText) {
+    var texto = editText.text.toString()
+    if (texto.length < 14) {
+        if ((texto.length == 3) || (texto.length == 7)) {
+            texto += "."
+        }
+        if ((texto.length == 11)) {
+            texto += "-"
+        }
+        editText.setText(texto)
+        setListenerButtonsGeneric(layoutBotoesBinding, editText)
+    }
+}
+
+fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText) {
+    with(layoutBotoesBinding) {
         buttonNum0.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum0.text)
         }
@@ -89,7 +114,10 @@ fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText
     }
 }
 
-fun setListenerButtonsGenericSUpdate(layoutBotoesSAtualBinding: LayoutBotoesSAtualBinding, editText: EditText){
+fun setListenerButtonsGenericSUpdate(
+    layoutBotoesSAtualBinding: LayoutBotoesSAtualBinding,
+    editText: EditText
+) {
     with(layoutBotoesSAtualBinding) {
         buttonNum0.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum0.text)
@@ -129,8 +157,8 @@ fun setListenerButtonsGenericSUpdate(layoutBotoesSAtualBinding: LayoutBotoesSAtu
     }
 }
 
-fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment){
-    if(supportFragmentManager.findFragmentById(id) == null){
+fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
+    if (supportFragmentManager.findFragmentById(id) == null) {
         supportFragmentManager.beginTransaction().apply {
             add(id, fragment)
             commit()
@@ -145,7 +173,7 @@ fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment){
     hideKeyboard()
 }
 
-fun Fragment.onBackPressed(callback: () -> Unit){
+fun Fragment.onBackPressed(callback: () -> Unit) {
     val funReturn: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             callback.invoke()

@@ -1,33 +1,90 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
+import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.databinding.FragmentPlacaResidenciaBinding
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
+import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.PlacaResidenciaFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.PlacaResidenciaViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class PlacaResidenciaFragment : Fragment() {
+@AndroidEntryPoint
+class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
+    R.layout.fragment_placa_residencia,
+    FragmentPlacaResidenciaBinding::bind
+) {
 
-    companion object {
-        fun newInstance() = PlacaResidenciaFragment()
+    private val viewModel: PlacaResidenciaViewModel by viewModels()
+    private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeState()
+        setListener()
+
     }
 
-    private lateinit var viewModel: PlacaResidenciaViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_placa_residencia, container, false)
+    private fun observeState() {
+        viewModel.uiLiveData.observe(viewLifecycleOwner) { state ->
+            handleStateChange(state)
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PlacaResidenciaViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setListener() {
+        with(binding) {
+            buttonOkPlacaResidencia.setOnClickListener {
+                if (editTextPlacaResidencia.text.isEmpty()) {
+                    showGenericAlertDialog(
+                        getString(
+                            R.string.texto_campo_vazio,
+                            "PLACA"
+                        ), requireContext()
+                    )
+                    return@setOnClickListener
+                }
+                viewModel.setPlaca(editTextPlacaResidencia.text.toString())
+            }
+            buttonCancPlacaResidencia.setOnClickListener {
+                fragmentAttachListenerResidencia?.goVeiculo()
+            }
+        }
+    }
+
+    private fun handleStateChange(state: PlacaResidenciaFragmentState) {
+        when (state) {
+            is PlacaResidenciaFragmentState.CheckSetPlaca -> handleCheckSetPlaca(state.check)
+        }
+    }
+
+    private fun handleCheckSetPlaca(check: Boolean) {
+        if (check) {
+            fragmentAttachListenerResidencia?.goMotorista()
+            return
+        }
+        showGenericAlertDialog(
+            getString(
+                R.string.texto_falha_insercao_campo,
+                "PLACA"
+            ), requireContext()
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentAttachListenerResidencia) {
+            fragmentAttachListenerResidencia = context
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentAttachListenerResidencia = null
     }
 
 }

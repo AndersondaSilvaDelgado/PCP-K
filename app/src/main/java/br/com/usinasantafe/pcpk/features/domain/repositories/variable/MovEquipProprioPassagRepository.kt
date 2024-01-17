@@ -4,11 +4,16 @@ import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipPropri
 
 interface MovEquipProprioPassagRepository {
 
-    suspend fun addPassag(movEquipProprioPassag: MovEquipProprioPassag): Boolean
+    suspend fun addPassag(nroMatric: Long): Boolean
 
-    suspend fun countPassag(): Int
+    suspend fun addPassag(nroMatric: Long, idMov: Long): Boolean
 
     suspend fun deletePassag(pos: Int): Boolean
 
     suspend fun listPassag(): List<MovEquipProprioPassag>
+
+    suspend fun listPassagIdMov(idMov: Long): List<MovEquipProprioPassag>
+
+    suspend fun savePassag(idMov: Int): Boolean
+
 }

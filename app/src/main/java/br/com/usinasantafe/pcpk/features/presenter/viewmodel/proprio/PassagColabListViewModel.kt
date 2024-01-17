@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.common.utils.StatusMovEquipProprio
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeleteColabPassag
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeletePassagColab
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverListColabPassag
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetStatusMov
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,8 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PassagColabListViewModel @Inject constructor (
     private val recoverListColabPassag: RecoverListColabPassag,
-    private val deleteColabPassag: DeleteColabPassag,
-    private val setStatusMov: SetStatusMov,
+    private val deletePassagColab: DeletePassagColab,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<PassagColabListFragmentState>()
@@ -26,28 +23,12 @@ class PassagColabListViewModel @Inject constructor (
         _uiLiveData.value = PassagColabListFragmentState.CheckDeleteColabPassag(check)
     }
 
-    private fun checkSetStatusMovEquipAddMotorista(check: Boolean) {
-        _uiLiveData.value = PassagColabListFragmentState.CheckSetStatusMovAddMotorista(check)
-    }
-
-    private fun checkSetStatusMovEquipAddPassag(check: Boolean) {
-        _uiLiveData.value = PassagColabListFragmentState.CheckSetStatusMovAddPassag(check)
-    }
-
     private fun setListPassag(passagList: List<String>) {
         _uiLiveData.value = PassagColabListFragmentState.ListColabPassag(passagList)
     }
 
     fun deletePassag(pos: Int) = viewModelScope.launch {
-        checkDeleteColabPassag(deleteColabPassag(pos))
-    }
-
-    fun setStatusMovEquipAddMotorista() = viewModelScope.launch {
-        checkSetStatusMovEquipAddMotorista(setStatusMov(StatusMovEquipProprio.ADDMOTORISTA))
-    }
-
-    fun setStatusMovEquipAddPassag() = viewModelScope.launch {
-        checkSetStatusMovEquipAddPassag(setStatusMov(StatusMovEquipProprio.ADDPASSAGEIRO))
+        checkDeleteColabPassag(deletePassagColab(pos))
     }
 
     fun recoverListPassag() = viewModelScope.launch {
@@ -58,7 +39,5 @@ class PassagColabListViewModel @Inject constructor (
 
 sealed class PassagColabListFragmentState {
     data class CheckDeleteColabPassag(val check: Boolean) : PassagColabListFragmentState()
-    data class CheckSetStatusMovAddPassag(val check: Boolean) : PassagColabListFragmentState()
-    data class CheckSetStatusMovAddMotorista(val check: Boolean) : PassagColabListFragmentState()
     data class ListColabPassag(val passagList: List<String>) : PassagColabListFragmentState()
 }

@@ -6,11 +6,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
-import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipProprioListBinding
-import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModel
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipProprioModel
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
@@ -51,13 +50,13 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
     private fun setListener() {
         with(binding) {
             buttonEntradaMovEquipProprio.setOnClickListener {
-                viewModel.setInitialMov(TypeMov.INPUT)
+                viewModel.checkSetInitialMov(TypeMov.INPUT)
             }
             buttonSaidaMovEquipProprio.setOnClickListener {
-                viewModel.setInitialMov(TypeMov.OUTPUT)
+                viewModel.checkSetInitialMov(TypeMov.OUTPUT)
             }
             buttonRetornarMovEquipProprio.setOnClickListener {
-                TODO()
+                fragmentAttachListenerProprio?.goInicial()
             }
         }
     }
@@ -70,9 +69,16 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
         }
     }
 
+    private fun handleHeader(header: HeaderModel){
+        with(binding) {
+            textViewVigia.text = header.nomeVigia
+            textViewLocal.text = header.local
+        }
+    }
+
     private fun handleStartMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerProprio?.goVeiculoProprio()
+            fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULO)
             return
         }
         showGenericAlertDialog(
@@ -83,17 +89,14 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
     }
 
     private fun handleListMov(movEquipProprioList: List<MovEquipProprioModel>){
-        val listAdapter = MovEquipProprioAdapter(movEquipProprioList)
+        val listAdapter = MovEquipProprioAdapter(movEquipProprioList).apply {
+            onItemClick = { pos ->
+                fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
+        }
         binding.listViewMovProprio.run {
             setHasFixedSize(true)
             adapter = listAdapter
-        }
-    }
-
-    private fun handleHeader(header: HeaderModel){
-        with(binding) {
-            textViewVigia.text = header.nomeVigia
-            textViewLocal.text = header.local
         }
     }
 
@@ -101,9 +104,6 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
         super.onAttach(context)
         if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
-        }
-        onBackPressed {
-            fragmentAttachListenerProprio?.goInicial()
         }
     }
 

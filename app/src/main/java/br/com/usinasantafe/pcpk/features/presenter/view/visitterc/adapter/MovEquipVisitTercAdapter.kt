@@ -2,20 +2,20 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.usinasantafe.pcpk.databinding.ItemRowMovEquipProprioBinding
-import br.com.usinasantafe.pcpk.databinding.ItemRowTextBinding
+import br.com.usinasantafe.pcpk.databinding.ItemRowMovEquipVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipProprioModel
+import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 
 class MovEquipVisitTercAdapter(
-    private val dataSet: List<MovEquipProprioModel>
+    private val dataSet: List<MovEquipVisitTercModel>
 ) : RecyclerView.Adapter<MovEquipVisitTercAdapter.ViewHolder>() {
 
     var onItemClick: ((position: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemBinding = ItemRowMovEquipProprioBinding
+        val itemBinding = ItemRowMovEquipVisitTercBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemBinding)
     }
@@ -27,20 +27,20 @@ class MovEquipVisitTercAdapter(
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(
-        itemRowMovEquipProprioBinding: ItemRowMovEquipProprioBinding
-    ) : RecyclerView.ViewHolder(itemRowMovEquipProprioBinding.root) {
+        itemRowMovEquipVisitTercBinding: ItemRowMovEquipVisitTercBinding
+    ) : RecyclerView.ViewHolder(itemRowMovEquipVisitTercBinding.root) {
 
-        private val textViewDthrMov = itemRowMovEquipProprioBinding.textViewDthrMov
-        private val textViewTipoMov = itemRowMovEquipProprioBinding.textViewTipoMov
-        private val textViewEquipMov = itemRowMovEquipProprioBinding.textViewEquipMov
-        private val textViewMotoristaMov = itemRowMovEquipProprioBinding.textViewMotoristaMov
+        private val textViewDthrMov = itemRowMovEquipVisitTercBinding.textViewDthrMov
+        private val textViewMotoristaMov = itemRowMovEquipVisitTercBinding.textViewMotoristaMov
+        private val textViewVeiculoMov = itemRowMovEquipVisitTercBinding.textViewVeiculoMov
+        private val textViewPlacaMov = itemRowMovEquipVisitTercBinding.textViewPlacaMov
 
-        fun bindView(movEquipProprioModel: MovEquipProprioModel, position: Int) {
+        fun bindView(movEquipVisitTercModel: MovEquipVisitTercModel, position: Int) {
 
-            textViewDthrMov.text = movEquipProprioModel.dthr
-            textViewTipoMov.text = movEquipProprioModel.tipo
-            textViewEquipMov.text = movEquipProprioModel.equip
-            textViewMotoristaMov.text = movEquipProprioModel.colab
+            textViewDthrMov.text = movEquipVisitTercModel.dthr
+            textViewMotoristaMov.text = movEquipVisitTercModel.motorista
+            textViewVeiculoMov.text = movEquipVisitTercModel.placa
+            textViewPlacaMov.text = movEquipVisitTercModel.veiculo
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(position)

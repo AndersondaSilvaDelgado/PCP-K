@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcpk.features.domain.entities.variable
 
 import br.com.usinasantafe.pcpk.common.utils.FlagUpdate
-import br.com.usinasantafe.pcpk.common.utils.StatusMovEquipProprio
+import br.com.usinasantafe.pcpk.common.utils.StatusSend
 
 
 data class Config(
@@ -12,5 +12,5 @@ data class Config(
     var flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,
     var matricVigia: Long? = null,
     var idLocal: Long? = null,
-    var statusMovEquipProprio: StatusMovEquipProprio?,
+    var statusEnvio: StatusSend = StatusSend.SENT,
 )

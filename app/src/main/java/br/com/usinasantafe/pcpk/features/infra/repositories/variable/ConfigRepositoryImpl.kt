@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.infra.repositories.variable
 
+import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences.ConfigDatasourceSharedPreferences
@@ -40,6 +41,10 @@ class ConfigRepositoryImpl @Inject constructor (
                     onFailure = { exception -> emit(Result.failure(exception)) }
                 )
             }
+    }
+
+    override suspend fun setStatusSendConfig(statusSend: StatusSend) {
+        configDatasourceSharedPreferences.setStatusSend(statusSend)
     }
 
 }

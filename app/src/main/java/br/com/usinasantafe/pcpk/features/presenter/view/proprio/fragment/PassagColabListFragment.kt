@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -9,6 +8,9 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentPassagColabListBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.PassagColabListFragmentState
@@ -23,19 +25,30 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
 
     private val viewModel: PassagColabListViewModel by viewModels()
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
+    private lateinit var typeAddOcupante: TypeAddOcupante
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_TYPE_OCUPANTE_VEIC_PROPRIO_PASSAG_LIST =
+            "key_type_ocupante_veic_proprio_passag_list";
+        const val KEY_POS_PASSAG_PROPRIO = "key_pos_passag_proprio";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        typeAddOcupante =
+            TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_PROPRIO_PASSAG_LIST)!!]
+        pos = arguments?.getInt(KEY_POS_PASSAG_PROPRIO)!!
         observeState()
         startEvents()
         setListener()
 
     }
 
-    private fun observeState(){
-        viewModel.uiLiveData.observe(viewLifecycleOwner) {
-            state -> handleStateChange(state)
+    private fun observeState() {
+        viewModel.uiLiveData.observe(viewLifecycleOwner) { state ->
+            handleStateChange(state)
         }
     }
 
@@ -46,23 +59,31 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     private fun setListener() {
         with(binding) {
             buttonInserirPassageiro.setOnClickListener {
-                viewModel.setStatusMovEquipAddPassag()
+                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
             }
             buttonOkPassageiro.setOnClickListener {
-                fragmentAttachListenerProprio?.goDestino()
+                when (typeAddOcupante) {
+                    TypeAddOcupante.ADDMOTORISTA,
+                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goDestino(
+                        FlowApp.ADD
+                    )
+
+                    TypeAddOcupante.CHANGEMOTORISTA,
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                }
             }
             buttonCancPassageiro.setOnClickListener {
-                viewModel.setStatusMovEquipAddMotorista()
+                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
             }
         }
     }
 
-    private fun handleStateChange(state: PassagColabListFragmentState){
-        when(state){
+    private fun handleStateChange(state: PassagColabListFragmentState) {
+        when (state) {
             is PassagColabListFragmentState.ListColabPassag -> handleListPassag(state.passagList)
-            is PassagColabListFragmentState.CheckDeleteColabPassag -> handleCheckDeleteColabPassag(state.check)
-            is PassagColabListFragmentState.CheckSetStatusMovAddPassag -> handleCheckStatusMovEquipAddPassag(state.check)
-            is PassagColabListFragmentState.CheckSetStatusMovAddMotorista -> handleCheckStatusMovEquipAddMotorista(state.check)
+            is PassagColabListFragmentState.CheckDeleteColabPassag -> handleCheckDeleteColabPassag(
+                state.check
+            )
         }
     }
 
@@ -71,28 +92,14 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     }
 
     private fun handleCheckDeleteColabPassag(check: Boolean) {
-        if(check) {
+        if (check) {
             viewModel.recoverListPassag()
             return
         }
-        showGenericAlertDialog(getString(R.string.texto_failure_delete, "PASSAGEIRO"), requireContext())
-    }
-
-    private fun handleCheckStatusMovEquipAddPassag(check: Boolean) {
-        if(check) {
-            fragmentAttachListenerProprio?.goMatricColab()
-            return
-        }
-        showGenericAlertDialog(getString(R.string.texto_failure_app), requireContext())
-    }
-
-
-    private fun handleCheckStatusMovEquipAddMotorista(check: Boolean) {
-        if(check) {
-            fragmentAttachListenerProprio?.goMatricColab()
-            return
-        }
-        showGenericAlertDialog(getString(R.string.texto_failure_app), requireContext())
+        showGenericAlertDialog(
+            getString(R.string.texto_failure_delete, "PASSAGEIRO"),
+            requireContext()
+        )
     }
 
     private fun viewList(passagList: List<String>) {
@@ -110,20 +117,15 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
         }
     }
 
-    private fun showMessage(pos: Int){
-        AlertDialog.Builder(requireContext())
-            .setMessage("DESEJA EXCLUIR O PASSAGEIRO?")
-            .setPositiveButton("SIM") { _, _ ->
-                viewModel.deletePassag(pos)
-            }
-            .setNegativeButton("NÃO", null)
-            .create()
-            .show()
+    private fun showMessage(pos: Int) {
+        showGenericAlertDialogCheck("DESEJA EXCLUIR O PASSAGEIRO?", requireContext()) {
+            viewModel.deletePassag(pos)
+        }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is FragmentAttachListenerProprio){
+        if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
         }
     }

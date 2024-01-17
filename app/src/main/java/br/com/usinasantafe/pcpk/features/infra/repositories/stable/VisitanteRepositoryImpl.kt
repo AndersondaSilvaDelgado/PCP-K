@@ -21,8 +21,16 @@ class VisitanteRepositoryImpl @Inject constructor(
         visitanteDatasourceRoom.addAllVisitante(*list.map { it.toVisitanteModel() }.toTypedArray())
     }
 
+    override suspend fun checkCPFVisitante(cpf: String): Boolean {
+        return visitanteDatasourceRoom.checkCPFVisitante(cpf)
+    }
+
     override suspend fun deleteAllVisitante() {
         visitanteDatasourceRoom.deleteAllVisitante()
+    }
+
+    override suspend fun getVisitanteCPF(cpf: String): Visitante {
+        return visitanteDatasourceRoom.getVisitanteCPF(cpf).toVisitante()
     }
 
     override suspend fun recoverAllVisitante(nroAparelho: Long): Flow<Result<List<Visitante>>> = flow {
@@ -36,6 +44,10 @@ class VisitanteRepositoryImpl @Inject constructor(
                     onFailure = { exception -> emit(Result.failure(exception)) }
                 )
             }
+    }
+
+    override suspend fun getVisitanteId(id: Long): Visitante {
+        return visitanteDatasourceRoom.getVisitanteId(id).toVisitante()
     }
 
 }

@@ -9,10 +9,10 @@ interface LocalRepository {
 
     suspend fun deleteAllLocal()
 
+    suspend fun getLocalId(id: Long): Local
+
     suspend fun listAllLocal(): List<Local>
 
     suspend fun recoverAllLocal(nroAparelho: Long): Flow<Result<List<Local>>>
-
-    suspend fun getLocalId(id: Long): Local
 
 }

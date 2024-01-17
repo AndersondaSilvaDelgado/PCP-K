@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.GetTipoMov
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetDestinoProprio
@@ -24,8 +25,8 @@ class DestinoProprioViewModel @Inject constructor(
         _uiLiveData.value = DestinoProprioFragmentState.CheckSetDestino(check)
     }
 
-    fun setDestino(destino: String) = viewModelScope.launch {
-        checkSetDestino(setDestinoProprio(destino))
+    fun setDestino(destino: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
+        checkSetDestino(setDestinoProprio(destino, flowApp, pos))
     }
 
     fun checkNextFragment() = viewModelScope.launch {

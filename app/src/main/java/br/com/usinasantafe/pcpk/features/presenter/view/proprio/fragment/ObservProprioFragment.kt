@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
-import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentObservProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.ObservProprioFragmentState
@@ -22,10 +22,19 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
 
     private val viewModel: ObservProprioViewModel by viewModels()
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_FLOW_OBSERV_PROPRIO = "key_flow_observ_proprio";
+        const val KEY_POS_OBSERV_PROPRIO = "key_pos_observ_proprio";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_OBSERV_PROPRIO)!!]
+        pos = arguments?.getInt(KEY_POS_OBSERV_PROPRIO)!!
         observeState()
         setListener()
 
@@ -41,10 +50,16 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
         with(binding) {
             buttonOkObserv.setOnClickListener {
                 if (editTextObserv.text.isEmpty()) {
-                    fragmentAttachListenerProprio?.goMovProprioList()
+                    viewModel.setObserv(null)
                     return@setOnClickListener
                 }
                 viewModel.setObserv(editTextObserv.text.toString())
+            }
+            buttonCancObserv.setOnClickListener {
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerProprio?.goDestino(flowApp)
+                    FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -57,7 +72,10 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
 
     private fun handleCheckSetObserv(check: Boolean) {
         if (check) {
-            fragmentAttachListenerProprio?.goMovProprioList()
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerProprio?.goMovProprioList()
+                FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(
@@ -72,9 +90,6 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
         super.onAttach(context)
         if(context is FragmentAttachListenerProprio){
             fragmentAttachListenerProprio = context
-        }
-        onBackPressed {
-            fragmentAttachListenerProprio?.goDestino()
         }
     }
 

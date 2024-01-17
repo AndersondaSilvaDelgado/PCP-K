@@ -2,19 +2,28 @@ package br.com.usinasantafe.pcpk.features.infra.repositories.variable
 
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprioSeg
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioSegRepository
+import br.com.usinasantafe.pcpk.features.infra.datasource.room.variable.MovEquipProprioSegDatasourceRoom
 import br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences.MovEquipProprioSegDatasourceSharedPreferences
+import br.com.usinasantafe.pcpk.features.infra.models.room.variable.MovEquipProprioSegRoomModel
+import br.com.usinasantafe.pcpk.features.infra.models.room.variable.entityToMovEquipProprioSegRoomModel
+import br.com.usinasantafe.pcpk.features.infra.models.room.variable.modelRoomToMovEquipSegPassag
 import javax.inject.Inject
 
 class MovEquipProprioSegRepositoryImpl @Inject constructor (
     private val movEquipProprioSegDatasourceSharedPreferences: MovEquipProprioSegDatasourceSharedPreferences,
+    private val movEquipProprioSegDatasourceRoom: MovEquipProprioSegDatasourceRoom,
 ) : MovEquipProprioSegRepository {
 
-    override suspend fun addEquipSeg(movEquipProprioSeg: MovEquipProprioSeg): Boolean {
+    override suspend fun addEquipSeg(idEquip: Long): Boolean {
         return try {
-            movEquipProprioSegDatasourceSharedPreferences.addEquipSeg(movEquipProprioSeg)
+            movEquipProprioSegDatasourceSharedPreferences.addEquipSeg(idEquip)
         } catch (exception: Exception) {
             false
         }
+    }
+
+    override suspend fun addEquipSeg(idEquip: Long, idMov: Long): Boolean {
+        return movEquipProprioSegDatasourceRoom.addMovEquipProprioSeg(MovEquipProprioSegRoomModel(idMovEquipProprio = idMov, idEquipMovEquipProprioSeg = idEquip))
     }
 
     override suspend fun clearEquipSeg(): Boolean {
@@ -34,7 +43,18 @@ class MovEquipProprioSegRepositoryImpl @Inject constructor (
     }
 
     override suspend fun listEquipSeg(): List<MovEquipProprioSeg> {
-        return movEquipProprioSegDatasourceSharedPreferences.listEquipSeg()
+        return movEquipProprioSegDatasourceSharedPreferences.listEquipSeg().map { MovEquipProprioSeg(idEquipMovEquipProprioSeg = it) }
+    }
+
+    override suspend fun listEquipSegIdMov(idMov: Long): List<MovEquipProprioSeg> {
+        return movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov).map { it.modelRoomToMovEquipSegPassag() }
+    }
+
+    override suspend fun saveEquipSeg(idMov: Int): Boolean {
+        if(!movEquipProprioSegDatasourceRoom.addAllMovEquipProprioSeg(*listEquipSeg().map {
+            it.entityToMovEquipProprioSegRoomModel(idMov)
+        }.toTypedArray())) return false
+        return movEquipProprioSegDatasourceSharedPreferences.clearEquipSeg()
     }
 
 }

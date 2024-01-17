@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -9,6 +8,9 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoSegProprioListBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoSegProprioListFragmentState
@@ -23,10 +25,19 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
 
     private val viewModel: VeiculoSegProprioListViewModel by viewModels()
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
+    private lateinit var typeAddEquip : TypeAddEquip
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_TYPE_VEIC_PROPRIO_SEG_LIST = "key_type_veic_proprio_seg_list";
+        const val KEY_POS_EQUIP_SEG_PROPRIO = "key_pos_equip_seg_proprio";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        typeAddEquip = TypeAddEquip.values()[arguments?.getInt(KEY_TYPE_VEIC_PROPRIO_SEG_LIST)!!]
+        pos = arguments?.getInt(KEY_POS_EQUIP_SEG_PROPRIO)!!
         observeState()
         startEvents()
         setListener()
@@ -46,13 +57,23 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private fun setListener() {
         with(binding) {
             buttonInserirVeiculoSeg.setOnClickListener {
-                viewModel.setStatusMovEquipAddVeicSeg()
+                fragmentAttachListenerProprio?.goVeiculoProprio(typeAddEquip)
             }
             buttonOkVeiculoSeg.setOnClickListener {
-                viewModel.setStatusMovEquipAddMotorista()
+                when(typeAddEquip) {
+                    TypeAddEquip.ADDVEICULO,
+                    TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.ADDMOTORISTA)
+                    TypeAddEquip.CHANGEVEICULO,
+                    TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                }
             }
             buttonCancVeiculoSeg.setOnClickListener {
-                viewModel.setStatusMovEquipAddVeic()
+                when(typeAddEquip) {
+                    TypeAddEquip.ADDVEICULO,
+                    TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULO)
+                    TypeAddEquip.CHANGEVEICULO,
+                    TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -61,9 +82,6 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
         when(state){
             is VeiculoSegProprioListFragmentState.ListEquipSeg -> handleListEquipSeg(state.equipSegList)
             is VeiculoSegProprioListFragmentState.CheckDeleteEquipProprioSeg -> handleCheckDeleteEquipSeg(state.check)
-            is VeiculoSegProprioListFragmentState.CheckSetStatusMovAddVeicSeg -> handleCheckStatusMovEquipAddVeicSeg(state.check)
-            is VeiculoSegProprioListFragmentState.CheckSetStatusMovAddMotorista -> handleCheckStatusMovEquipAddMotorista(state.check)
-            is VeiculoSegProprioListFragmentState.CheckSetStatusMovAddVeic -> handleCheckStatusMovEquipAddVeic(state.check)
         }
     }
 
@@ -77,30 +95,6 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
             return
         }
         showGenericAlertDialog(getString(R.string.texto_failure_delete, "VEÍCULO SECUNDÁRIO"), requireContext())
-    }
-
-    private fun handleCheckStatusMovEquipAddVeicSeg(check: Boolean) {
-        if(check) {
-            fragmentAttachListenerProprio?.goVeiculoProprio()
-            return
-        }
-        showGenericAlertDialog(getString(R.string.texto_failure_app), requireContext())
-    }
-
-    private fun handleCheckStatusMovEquipAddMotorista(check: Boolean) {
-        if(check) {
-            fragmentAttachListenerProprio?.goMatricColab()
-            return
-        }
-        showGenericAlertDialog(getString(R.string.texto_failure_app), requireContext())
-    }
-
-    private fun handleCheckStatusMovEquipAddVeic(check: Boolean) {
-        if(check) {
-            fragmentAttachListenerProprio?.goVeiculoProprio()
-            return
-        }
-        showGenericAlertDialog(getString(R.string.texto_failure_app), requireContext())
     }
 
     private fun viewList(equipSegList: List<String>) {
@@ -119,16 +113,10 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     }
 
     private fun showMessage(pos: Int){
-        AlertDialog.Builder(requireContext())
-            .setMessage("DESEJA EXCLUIR O VEÍCULO?")
-            .setPositiveButton("SIM") { _, _ ->
-                viewModel.deleteEquipSeg(pos)
-            }
-            .setNegativeButton("NÃO", null)
-            .create()
-            .show()
+        showGenericAlertDialogCheck("DESEJA EXCLUIR O VEÍCULO?", requireContext()) {
+            viewModel.deleteEquip(pos)
+        }
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

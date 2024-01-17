@@ -1,33 +1,100 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
+import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
+import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.TypeVisitTerc
+import br.com.usinasantafe.pcpk.databinding.FragmentTipoVisitTercBinding
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.TipoVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.TipoVisitTercViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class TipoVisitTercFragment : Fragment() {
+@AndroidEntryPoint
+class TipoVisitTercFragment : BaseFragment<FragmentTipoVisitTercBinding>(
+    R.layout.fragment_tipo_visit_terc,
+    FragmentTipoVisitTercBinding::bind,
+) {
 
-    companion object {
-        fun newInstance() = TipoVisitTercFragment()
+    private val viewModel: TipoVisitTercViewModel by viewModels()
+    private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeState()
+        viewList()
+        setListener()
+
     }
 
-    private lateinit var viewModel: TipoVisitTercViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_tipo_visit_terc, container, false)
+    private fun observeState() {
+        viewModel.uiLiveData.observe(viewLifecycleOwner) {
+            state -> handleStateChange(state)
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TipoVisitTercViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun viewList() {
+        val optionType = listOf(
+            "TERCEIRO",
+            "VISITANTE",
+        )
+        val listAdapter = CustomAdapter(optionType).apply {
+            onItemClick = { text, _ ->
+                when(text){
+                    "TERCEIRO" -> viewModel.setTipo(TypeVisitTerc.TERCEIRO)
+                    "VISITANTE" -> viewModel.setTipo(TypeVisitTerc.VISITANTE)
+                }
+            }
+        }
+        binding.listViewTipo.run {
+            setHasFixedSize(true)
+            adapter = listAdapter
+        }
+    }
+
+    private fun handleStateChange(state: TipoVisitTercFragmentState){
+        when(state){
+            is TipoVisitTercFragmentState.CheckSetTipo -> handleCheckSetTipo(state.check)
+        }
+    }
+
+    private fun setListener() {
+        with(binding) {
+            buttonRetornarTipo.setOnClickListener {
+                fragmentAttachListenerVisitTerc?.goPlaca()
+            }
+        }
+    }
+
+    private fun handleCheckSetTipo(check: Boolean) {
+        if (check) {
+            fragmentAttachListenerVisitTerc?.goTipoVisitTerc()
+            return
+        }
+        showGenericAlertDialog(
+            getString(
+                R.string.texto_falha_insercao_campo,
+                "PLACA"
+            ), requireContext()
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentAttachListenerVisitTerc) {
+            fragmentAttachListenerVisitTerc = context
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentAttachListenerVisitTerc = null
     }
 
 }

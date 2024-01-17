@@ -14,6 +14,7 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoProprioFragmentState
@@ -30,10 +31,19 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
     private var genericDialogProgressBar: GenericDialogProgressBar? = null
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
     private lateinit var describeUpdate: String
+    private lateinit var typeAddEquip : TypeAddEquip
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_TYPE_EQUIP_PROPRIO = "key_type_equip_proprio";
+        const val KEY_POS_EQUIP_PROPRIO = "key_type_equip_proprio";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        typeAddEquip = TypeAddEquip.values()[arguments?.getInt(KEY_TYPE_EQUIP_PROPRIO)!!]
+        pos = arguments?.getInt(KEY_POS_EQUIP_PROPRIO)!!
         observeState()
         setListener()
 
@@ -77,7 +87,7 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
 
     private fun handleCheckNroEquip(checkMatric: Boolean) {
         if (checkMatric) {
-            viewModel.setMatricMotorista(binding.editTextPadrao.text.toString())
+            viewModel.setNroVeiculo(binding.editTextPadrao.text.toString(), typeAddEquip, pos)
             return
         }
         showGenericAlertDialog(
@@ -90,7 +100,12 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
 
     private fun handleCheckSetNroEquip(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
-            fragmentAttachListenerProprio?.goVeicSegList()
+            when(typeAddEquip) {
+                TypeAddEquip.ADDVEICULO,
+                TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip)
+                TypeAddEquip.CHANGEVEICULO,
+                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

@@ -1,14 +1,12 @@
 package br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences
 
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprioPassag
-
 interface MovEquipProprioPassagDatasourceSharedPreferences {
 
-    suspend fun addPassag(movEquipProprioPassag: MovEquipProprioPassag): Boolean
+    suspend fun addPassag(nroMatric: Long): Boolean
 
-    suspend fun countPassag(): Int
+    suspend fun clearPassag(): Boolean
 
     suspend fun deletePassag(pos: Int): Boolean
 
-    suspend fun listPassag(): List<MovEquipProprioPassag>
+    suspend fun listPassag(): List<Long>
 }

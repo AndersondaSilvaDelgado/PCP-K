@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+@Suppress("NAME_SHADOWING")
 class UpdateAllDataBaseImpl @Inject constructor(
     private val updateColab: UpdateColab,
     private val updateEquip: UpdateEquip,

@@ -11,12 +11,11 @@ class StartMovEquipProprioImpl @Inject constructor(
 ): StartMovEquipProprio {
 
     override suspend fun invoke(typeMov: TypeMov): Boolean {
-        try {
+        return try {
             movEquipProprioRepository.startMovEquipProprio(typeMov)
         } catch (e: Exception){
-            return false
+            false
         }
-        return true
     }
 
 }

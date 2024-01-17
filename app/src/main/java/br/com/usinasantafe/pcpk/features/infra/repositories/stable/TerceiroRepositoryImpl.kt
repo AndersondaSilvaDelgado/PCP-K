@@ -4,7 +4,6 @@ import br.com.usinasantafe.pcpk.features.domain.entities.stable.Terceiro
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcpk.features.infra.datasource.room.stable.TerceiroDatasourceRoom
 import br.com.usinasantafe.pcpk.features.infra.datasource.webservice.stable.TerceiroDatasourceWebService
-import br.com.usinasantafe.pcpk.features.infra.models.room.stable.toLocal
 import br.com.usinasantafe.pcpk.features.infra.models.room.stable.toTerceiro
 import br.com.usinasantafe.pcpk.features.infra.models.room.stable.toTerceiroModel
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +20,20 @@ class TerceiroRepositoryImpl @Inject constructor(
         terceiroDatasourceRoom.addAllTerceiro(*list.map { it.toTerceiroModel() }.toTypedArray())
     }
 
+    override suspend fun checkCPFTerceiro(cpf: String): Boolean {
+        return terceiroDatasourceRoom.checkCPFTerceiro(cpf)
+    }
+
     override suspend fun deleteAllTerceiro() {
         terceiroDatasourceRoom.deleteAllTerceiro()
+    }
+
+    override suspend fun getTerceiroCPF(cpf: String): Terceiro {
+        return terceiroDatasourceRoom.getTerceiroCPF(cpf).toTerceiro()
+    }
+
+    override suspend fun getTerceiroListCPF(cpf: String): List<Terceiro> {
+        return terceiroDatasourceRoom.getTerceiroListCPF(cpf).map { it.toTerceiro() }
     }
 
     override suspend fun recoverAllTerceiro(nroAparelho: Long): Flow<Result<List<Terceiro>>> = flow {
@@ -36,6 +47,10 @@ class TerceiroRepositoryImpl @Inject constructor(
                     onFailure = { exception -> emit(Result.failure(exception)) }
                 )
             }
+    }
+
+    override suspend fun getTerceiroId(id: Long): Terceiro {
+        return terceiroDatasourceRoom.getTerceiroId(id).toTerceiro()
     }
 
 }

@@ -37,10 +37,13 @@
     <string name="texto_campo_vazio">CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO %1$s PARA DAR CONTINUIDADE AO APONTAMENTO.</string>
     <string name="texto_nome_vigia">NOME VIGIA</string>
     <string name="texto_nome_colab">NOME COLABORADOR</string>
+    <string name="texto_nome_visitante_terceiro">NOME VISITANTE/TERCEIRO</string>
     <string name="texto_local">LOCAL</string>
     <string name="texto_padrao_sair">SAIR</string>
     <string name="texto_menu">MENU</string>
     <string name="texto_titulo_mov_proprio">CONTROLE VEÍCULO USINA</string>
+    <string name="texto_titulo_mov_visit_terc">CONTROLE VEÍCULO VISITANTE/TERCEIRO</string>
+    <string name="texto_titulo_mov_residencia">CONTROLE VEÍCULO RESIDÊNCIA</string>
     <string name="texto_entrada">ENTRADA</string>
     <string name="texto_saida">SAÍDA</string>
     <string name="texto_mov_finalizado">MOV. FINALIZADO</string>
@@ -52,4 +55,14 @@
     <string name="texto_titulo_destino">DESTINO</string>
     <string name="texto_nota_fiscal">NOTA FISCAL</string>
     <string name="texto_titulo_observ">OBSERVAÇÃO</string>
+    <string name="texto_titulo_placa">PLACA</string>
+    <string name="texto_tipo">TIPO</string>
+    <string name="texto_cpf">CPF</string>
+    <string name="texto_empresa">EMPRESA(S)</string>
+    <string name="texto_titulo_motorista">MOTORISTA</string>
+    <string name="texto_titulo_detalhe_mov">MOVIMENTO</string>
+    <string name="texto_padrao_fechar">FECHAR</string>
+    <string name="texto_editar_mov">EDITAR</string>
+    <string name="texto_titulo_mov">MOVIMENTO(S)</string>
+    <string name="texto_fechar_mov">FECHAR MOVIMENTO(S)</string>
 </resources>

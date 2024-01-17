@@ -15,4 +15,13 @@ interface VisitanteDao {
     @Query("DELETE FROM $TB_VISITANTE")
     suspend fun deleteAll()
 
+    @Query("SELECT count(*) FROM $TB_VISITANTE WHERE cpfVisitante = :cpf")
+    suspend fun checkCPFVisitante(cpf: String): Int
+
+    @Query("SELECT * FROM $TB_VISITANTE WHERE cpfVisitante = :cpf")
+    suspend fun getVisitanteCPF(cpf: String): VisitanteRoomModel
+
+    @Query("SELECT * FROM $TB_VISITANTE WHERE idVisitante = :id")
+    suspend fun getVisitanteId(id: Long): VisitanteRoomModel
+
 }

@@ -15,6 +15,7 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentMatricColabBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MatricColabFragmentState
@@ -31,10 +32,20 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
     private var genericDialogProgressBar: GenericDialogProgressBar? = null
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
     private lateinit var describeUpdate: String
+    private lateinit var typeAddOcupante: TypeAddOcupante
+    private lateinit var matricColab: String
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_TYPE_OCUPANTE_VEIC_PROPRIO = "key_type_ocupante_veic_proprio";
+        const val KEY_POS_MATRIC_COLAB = "key_pos_matric_colab";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_PROPRIO)!!]
+        pos = arguments?.getInt(KEY_POS_MATRIC_COLAB)!!
         observeState()
         setListener()
 
@@ -59,7 +70,8 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.checkMatricColaborador(editTextPadrao.text.toString())
+                matricColab = editTextPadrao.text.toString()
+                viewModel.checkMatricColaborador(matricColab)
             }
             layoutBotoes.buttonAtualPadrao.setOnClickListener {
                 viewModel.updateDataColab()
@@ -70,7 +82,6 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
     private fun handleStateChange(state: MatricColabFragmentState) {
         when (state) {
             is MatricColabFragmentState.CheckMatric -> handleCheckMatric(state.checkMatric)
-            is MatricColabFragmentState.CheckSetMatric -> handleCheckSetMatricColab(state.checkSetMatric)
             is MatricColabFragmentState.FeedbackUpdate -> handleFeedbackUpdate(state.statusUpdate)
             is MatricColabFragmentState.SetResultUpdate -> handleSetResultUpdate(state.resultUpdateDatabase)
         }
@@ -78,25 +89,12 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
 
     private fun handleCheckMatric(checkMatric: Boolean) {
         if (checkMatric) {
-            viewModel.setMatricMotorista(binding.editTextPadrao.text.toString())
+            fragmentAttachListenerProprio?.goNomeColab(matricColab, typeAddOcupante, pos)
             return
         }
         showGenericAlertDialog(
             getString(
                 R.string.texto_dado_invalido_com_atual,
-                "MATRICULA DO COLABORADOR"
-            ), requireContext()
-        )
-    }
-
-    private fun handleCheckSetMatricColab(checkSetMatricColab: Boolean) {
-        if (checkSetMatricColab) {
-            fragmentAttachListenerProprio?.goNomeColab()
-            return
-        }
-        showGenericAlertDialog(
-            getString(
-                R.string.texto_falha_insercao_campo,
                 "MATRICULA DO COLABORADOR"
             ), requireContext()
         )
@@ -153,7 +151,12 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
             fragmentAttachListenerProprio = context
         }
         onBackPressed {
-            fragmentAttachListenerProprio?.goMovProprioList()
+            when(typeAddOcupante) {
+                TypeAddOcupante.ADDMOTORISTA,
+                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goMovProprioList()
+                TypeAddOcupante.CHANGEMOTORISTA,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
         }
     }
 

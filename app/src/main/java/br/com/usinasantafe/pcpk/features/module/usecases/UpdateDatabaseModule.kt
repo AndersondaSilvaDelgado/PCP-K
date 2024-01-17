@@ -1,17 +1,9 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
 import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.UpdateAllDataBaseImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.UpdateColabImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.UpdateEquipImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.UpdateLocalImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.UpdateTerceiroImpl
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.UpdateVisitanteImpl
+import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.database.update.*
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.UpdateAllDataBase
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateColab
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateEquip
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateLocal
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateTerceiro
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateVisitante
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

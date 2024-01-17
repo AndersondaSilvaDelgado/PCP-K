@@ -25,12 +25,24 @@ class InitialActivity : AppCompatActivity(), FragmentAttachListenerInitial {
 
     private lateinit var binding: ActivityInitialBinding
 
+    companion object {
+        const val KEY_FLOW_INITIAL = "key_flow_initial";
+        enum class FlowInitial { START, RETURN }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInitialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        goMenuInicial()
+        var bundle = intent.extras
+        var flowInitial = FlowInitial.values()[bundle?.getInt(KEY_FLOW_INITIAL)!!]
+
+        if(flowInitial == FlowInitial.START){
+            goMenuInicial()
+        } else {
+            goMenuApont()
+        }
     }
 
     override fun popBackStack() {

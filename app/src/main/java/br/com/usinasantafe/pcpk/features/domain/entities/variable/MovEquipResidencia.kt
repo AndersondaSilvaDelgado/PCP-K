@@ -7,15 +7,15 @@ import java.util.Date
 
 data class MovEquipResidencia(
     var idMovEquipResidencia: Long? = null,
-    var tipoMovEquipResidencia: TypeMov? = null,
-    var dthrMovEquipResidencia: Date = Date(),
+    var nroAparelhoMovEquipResidencia: Long? = null,
     var nroMatricVigiaMovEquipResidencia: Long? = null,
     var idLocalMovEquipResidencia: Long? = null,
-    var nomeVisitanteMovEquipResidencia: String? = null,
+    var dthrMovEquipResidencia: Date = Date(),
+    var tipoMovEquipResidencia: TypeMov? = null,
     var veiculoMovEquipResidencia: String? = null,
     var placaMovEquipResidencia: String? = null,
+    var motoristaMovEquipResidencia: String? = null,
     var observMovEquipResidencia: String? = null,
-    var nroAparelhoMovEquipResidencia: Long? = null,
     var statusMovEquipResidencia: StatusData? = null,
     var statusSendMovEquipResidencia: StatusSend? = null,
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.GetTipoMov
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetDestinoProprio
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetNotaFiscalProprio
@@ -23,8 +24,8 @@ class NotaFiscalProprioViewModel @Inject constructor(
         _uiLiveData.value = NotaFiscalProprioFragmentState.CheckSetNotaFiscal(check)
     }
 
-    fun setNotaFiscal(notaFiscal: String) = viewModelScope.launch {
-        checkSetNotaFiscal(setNotaFiscalProprio(notaFiscal))
+    fun setNotaFiscal(notaFiscal: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
+        checkSetNotaFiscal(setNotaFiscalProprio(notaFiscal, flowApp, pos))
     }
 
 }

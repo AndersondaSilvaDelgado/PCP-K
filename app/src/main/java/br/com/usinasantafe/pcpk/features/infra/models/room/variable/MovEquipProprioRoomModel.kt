@@ -7,46 +7,46 @@ import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.common.utils.TB_MOV_EQUIP_PROPRIO
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprio
+import kotlinx.serialization.Serializable
 import java.util.Date
 
+@Serializable
 @Entity(tableName = TB_MOV_EQUIP_PROPRIO)
 data class MovEquipProprioRoomModel(
     @PrimaryKey(autoGenerate = true)
     var idMovEquipProprio: Long? = null,
+    var nroMatricVigiaMovEquipProprio: Long,
+    var idLocalMovEquipProprio: Long,
     var tipoMovEquipProprio: TypeMov,
     var idEquipMovEquipProprio: Long,
-    var idLocalMovEquipProprio: Long,
     var dthrMovEquipProprio: Long,
-    var nroMatricVigiaMovEquipProprio: Long,
     var nroMatricColabMovEquipProprio: Long,
     var destinoMovEquipProprio: String,
-    var nroNotaFiscalMovEquipProprio: Long,
-    var observMovEquipProprio: String,
-    var nroAparelhoMovEquipProprio: Long,
+    var nroNotaFiscalMovEquipProprio: Long?,
+    var observMovEquipProprio: String?,
     var statusMovEquipProprio: StatusData,
     var statusSendMovEquipProprio: StatusSend,
 )
 
-fun MovEquipProprio.toMovEquipProprioModel(): MovEquipProprioRoomModel{
+fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal: Long): MovEquipProprioRoomModel{
     return with(this){
         MovEquipProprioRoomModel(
+            nroMatricVigiaMovEquipProprio = matricVigia,
+            idLocalMovEquipProprio = idLocal,
             tipoMovEquipProprio = this.tipoMovEquipProprio!!,
             idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
-            idLocalMovEquipProprio = this.idLocalMovEquipProprio!!,
             dthrMovEquipProprio = Date().time,
-            nroMatricVigiaMovEquipProprio = this.nroMatricVigiaMovEquipProprio!!,
             nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
             destinoMovEquipProprio = this.destinoMovEquipProprio!!,
-            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio!!,
-            observMovEquipProprio = this.observMovEquipProprio!!,
-            nroAparelhoMovEquipProprio = this.nroAparelhoMovEquipProprio!!,
+            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
+            observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = StatusData.OPEN,
-            statusSendMovEquipProprio = StatusSend.SEND,
+            statusSendMovEquipProprio = StatusSend.EMPTY,
         )
     }
 }
 
-fun MovEquipProprioRoomModel.toMovEquipProprio(): MovEquipProprio{
+fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio{
     return with(this){
         MovEquipProprio(
             idMovEquipProprio = this.idMovEquipProprio,
@@ -58,7 +58,6 @@ fun MovEquipProprioRoomModel.toMovEquipProprio(): MovEquipProprio{
             destinoMovEquipProprio = this.destinoMovEquipProprio,
             nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
-            nroAparelhoMovEquipProprio = this.nroAparelhoMovEquipProprio,
             statusMovEquipProprio = this.statusMovEquipProprio,
             statusSendMovEquipProprio = this.statusSendMovEquipProprio,
         )

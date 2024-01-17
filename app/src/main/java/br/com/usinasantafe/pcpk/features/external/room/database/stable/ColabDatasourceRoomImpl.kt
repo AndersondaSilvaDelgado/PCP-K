@@ -13,12 +13,12 @@ class ColabDatasourceRoomImpl @Inject constructor (
         colabDao.insertAll(*colabRoomModels)
     }
 
-    override suspend fun deleteAllColab() {
-        colabDao.deleteAll()
-    }
-
     override suspend fun checkColabMatric(matric: Long): Boolean {
         return colabDao.checkColabMatric(matric) > 0
+    }
+
+    override suspend fun deleteAllColab() {
+        colabDao.deleteAll()
     }
 
     override suspend fun getColabMatric(matric: Long): ColabRoomModel {

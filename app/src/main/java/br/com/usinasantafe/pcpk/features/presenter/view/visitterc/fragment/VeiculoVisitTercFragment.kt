@@ -1,33 +1,104 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
+import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoVisitTercBinding
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.VeiculoVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.VeiculoVisitTercViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class VeiculoVisitTercFragment : Fragment() {
+@AndroidEntryPoint
+class VeiculoVisitTercFragment : BaseFragment<FragmentVeiculoVisitTercBinding>(
+    R.layout.fragment_veiculo_visit_terc,
+    FragmentVeiculoVisitTercBinding::bind
+) {
+
+    private val viewModel: VeiculoVisitTercViewModel by viewModels()
+    private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
 
     companion object {
-        fun newInstance() = VeiculoVisitTercFragment()
+        const val KEY_FLOW_VEICULO_VISIT_TERC = "key_flow_observ_visit_terc";
+        const val KEY_POS_VEICULO_VISIT_TERC = "key_pos_observ_visit_terc";
     }
 
-    private lateinit var viewModel: VeiculoVisitTercViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_veiculo_visit_terc, container, false)
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_VEICULO_VISIT_TERC)!!]
+        pos = arguments?.getInt(KEY_POS_VEICULO_VISIT_TERC)!!
+        observeState()
+        setListener()
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(VeiculoVisitTercViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun observeState() {
+        viewModel.uiLiveData.observe(viewLifecycleOwner) { state ->
+            handleStateChange(state)
+        }
+    }
+
+    private fun setListener() {
+        with(binding) {
+            buttonOkVeicVisitTerc.setOnClickListener {
+                if (editTextVeicVisitTerc.text.isEmpty()) {
+                    showGenericAlertDialog(
+                        getString(
+                            R.string.texto_campo_vazio,
+                            "VEÍCULO"
+                        ), requireContext()
+                    )
+                    return@setOnClickListener
+                }
+                viewModel.setVeiculo(editTextVeicVisitTerc.text.toString())
+            }
+            buttonCancVeicVisitTerc.setOnClickListener {
+                fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+            }
+        }
+    }
+
+    private fun handleStateChange(state: VeiculoVisitTercFragmentState) {
+        when (state) {
+            is VeiculoVisitTercFragmentState.CheckSetVeiculo -> handleCheckSetVeiculo(state.check)
+        }
+    }
+
+    private fun handleCheckSetVeiculo(check: Boolean) {
+        if (check) {
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goPlaca(flowApp)
+                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
+
+            return
+        }
+        showGenericAlertDialog(
+            getString(
+                R.string.texto_falha_insercao_campo,
+                "VEÍCULO"
+            ), requireContext()
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentAttachListenerVisitTerc) {
+            fragmentAttachListenerVisitTerc = context
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentAttachListenerVisitTerc = null
     }
 
 }

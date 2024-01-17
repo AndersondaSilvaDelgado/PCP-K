@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.onBackPressed
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentNomeColabBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.NomeColabFragmentState
@@ -21,10 +23,21 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
 
     private val viewModel: NomeColabViewModel by viewModels()
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
+    private lateinit var matricColab: String
+    private lateinit var typeAddOcupante: TypeAddOcupante
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_MATRIC_COLAB = "key_matric_colab";
+        const val KEY_POS_NOME_COLAB = "key_pos_nome_colab";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        matricColab = arguments?.getString(KEY_MATRIC_COLAB)!!
+        typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(MatricColabFragment.KEY_TYPE_OCUPANTE_VEIC_PROPRIO)!!]
+        pos = arguments?.getInt(KEY_POS_NOME_COLAB)!!
         observeState()
         startEvents()
         setListener()
@@ -38,16 +51,16 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
     }
 
     private fun startEvents() {
-        viewModel.recoverDataNomeVigia()
+        viewModel.recoverDataNome(matricColab)
     }
 
     private fun setListener() {
         with(binding) {
             buttonOkNome.setOnClickListener {
-                fragmentAttachListenerProprio?.goPassagList()
+                viewModel.setMatricMotorista(matricColab, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab()
+                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
             }
         }
     }
@@ -55,6 +68,7 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
     private fun handleStateChange(state: NomeColabFragmentState){
         when(state){
             is NomeColabFragmentState.GetNomeColab -> handleNomeVigia(state.nomeColab)
+            is NomeColabFragmentState.CheckSetMatric -> handleCheckSetMatricColab(state.checkSetMatric)
         }
     }
 
@@ -64,13 +78,31 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
         }
     }
 
+    private fun handleCheckSetMatricColab(checkSetMatricColab: Boolean) {
+        if (checkSetMatricColab) {
+            when(typeAddOcupante) {
+                TypeAddOcupante.ADDMOTORISTA,
+                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goPassagList(typeAddOcupante)
+                TypeAddOcupante.CHANGEMOTORISTA,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
+            return
+        }
+        showGenericAlertDialog(
+            getString(
+                R.string.texto_falha_insercao_campo,
+                "MATRICULA DO COLABORADOR"
+            ), requireContext()
+        )
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is FragmentAttachListenerProprio){
             fragmentAttachListenerProprio = context
         }
         onBackPressed {
-            fragmentAttachListenerProprio?.goMatricColab()
+            fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
         }
     }
 

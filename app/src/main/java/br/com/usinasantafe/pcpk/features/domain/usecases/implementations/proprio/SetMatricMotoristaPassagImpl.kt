@@ -1,8 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.proprio
 
-import br.com.usinasantafe.pcpk.common.utils.StatusMovEquipProprio
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprioPassag
-import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetMatricMotoristaPassag
@@ -11,15 +9,21 @@ import javax.inject.Inject
 class SetMatricMotoristaPassagImpl @Inject constructor(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipProprioPassagRepository: MovEquipProprioPassagRepository,
-    private val configRepository: ConfigRepository,
 ): SetMatricMotoristaPassag {
 
-    override suspend fun invoke(matricColab: String): Boolean {
+    override suspend fun invoke(matricColab: String, typeAddOcupante: TypeAddOcupante, pos: Int): Boolean {
         return try {
-            if(configRepository.getConfig().statusMovEquipProprio == StatusMovEquipProprio.ADDMOTORISTA){
-                movEquipProprioRepository.setMotoristaMovEquipProprio(matricColab.toLong())
-            } else {
-                movEquipProprioPassagRepository.addPassag(MovEquipProprioPassag(nroMatricMovEquipProprioPassag = matricColab.toLong()))
+            when(typeAddOcupante){
+                TypeAddOcupante.ADDMOTORISTA -> movEquipProprioRepository.setMotoristaMovEquipProprio(matricColab.toLong())
+                TypeAddOcupante.ADDPASSAGEIRO -> movEquipProprioPassagRepository.addPassag(matricColab.toLong())
+                TypeAddOcupante.CHANGEMOTORISTA -> {
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    movEquipProprioRepository.updateMotoristaMovEquipProprio(matricColab.toLong(), movEquip)
+                }
+                TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    movEquipProprioPassagRepository.addPassag(matricColab.toLong(), movEquip.idMovEquipProprio!!)
+                }
             }
         } catch (exception: Exception) {
             false

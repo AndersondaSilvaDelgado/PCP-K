@@ -40,9 +40,9 @@ const val WEB_ALL_LOCAL = "local.php"
 const val WEB_ALL_TERCEIRO = "terceiro.php"
 const val WEB_ALL_VISITANTE = "visitante.php"
 
-const val WEB_SAVE_CHECK_LIST = "save-checklist.php"
-const val WEB_SAVE_FERTIRRIGACAO = "save-fertirrigacao.php"
-const val WEB_SAVE_MOTOMEC = "save-motomec.php"
+const val WEB_SAVE_MOV_EQUIP_PROPRIO = "save-mov-equip-proprio.php"
+const val WEB_SAVE_MOV_EQUIP_VISIT_TERC = "save-mov-equip-visit-terc.php"
+const val WEB_SAVE_MOV_EQUIP_RESIDENCIA = "save-mov-equip-residencia.php"
 
 const val WEB_SAVE_TOKEN = "find-token.php"
 
