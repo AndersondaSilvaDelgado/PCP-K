@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentPlacaResidenciaBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.PlacaResidenciaFragmentState
@@ -21,10 +22,19 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
 
     private val viewModel: PlacaResidenciaViewModel by viewModels()
     private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_FLOW_PLACA_RESIDENCIA = "key_flow_placa_residencia";
+        const val KEY_POS_PLACA_RESIDENCIA = "key_pos_placa_residencia";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_PLACA_RESIDENCIA)!!]
+        pos = arguments?.getInt(KEY_POS_PLACA_RESIDENCIA)!!
         observeState()
         setListener()
 
@@ -48,10 +58,13 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.setPlaca(editTextPlacaResidencia.text.toString())
+                viewModel.setPlaca(editTextPlacaResidencia.text.toString(), flowApp, pos)
             }
             buttonCancPlacaResidencia.setOnClickListener {
-                fragmentAttachListenerResidencia?.goVeiculo()
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerResidencia?.goVeiculo(flowApp)
+                    FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -64,7 +77,10 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
 
     private fun handleCheckSetPlaca(check: Boolean) {
         if (check) {
-            fragmentAttachListenerResidencia?.goMotorista()
+            when (flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerResidencia?.goMotorista(flowApp)
+                FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

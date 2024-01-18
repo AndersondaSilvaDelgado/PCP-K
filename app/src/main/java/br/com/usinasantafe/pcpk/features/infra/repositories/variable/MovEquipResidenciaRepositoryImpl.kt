@@ -6,7 +6,6 @@ import br.com.usinasantafe.pcpk.features.infra.datasource.room.variable.MovEquip
 import br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences.MovEquipResidenciaDatasourceSharedPreferences
 import br.com.usinasantafe.pcpk.features.infra.datasource.webservice.variable.MovEquipResidenciaDatasourceWebService
 import br.com.usinasantafe.pcpk.features.infra.models.room.variable.entityToMovEquipResidenciaRoomModel
-import br.com.usinasantafe.pcpk.features.infra.models.room.variable.entityToMovEquipVisitTercRoomModel
 import br.com.usinasantafe.pcpk.features.infra.models.room.variable.modelRoomToMovEquipResidencia
 import br.com.usinasantafe.pcpk.features.infra.models.sharedpreferences.modelSharedPreferencesToMovEquipResidencia
 import br.com.usinasantafe.pcpk.features.infra.models.webservice.entityToMovEquipResidenciaWebServiceModel
@@ -27,7 +26,7 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         return movEquipResidenciaDatasourceRoom.listMovEquipResidenciaOpen().map { it.modelRoomToMovEquipResidencia() }
     }
 
-    override suspend fun listMovEquipResidenciaEmpty(): List<MovEquipResidencia> {
+    override suspend fun listMovEquipResidenciaStarted(): List<MovEquipResidencia> {
         return movEquipResidenciaDatasourceRoom.listMovEquipResidenciaEmpty().map { it.modelRoomToMovEquipResidencia() }
     }
 
@@ -37,7 +36,7 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
 
     override suspend fun receiverSentMovEquipResidencia(movEquipList: List<MovEquipResidencia>): Boolean {
         for(movEquip in movEquipList){
-            if(!movEquipResidenciaDatasourceRoom.updateMovEquipResidenciaSent(movEquip.idMovEquipResidencia!!)) return false
+            if(!movEquipResidenciaDatasourceRoom.updateStatusSentMovEquipResidencia(movEquip.idMovEquipResidencia!!)) return false
         }
         return true
     }
@@ -108,9 +107,9 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         }
     }
 
-    override suspend fun setStatusClosedMov(movEquipResidencia: MovEquipResidencia): Boolean {
+    override suspend fun setStatusCloseMov(movEquipResidencia: MovEquipResidencia): Boolean {
         return try {
-            movEquipResidenciaDatasourceRoom.updateMovEquipResidenciaClose(
+            movEquipResidenciaDatasourceRoom.updateStatusCloseMovEquipResidencia(
                 movEquipResidencia.entityToMovEquipResidenciaRoomModel(
                     movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
                     movEquipResidencia.idLocalMovEquipResidencia!!
@@ -121,9 +120,9 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         }
     }
 
-    override suspend fun setStatusSendClosedMov(movEquipResidencia: MovEquipResidencia): Boolean {
+    override suspend fun setStatusSendCloseMov(movEquipResidencia: MovEquipResidencia): Boolean {
         return try {
-            movEquipResidenciaDatasourceRoom.updateMovEquipResidenciaSendClose(
+            movEquipResidenciaDatasourceRoom.updateStatusSendCloseMovEquipResidencia(
                 movEquipResidencia.entityToMovEquipResidenciaRoomModel(
                     movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
                     movEquipResidencia.idLocalMovEquipResidencia!!
@@ -146,6 +145,74 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         return try {
             movEquipResidenciaDatasourceSharedPreferences.startMovEquipResidencia()
         } catch (exception: Exception){
+            false
+        }
+    }
+
+    override suspend fun updateVeiculoMovEquipResidencia(
+        veiculo: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean {
+        return try {
+            movEquipResidenciaDatasourceRoom.updateVeiculoMovEquipResidencia(
+                veiculo,
+                movEquipResidencia.entityToMovEquipResidenciaRoomModel(
+                    movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
+                    movEquipResidencia.idLocalMovEquipResidencia!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updatePlacaMovEquipResidencia(
+        placa: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean {
+        return try {
+            movEquipResidenciaDatasourceRoom.updatePlacaMovEquipResidencia(
+                placa,
+                movEquipResidencia.entityToMovEquipResidenciaRoomModel(
+                    movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
+                    movEquipResidencia.idLocalMovEquipResidencia!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateMotoristaMovEquipResidencia(
+        motorista: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean {
+        return try {
+            movEquipResidenciaDatasourceRoom.updateMotoristaMovEquipResidencia(
+                motorista,
+                movEquipResidencia.entityToMovEquipResidenciaRoomModel(
+                    movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
+                    movEquipResidencia.idLocalMovEquipResidencia!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateObservMovEquipResidencia(
+        observ: String?,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean {
+        return try {
+            movEquipResidenciaDatasourceRoom.updateObservMovEquipResidencia(
+                observ,
+                movEquipResidencia.entityToMovEquipResidenciaRoomModel(
+                    movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
+                    movEquipResidencia.idLocalMovEquipResidencia!!
+                )
+            )
+        } catch (exception: Exception) {
             false
         }
     }

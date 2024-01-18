@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentObservVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
@@ -22,21 +23,24 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
 
     private val viewModel: ObservVisitTercViewModel by viewModels()
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
-    private lateinit var typeMov: TypeMov
-    private var pos: Int? = null
+    private lateinit var flowApp: FlowApp
+    private var typeMov: TypeMov? = null
+    private var pos: Int = 0
 
     companion object {
-        const val KEY_TYPE_MOV_VISIT_TERC = "key_type_mov_visit_terc";
-        const val KEY_POS_MOV_VISIT_TERC = "key_pos_mov_visit_terc";
+        const val KEY_TYPE_OBSERV_VISIT_TERC = "key_type_observ_visit_terc";
+        const val KEY_POS_OBSERV_VISIT_TERC = "key_pos_observ_visit_terc";
+        const val KEY_FLOW_OBSERV_VISIT_TERC = "key_flow_observ_visit_terc";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_MOV_VISIT_TERC)!!]
-        if(typeMov == TypeMov.OUTPUT){
-            pos = arguments?.getInt(KEY_POS_MOV_VISIT_TERC)
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_OBSERV_VISIT_TERC)!!]
+        if(arguments?.getInt(KEY_TYPE_OBSERV_VISIT_TERC)!! > -1) {
+            typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_OBSERV_VISIT_TERC)!!]
         }
+        pos = arguments?.getInt(KEY_POS_OBSERV_VISIT_TERC)!!
         observeState()
         setListener()
 
@@ -52,16 +56,20 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
         with(binding) {
             buttonOkObserv.setOnClickListener {
                 if (editTextObserv.text.isEmpty()) {
-                    viewModel.setObserv(null, pos, typeMov)
+                    viewModel.setObserv(null, pos, typeMov, flowApp)
                     return@setOnClickListener
                 }
-                viewModel.setObserv(editTextObserv.text.toString(), pos, typeMov)
+                viewModel.setObserv(editTextObserv.text.toString(), pos, typeMov, flowApp)
             }
             buttonCancObserv.setOnClickListener {
-                if(typeMov == TypeMov.INPUT) {
-                    fragmentAttachListenerVisitTerc?.goDestino()
-                } else {
-                    fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                when (flowApp) {
+                    FlowApp.ADD -> {
+                        when (typeMov!!) {
+                            TypeMov.INPUT -> fragmentAttachListenerVisitTerc?.goDestino(FlowApp.ADD)
+                            TypeMov.OUTPUT -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                        }
+                    }
+                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
                 }
             }
         }
@@ -75,7 +83,10 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
 
     private fun handleCheckSetObserv(check: Boolean) {
         if (check) {
-            fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+            when(flowApp){
+                FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(
@@ -88,7 +99,7 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is FragmentAttachListenerVisitTerc){
+        if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
     }

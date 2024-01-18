@@ -53,7 +53,7 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
                 viewModel.checkSetInitialMov()
             }
             buttonEditarMovEquipVisitTerc.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goMovVisitTercListEmpty()
+                fragmentAttachListenerVisitTerc?.goMovVisitTercListStarted()
             }
             buttonRetornarMovEquipVisitTerc.setOnClickListener {
                 fragmentAttachListenerVisitTerc?.goInicial()
@@ -79,7 +79,7 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
     private fun handleListMov(movEquipVisitTercList: List<MovEquipVisitTercModel>){
         val listAdapter = MovEquipVisitTercAdapter(movEquipVisitTercList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerVisitTerc?.goObserv(TypeMov.OUTPUT, pos)
+                fragmentAttachListenerVisitTerc?.goObserv(TypeMov.OUTPUT, FlowApp.ADD,  pos)
             }
         }
         binding.listViewMovVisitTerc.run {

@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipResidenciaListBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
@@ -52,6 +53,9 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
             buttonEntradaMovEquipResidencia.setOnClickListener {
                 viewModel.checkSetInitialMov()
             }
+            buttonEditarMovEquipResidencia.setOnClickListener {
+                fragmentAttachListenerResidencia?.goMovResidenciaList()
+            }
             buttonRetornarMovEquipResidencia.setOnClickListener {
                 fragmentAttachListenerResidencia?.goInicial()
             }
@@ -76,7 +80,7 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
     private fun handleListMov(movEquipResidenciaList: List<MovEquipResidenciaModel>){
         val listAdapter = MovEquipResidenciaAdapter(movEquipResidenciaList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerResidencia?.goObserv(TypeMov.OUTPUT, pos)
+                fragmentAttachListenerResidencia?.goObserv(TypeMov.OUTPUT, FlowApp.ADD,  pos)
             }
         }
         binding.listViewMovResidencia.run {
@@ -87,7 +91,7 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
 
     private fun handleStartMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerResidencia?.goVeiculo()
+            fragmentAttachListenerResidencia?.goVeiculo(FlowApp.ADD)
             return
         }
         showGenericAlertDialog(

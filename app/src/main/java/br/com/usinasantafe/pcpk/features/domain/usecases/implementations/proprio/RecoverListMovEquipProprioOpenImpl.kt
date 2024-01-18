@@ -7,6 +7,8 @@ import br.com.usinasantafe.pcpk.features.domain.repositories.stable.EquipReposit
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverListMovEquipProprioOpen
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipProprioModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 class RecoverListMovEquipProprioOpenImpl @Inject constructor(
@@ -18,7 +20,7 @@ class RecoverListMovEquipProprioOpenImpl @Inject constructor(
     override suspend fun invoke(): List<MovEquipProprioModel> {
         return movEquipProprioRepository.listMovEquipProprioOpen().map { movEquipProprio ->
             movEquipProprio.let {
-                val dthr = it.dthrMovEquipProprio.toString()
+                val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(it.dthrMovEquipProprio)}"
                 val tipo = if (it.tipoMovEquipProprio == TypeMov.INPUT) "ENTRADA" else "SAIDA"
                 val equip = equipRepository.getEquipId(it.idEquipMovEquipProprio!!).nroEquip.toString()
                 val colab = colabRepository.getColabMatric(it.nroMatricColabMovEquipProprio!!)

@@ -42,11 +42,16 @@ class MovEquipProprioSegRepositoryImpl @Inject constructor (
         }
     }
 
+    override suspend fun deleteEquipSeg(pos: Int, idMov: Long): Boolean {
+        val movEquip = movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov)[pos]
+        return movEquipProprioSegDatasourceRoom.deleteMovEquipProprioSeg(movEquip)
+    }
+
     override suspend fun listEquipSeg(): List<MovEquipProprioSeg> {
         return movEquipProprioSegDatasourceSharedPreferences.listEquipSeg().map { MovEquipProprioSeg(idEquipMovEquipProprioSeg = it) }
     }
 
-    override suspend fun listEquipSegIdMov(idMov: Long): List<MovEquipProprioSeg> {
+    override suspend fun listEquipSeg(idMov: Long): List<MovEquipProprioSeg> {
         return movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov).map { it.modelRoomToMovEquipSegPassag() }
     }
 

@@ -15,6 +15,7 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentMatricColabBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
@@ -153,7 +154,7 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
         onBackPressed {
             when(typeAddOcupante) {
                 TypeAddOcupante.ADDMOTORISTA,
-                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goMovProprioList()
+                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG)
                 TypeAddOcupante.CHANGEMOTORISTA,
                 TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
             }

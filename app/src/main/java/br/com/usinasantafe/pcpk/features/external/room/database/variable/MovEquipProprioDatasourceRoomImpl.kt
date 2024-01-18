@@ -15,7 +15,7 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
         return movEquipProprioDao.listMovStatusEnvio(StatusSend.SEND).isNotEmpty()
     }
 
-    override suspend fun closeSendMov(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
+    override suspend fun updateStatusMovEquipProprioCloseSend(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
         return try {
             movEquipProprioRoomModel.statusMovEquipProprio = StatusData.CLOSE
             movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
@@ -34,7 +34,7 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
     }
 
     override suspend fun listMovEquipProprioEmpty(): List<MovEquipProprioRoomModel> {
-        return movEquipProprioDao.listMovStatusEnvio(StatusSend.EMPTY)
+        return movEquipProprioDao.listMovStatusEnvio(StatusSend.STARTED)
     }
 
     override suspend fun listMovEquipProprioSend(): List<MovEquipProprioRoomModel> {

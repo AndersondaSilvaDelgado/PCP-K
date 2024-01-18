@@ -10,4 +10,6 @@ interface MovEquipProprioSegDatasourceRoom {
 
     suspend fun listMovEquipProprioSegIdMov(idMov: Long): List<MovEquipProprioSegRoomModel>
 
+    suspend fun deleteMovEquipProprioSeg(movEquipProprioSegRoomModel: MovEquipProprioSegRoomModel): Boolean
+
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeletePassagColab
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.DeletePassagVisitTerc
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverListPassagVisitTerc
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,12 +28,12 @@ class PassagVisitTercListViewModel @Inject constructor (
         _uiLiveData.value = PassagVisitTercListFragmentState.ListVisitTercPassag(passagList)
     }
 
-    fun deletePassag(pos: Int) = viewModelScope.launch {
-        checkDeleteVisitTercPassag(deletePassagVisitTerc(pos))
+    fun deletePassag(posList: Int, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        checkDeleteVisitTercPassag(deletePassagVisitTerc(posList, typeAddOcupante, pos))
     }
 
-    fun recoverListPassag() = viewModelScope.launch {
-        setListPassag(recoverListPassagVisitTerc())
+    fun recoverListPassag(typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        setListPassag(recoverListPassagVisitTerc(typeAddOcupante, pos))
     }
 
 }

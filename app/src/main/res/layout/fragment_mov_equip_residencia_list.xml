@@ -42,6 +42,13 @@
         android:text="@string/texto_entrada" />
 
     <Button
+        android:id="@+id/button_editar_mov_equip_residencia"
+        style="@style/botao_avulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_editar_mov" />
+
+    <Button
         android:id="@+id/button_retornar_mov_equip_residencia"
         style="@style/botao_avulso"
         android:layout_width="match_parent"

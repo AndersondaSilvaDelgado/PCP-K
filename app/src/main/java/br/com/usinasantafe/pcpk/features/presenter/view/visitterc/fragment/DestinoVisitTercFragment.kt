@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentDestinoVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
@@ -23,10 +25,19 @@ class DestinoVisitTercFragment : BaseFragment<FragmentDestinoVisitTercBinding>(
 
     private val viewModel: DestinoVisitTercViewModel by viewModels()
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_FLOW_DESTINO_VISIT_TERC = "key_flow_destino_visit_terc";
+        const val KEY_POS_DESTINO_VISIT_TERC = "key_pos_destino_visit_terc";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_DESTINO_VISIT_TERC)!!]
+        pos = arguments?.getInt(KEY_POS_DESTINO_VISIT_TERC)!!
         observeState()
         setListener()
 
@@ -50,10 +61,13 @@ class DestinoVisitTercFragment : BaseFragment<FragmentDestinoVisitTercBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.setDestino(editTextDestino.text.toString())
+                viewModel.setDestino(editTextDestino.text.toString(), flowApp, pos)
             }
             buttonCancDestino.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goPassagList()
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
+                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -66,7 +80,10 @@ class DestinoVisitTercFragment : BaseFragment<FragmentDestinoVisitTercBinding>(
 
     private fun handleCheckSetDestino(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
-            fragmentAttachListenerVisitTerc?.goObserv(TypeMov.INPUT)
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goObserv(TypeMov.INPUT, flowApp)
+                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

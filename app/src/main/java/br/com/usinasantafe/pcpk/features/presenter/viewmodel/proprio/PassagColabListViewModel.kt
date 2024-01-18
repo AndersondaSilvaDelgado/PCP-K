@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeletePassagColab
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverListColabPassag
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,12 +28,12 @@ class PassagColabListViewModel @Inject constructor (
         _uiLiveData.value = PassagColabListFragmentState.ListColabPassag(passagList)
     }
 
-    fun deletePassag(pos: Int) = viewModelScope.launch {
-        checkDeleteColabPassag(deletePassagColab(pos))
+    fun deletePassag(posList: Int, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        checkDeleteColabPassag(deletePassagColab(posList, typeAddOcupante, pos))
     }
 
-    fun recoverListPassag() = viewModelScope.launch {
-        setListPassag(recoverListColabPassag())
+    fun recoverListPassag(typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        setListPassag(recoverListColabPassag(typeAddOcupante, pos))
     }
 
 }

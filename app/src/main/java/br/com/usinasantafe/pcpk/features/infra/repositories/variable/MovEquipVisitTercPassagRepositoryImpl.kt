@@ -4,6 +4,7 @@ import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipVisitT
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcpk.features.infra.datasource.room.variable.MovEquipVisitTercPassagDatasourceRoom
 import br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences.MovEquipVisitTercPassagDatasourceSharedPreferences
+import br.com.usinasantafe.pcpk.features.infra.models.room.variable.MovEquipVisitTercPassagRoomModel
 import br.com.usinasantafe.pcpk.features.infra.models.room.variable.entityToMovEquipVisitTercPassagRoomModel
 import br.com.usinasantafe.pcpk.features.infra.models.room.variable.modelRoomToMovEquipVisitTercPassag
 import javax.inject.Inject
@@ -21,9 +22,28 @@ class MovEquipVisitTercPassagRepositoryImpl @Inject constructor (
         }
     }
 
+    override suspend fun addPassag(idVisitTerc: Long, idMov: Long): Boolean {
+        return try {
+            movEquipVisitTercPassagDatasourceRoom.addMovEquipVisitTercPassag(
+                MovEquipVisitTercPassagRoomModel(idMovEquipVisitTerc = idMov, idVisitTercMovEquipVisitTercPassag = idVisitTerc)
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
     override suspend fun deletePassag(pos: Int): Boolean {
         return try {
             movEquipVisitTercPassagDatasourceSharedPreferences.deletePassag(pos)
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun deletePassag(pos: Int, idMov: Long): Boolean {
+        return try {
+            val movEquip = movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov)[pos]
+            movEquipVisitTercPassagDatasourceRoom.deleteMovEquipVisitTercPassag(movEquip)
         } catch (exception: Exception) {
             false
         }
@@ -33,7 +53,7 @@ class MovEquipVisitTercPassagRepositoryImpl @Inject constructor (
         return movEquipVisitTercPassagDatasourceSharedPreferences.listPassag().map { MovEquipVisitTercPassag(idVisitTercMovEquipVisitTercPassag = it) }
     }
 
-    override suspend fun listPassagIdMov(idMov: Long): List<MovEquipVisitTercPassag> {
+    override suspend fun listPassag(idMov: Long): List<MovEquipVisitTercPassag> {
         return movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov).map { it.modelRoomToMovEquipVisitTercPassag() }
     }
 

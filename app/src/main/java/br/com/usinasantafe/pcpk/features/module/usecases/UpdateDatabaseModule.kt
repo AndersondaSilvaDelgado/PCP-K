@@ -38,4 +38,8 @@ interface UpdateDatabaseModule {
     @Binds
     fun bindUpdateVisitante(usecase: UpdateVisitanteImpl): UpdateVisitante
 
+    @Singleton
+    @Binds
+    fun bindUpdateVisitTerc(usecase: UpdateVisitTercImpl): UpdateVisitTerc
+
 }

@@ -6,6 +6,8 @@ import br.com.usinasantafe.pcpk.features.domain.repositories.stable.VisitanteRep
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercRepository
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverListMovEquipVisitTercOpen
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 class RecoverListMovEquipVisitTercOpenImpl @Inject constructor(
@@ -17,7 +19,7 @@ class RecoverListMovEquipVisitTercOpenImpl @Inject constructor(
     override suspend fun invoke(): List<MovEquipVisitTercModel> {
         return movEquipVisitTercRepository.listMovEquipVisitTercOpen().map { movEquipVisitTerc ->
             movEquipVisitTerc.let {
-                val dthr = it.dthrMovEquipVisitTerc.toString()
+                val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(it.dthrMovEquipVisitTerc)}"
                 val motorista = if(movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc == TypeVisitTerc.TERCEIRO){
                     val terceiro = terceiroRepository.getTerceiroId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
                     "TERCEIRO: ${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"

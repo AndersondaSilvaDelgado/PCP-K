@@ -62,7 +62,7 @@
     <string name="texto_titulo_motorista">MOTORISTA</string>
     <string name="texto_titulo_detalhe_mov">MOVIMENTO</string>
     <string name="texto_padrao_fechar">FECHAR</string>
-    <string name="texto_editar_mov">EDITAR</string>
+    <string name="texto_editar_mov">EDITAR MOVIMENTO(S)</string>
     <string name="texto_titulo_mov">MOVIMENTO(S)</string>
     <string name="texto_fechar_mov">FECHAR MOVIMENTO(S)</string>
 </resources>

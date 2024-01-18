@@ -12,8 +12,8 @@ class SetStatusSendCloseMovVisitTercImpl @Inject constructor(
 
     override suspend fun invoke(pos: Int): Boolean {
         try {
-            val mov = movEquipVisitTercRepository.listMovEquipVisitTercEmpty()[pos]
-            if(!movEquipVisitTercRepository.setStatusSendClosedMov(mov)) return false
+            val mov = movEquipVisitTercRepository.listMovEquipVisitTercStarted()[pos]
+            if(!movEquipVisitTercRepository.setStatusSendCloseMov(mov)) return false
             startProcessSendData()
         } catch (exception: Exception) {
             return false

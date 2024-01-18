@@ -7,9 +7,11 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentObservResidenciaBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.ObservResidenciaFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.ObservResidenciaViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,21 +24,24 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
 
     private val viewModel: ObservResidenciaViewModel by viewModels()
     private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
-    private lateinit var typeMov: TypeMov
-    private var pos: Int? = null
+    private lateinit var flowApp: FlowApp
+    private var typeMov: TypeMov? = null
+    private var pos: Int = 0
 
     companion object {
-        const val KEY_TYPE_MOV_RESIDENCIA = "key_type_mov_residencia";
-        const val KEY_POS_MOV_RESIDENCIA = "key_pos_mov_residencia";
+        const val KEY_TYPE_OBSERV_RESIDENCIA = "key_type_observ_residencia";
+        const val KEY_POS_OBSERV_RESIDENCIA = "key_pos_observ_residencia";
+        const val KEY_FLOW_OBSERV_RESIDENCIA = "key_flow_observ_residencia";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_MOV_RESIDENCIA)!!]
-        if(typeMov == TypeMov.OUTPUT){
-            pos = arguments?.getInt(KEY_POS_MOV_RESIDENCIA)
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!!]
+        if(arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!! > -1) {
+            typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!!]
         }
+        pos = arguments?.getInt(KEY_POS_OBSERV_RESIDENCIA)!!
         observeState()
         setListener()
 
@@ -52,16 +57,20 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
         with(binding) {
             buttonOkObserv.setOnClickListener {
                 if (editTextObserv.text.isEmpty()) {
-                    viewModel.setObserv(null, pos, typeMov)
+                    viewModel.setObserv(null, pos, typeMov, flowApp)
                     return@setOnClickListener
                 }
-                viewModel.setObserv(editTextObserv.text.toString(), pos, typeMov)
+                viewModel.setObserv(editTextObserv.text.toString(), pos, typeMov, flowApp)
             }
             buttonCancObserv.setOnClickListener {
-                if(typeMov == TypeMov.INPUT) {
-                    fragmentAttachListenerResidencia?.goMotorista()
-                } else {
-                    fragmentAttachListenerResidencia?.goMovResidenciaList()
+                when (flowApp) {
+                    FlowApp.ADD -> {
+                        when(typeMov!!) {
+                            TypeMov.INPUT -> fragmentAttachListenerResidencia?.goMotorista(flowApp)
+                            TypeMov.OUTPUT -> fragmentAttachListenerResidencia?.goMovResidenciaList()
+                        }
+                    }
+                    FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
                 }
             }
         }
@@ -75,7 +84,10 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
 
     private fun handleCheckSetObserv(check: Boolean) {
         if (check) {
-            fragmentAttachListenerResidencia?.goMovResidenciaList()
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerResidencia?.goMovResidenciaList()
+                FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

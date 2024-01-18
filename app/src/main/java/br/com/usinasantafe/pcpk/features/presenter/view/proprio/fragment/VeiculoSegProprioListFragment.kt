@@ -51,7 +51,7 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     }
 
     private fun startEvents() {
-        viewModel.recoverListEquipSeg()
+        viewModel.recoverListEquipSeg(typeAddEquip, pos)
     }
 
     private fun setListener() {
@@ -91,7 +91,7 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
 
     private fun handleCheckDeleteEquipSeg(check: Boolean) {
         if(check) {
-            viewModel.recoverListEquipSeg()
+            viewModel.recoverListEquipSeg(typeAddEquip, pos)
             return
         }
         showGenericAlertDialog(getString(R.string.texto_failure_delete, "VEÍCULO SECUNDÁRIO"), requireContext())
@@ -112,9 +112,9 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
         }
     }
 
-    private fun showMessage(pos: Int){
+    private fun showMessage(posList: Int){
         showGenericAlertDialogCheck("DESEJA EXCLUIR O VEÍCULO?", requireContext()) {
-            viewModel.deleteEquip(pos)
+            viewModel.deleteEquip(posList, typeAddEquip, pos)
         }
     }
 

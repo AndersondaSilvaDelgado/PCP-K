@@ -1,21 +1,24 @@
 package br.com.usinasantafe.pcpk.features.presenter.model
 
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipResidencia
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class MovEquipResidenciaModel(
     val dthr: String,
     val motorista: String,
     val veiculo: String,
     val placa: String,
+    val tipo: String? = null,
 )
 
 fun MovEquipResidencia.toMovEquipResidenciaModel(): MovEquipResidenciaModel {
     return with(this){
         MovEquipResidenciaModel(
-            dthr = this.dthrMovEquipResidencia.toString(),
-            motorista = this.motoristaMovEquipResidencia!!,
-            veiculo = this.veiculoMovEquipResidencia!!,
-            placa = this.placaMovEquipResidencia!!,
+            dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(this.dthrMovEquipResidencia)}",
+            motorista = "MOTORISTA: ${this.motoristaMovEquipResidencia!!}",
+            veiculo = "VEICULO: ${this.veiculoMovEquipResidencia!!}",
+            placa = "PLACA: ${this.placaMovEquipResidencia!!}",
         )
     }
 }

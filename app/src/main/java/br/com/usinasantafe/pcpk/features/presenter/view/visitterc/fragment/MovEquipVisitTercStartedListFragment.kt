@@ -7,19 +7,18 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
-import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
-import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipVisitTercEmptyListBinding
+import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipVisitTercStartedListBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
-import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter.MovEquipVisitTercEmptyAdapter
-import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercEmptyListFragmentState
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter.MovEquipVisitTercStartedAdapter
+import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercStartedListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercEmptyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovEquipVisitTercEmptyListFragment : BaseFragment<FragmentMovEquipVisitTercEmptyListBinding>(
-    R.layout.fragment_mov_equip_visit_terc_empty_list,
-    FragmentMovEquipVisitTercEmptyListBinding::bind,
+class MovEquipVisitTercStartedListFragment : BaseFragment<FragmentMovEquipVisitTercStartedListBinding>(
+    R.layout.fragment_mov_equip_visit_terc_started_list,
+    FragmentMovEquipVisitTercStartedListBinding::bind,
 ) {
 
     private val viewModel: MovEquipVisitTercEmptyListViewModel by viewModels()
@@ -55,10 +54,10 @@ class MovEquipVisitTercEmptyListFragment : BaseFragment<FragmentMovEquipVisitTer
         viewModel.recoverListMov()
     }
 
-    private fun handleStateChange(state: MovEquipVisitTercEmptyListFragmentState) {
+    private fun handleStateChange(state: MovEquipVisitTercStartedListFragmentState) {
         when(state){
-            is MovEquipVisitTercEmptyListFragmentState.ListMovEquip -> handleListMov(state.movEquipVisitTercList)
-            is MovEquipVisitTercEmptyListFragmentState.CheckCloseAllMov -> handleCloseAllMov(state.check)
+            is MovEquipVisitTercStartedListFragmentState.ListMovEquip -> handleListMov(state.movEquipVisitTercList)
+            is MovEquipVisitTercStartedListFragmentState.CheckCloseAllMov -> handleCloseAllMov(state.check)
         }
     }
 
@@ -75,7 +74,7 @@ class MovEquipVisitTercEmptyListFragment : BaseFragment<FragmentMovEquipVisitTer
     }
 
     private fun handleListMov(movEquipVisitTercList: List<MovEquipVisitTercModel>) {
-        val listAdapter = MovEquipVisitTercEmptyAdapter(movEquipVisitTercList).apply {
+        val listAdapter = MovEquipVisitTercStartedAdapter(movEquipVisitTercList).apply {
             onItemClick = { pos ->
                 fragmentAttachListenerVisitTerc?.goDetalhe(pos)
             }

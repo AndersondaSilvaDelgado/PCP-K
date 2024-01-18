@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentMotoristaResidenciaBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
@@ -22,10 +23,20 @@ class MotoristaResidenciaFragment : BaseFragment<FragmentMotoristaResidenciaBind
 
     private val viewModel: MotoristaResidenciaViewModel by viewModels()
     private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_FLOW_MOTORISTA_RESIDENCIA = "key_flow_motorista_residencia";
+        const val KEY_POS_MOTORISTA_RESIDENCIA = "key_pos_motorista_residencia";
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_MOTORISTA_RESIDENCIA)!!]
+        pos = arguments?.getInt(KEY_POS_MOTORISTA_RESIDENCIA)!!
         observeState()
         setListener()
 
@@ -49,10 +60,13 @@ class MotoristaResidenciaFragment : BaseFragment<FragmentMotoristaResidenciaBind
                     )
                     return@setOnClickListener
                 }
-                viewModel.setMotorista(editTextMotoristaResidencia.text.toString())
+                viewModel.setMotorista(editTextMotoristaResidencia.text.toString(), flowApp, pos)
             }
             buttonCancMotoristaResidencia.setOnClickListener {
-                fragmentAttachListenerResidencia?.goMovResidenciaList()
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerResidencia?.goPlaca(flowApp)
+                    FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -65,7 +79,10 @@ class MotoristaResidenciaFragment : BaseFragment<FragmentMotoristaResidenciaBind
 
     private fun handleCheckSetVeiculo(check: Boolean) {
         if (check) {
-            fragmentAttachListenerResidencia?.goObserv(TypeMov.INPUT)
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerResidencia?.goObserv(TypeMov.INPUT, flowApp)
+                FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

@@ -10,6 +10,7 @@ import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentDetalheMovEquipVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.DetalheMovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
@@ -57,7 +58,7 @@ class DetalheMovEquipVisitTercFragment : BaseFragment<FragmentDetalheMovEquipVis
                 showMessage()
             }
             buttonRetDetalheMov.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goMovVisitTercListEmpty()
+                fragmentAttachListenerVisitTerc?.goMovVisitTercListStarted()
             }
         }
 
@@ -78,7 +79,7 @@ class DetalheMovEquipVisitTercFragment : BaseFragment<FragmentDetalheMovEquipVis
 
     private fun handleCloseMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerVisitTerc?.goMovVisitTercListEmpty()
+            fragmentAttachListenerVisitTerc?.goMovVisitTercListStarted()
             return
         }
         showGenericAlertDialog(
@@ -107,11 +108,10 @@ class DetalheMovEquipVisitTercFragment : BaseFragment<FragmentDetalheMovEquipVis
                 when(position){
                     2 -> fragmentAttachListenerVisitTerc?.goVeiculo(FlowApp.CHANGE, pos)
                     3 -> fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.CHANGE, pos)
-//                    4 -> fragmentAttachListenerProprio?.goPassagList(TypeAddOcupante.CHANGEPASSAGEIRO, pos)
-//                    5 -> fragmentAttachListenerProprio?.goDestino(FlowApp.CHANGE, pos)
-//                    6 -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG, pos)
-//                    7 -> fragmentAttachListenerProprio?.goNotaFiscal(FlowApp.CHANGE, pos)
-//                    8 -> fragmentAttachListenerProprio?.goObserv(FlowApp.CHANGE, pos)
+                    5 -> fragmentAttachListenerVisitTerc?.goCPFVisitTerc(TypeAddOcupante.CHANGEMOTORISTA, pos)
+                    6 -> fragmentAttachListenerVisitTerc?.goPassagList(TypeAddOcupante.CHANGEPASSAGEIRO, pos)
+                    7 -> fragmentAttachListenerVisitTerc?.goDestino(FlowApp.CHANGE, pos)
+                    8 -> fragmentAttachListenerVisitTerc?.goObserv(null, FlowApp.CHANGE, pos)
                 }
             }
         }

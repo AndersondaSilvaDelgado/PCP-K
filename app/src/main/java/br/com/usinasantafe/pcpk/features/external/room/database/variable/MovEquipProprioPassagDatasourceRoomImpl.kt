@@ -26,4 +26,8 @@ class MovEquipProprioPassagDatasourceRoomImpl @Inject constructor (
         return movEquipProprioPassagDao.listMovEquipProprioPassagIdMov(idMov)
     }
 
+    override suspend fun deleteMovEquipProprioPassag(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel): Boolean {
+        return movEquipProprioPassagDao.delete(movEquipProprioPassagRoomModel) > 0
+    }
+
 }

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcpk.common.utils
 
 enum class StatusData { OPEN, CLOSE  }
-enum class StatusSend { EMPTY, SENT, SENDING, SEND }
+enum class StatusSend { STARTED, SENT, SENDING, SEND }
 enum class TypeMov { INPUT, OUTPUT }
 enum class StatusUpdate { UPDATED, FAILURE }
 enum class StatusRecover { SUCCESS, EMPTY, FAILURE }

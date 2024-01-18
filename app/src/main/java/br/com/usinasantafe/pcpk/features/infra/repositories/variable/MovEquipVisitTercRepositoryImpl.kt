@@ -23,9 +23,9 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         return movEquipVisitTercDatasourceRoom.checkMovSend()
     }
 
-    override suspend fun setStatusClosedMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
+    override suspend fun setStatusCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
         return try {
-            movEquipVisitTercDatasourceRoom.updateMovEquipVisitTercClose(
+            movEquipVisitTercDatasourceRoom.updateStatusMovEquipVisitTercClose(
                 movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
                     movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
                     movEquipVisitTerc.idLocalMovEquipVisitTerc!!
@@ -36,9 +36,9 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         }
     }
 
-    override suspend fun setStatusSendClosedMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
+    override suspend fun setStatusSendCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
         return try {
-            movEquipVisitTercDatasourceRoom.updateMovEquipVisitTercCloseSend(
+            movEquipVisitTercDatasourceRoom.updateStatusMovEquipVisitTercCloseSend(
                 movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
                     movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
                     movEquipVisitTerc.idLocalMovEquipVisitTerc!!
@@ -57,8 +57,8 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         return movEquipVisitTercDatasourceRoom.listMovEquipVisitTercOpen().map { it.modelRoomToMovEquipVisitTerc() }
     }
 
-    override suspend fun listMovEquipVisitTercEmpty(): List<MovEquipVisitTerc> {
-        return movEquipVisitTercDatasourceRoom.listMovEquipVisitTercEmpty().map { it.modelRoomToMovEquipVisitTerc() }
+    override suspend fun listMovEquipVisitTercStarted(): List<MovEquipVisitTerc> {
+        return movEquipVisitTercDatasourceRoom.listMovEquipVisitTercStarted().map { it.modelRoomToMovEquipVisitTerc() }
     }
 
     override suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTerc> {
@@ -67,7 +67,7 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
 
     override suspend fun receiverSentMovEquipVisitTerc(movEquipList: List<MovEquipVisitTerc>): Boolean {
         for(movEquip in movEquipList){
-            if(!movEquipVisitTercDatasourceRoom.updateMovEquipVisitTercSent(movEquip.idMovEquipVisitTerc!!)) return false
+            if(!movEquipVisitTercDatasourceRoom.updateStatusMovEquipVisitTercSent(movEquip.idMovEquipVisitTerc!!)) return false
         }
         return true
     }
@@ -162,6 +162,91 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         return try {
             movEquipVisitTercDatasourceSharedPreferences.startMovEquipVisitTerc()
         } catch (exception: Exception){
+            false
+        }
+    }
+
+    override suspend fun updateVeiculoMovEquipVisitTerc(
+        veiculo: String,
+        movEquipVisitTerc: MovEquipVisitTerc
+    ): Boolean {
+        return try {
+            movEquipVisitTercDatasourceRoom.updateVeiculoMovEquipVisitTerc(
+                veiculo,
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updatePlacaMovEquipVisitTerc(
+        placa: String,
+        movEquipVisitTerc: MovEquipVisitTerc
+    ): Boolean {
+        return try {
+            movEquipVisitTercDatasourceRoom.updatePlacaMovEquipVisitTerc(
+                placa,
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateMotoristaMovEquipVisitTerc(
+        idVisitTerc: Long,
+        movEquipVisitTerc: MovEquipVisitTerc
+    ): Boolean {
+        return try {
+            movEquipVisitTercDatasourceRoom.updateMotoristaMovEquipVisitTerc(
+                idVisitTerc,
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateDestinoMovEquipVisitTerc(
+        destino: String,
+        movEquipVisitTerc: MovEquipVisitTerc
+    ): Boolean {
+        return try {
+            movEquipVisitTercDatasourceRoom.updateDestinoMovEquipVisitTerc(
+                destino,
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateObservMovEquipVisitTerc(
+        observ: String?,
+        movEquipVisitTerc: MovEquipVisitTerc
+    ): Boolean {
+        return try {
+            movEquipVisitTercDatasourceRoom.updateObservMovEquipVisitTerc(
+                observ,
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
             false
         }
     }

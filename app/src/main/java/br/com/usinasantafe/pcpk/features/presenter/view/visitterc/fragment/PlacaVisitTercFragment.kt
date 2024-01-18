@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentPlacaVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PlacaVisitTercFragmentState
@@ -21,15 +22,19 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
 
     private val viewModel: PlacaVisitTercViewModel by viewModels()
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
+    private lateinit var flowApp: FlowApp
+    private var pos: Int = 0
 
     companion object {
-        const val KEY_FLOW_PLACA_VISIT_TERC = "key_flow_observ_visit_terc";
-        const val KEY_POS_PLACA_VISIT_TERC = "key_pos_observ_visit_terc";
+        const val KEY_FLOW_PLACA_VISIT_TERC = "key_flow_placa_visit_terc";
+        const val KEY_POS_PLACA_VISIT_TERC = "key_pos_placa_visit_terc";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_PLACA_VISIT_TERC)!!]
+        pos = arguments?.getInt(KEY_FLOW_PLACA_VISIT_TERC)!!
         observeState()
         setListener()
 
@@ -53,10 +58,13 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.setPlaca(editTextPlacaVisitTerc.text.toString())
+                viewModel.setPlaca(editTextPlacaVisitTerc.text.toString(), flowApp, pos)
             }
             buttonCancPlacaVisitTerc.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goVeiculo()
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goVeiculo(flowApp)
+                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                }
             }
         }
     }

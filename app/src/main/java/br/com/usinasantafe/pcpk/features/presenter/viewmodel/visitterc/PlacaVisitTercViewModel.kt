@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetPlacaVisitTerc
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,8 +22,8 @@ class PlacaVisitTercViewModel @Inject constructor(
         _uiLiveData.value = PlacaVisitTercFragmentState.CheckSetPlaca(check)
     }
 
-    fun setPlaca(placa: String) = viewModelScope.launch {
-        checkSetPlaca(setPlacaVisitTerc(placa))
+    fun setPlaca(placa: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
+        checkSetPlaca(setPlacaVisitTerc(placa, flowApp, pos))
     }
 
 }

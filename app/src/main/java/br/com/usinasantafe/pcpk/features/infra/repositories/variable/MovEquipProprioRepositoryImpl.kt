@@ -35,7 +35,7 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
 
     override suspend fun setStatusSendClosedMov(movEquipProprio: MovEquipProprio): Boolean {
         return try {
-            movEquipProprioDatasourceRoom.closeSendMov(
+            movEquipProprioDatasourceRoom.updateStatusMovEquipProprioCloseSend(
                 movEquipProprio.entityToMovEquipProprioRoomModel(
                     movEquipProprio.nroMatricVigiaMovEquipProprio!!,
                     movEquipProprio.idLocalMovEquipProprio!!

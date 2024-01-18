@@ -13,9 +13,11 @@ interface MovEquipProprioSegRepository {
 
     suspend fun deleteEquipSeg(pos: Int): Boolean
 
+    suspend fun deleteEquipSeg(pos: Int, idMov: Long): Boolean
+
     suspend fun listEquipSeg(): List<MovEquipProprioSeg>
 
-    suspend fun listEquipSegIdMov(idMov: Long): List<MovEquipProprioSeg>
+    suspend fun listEquipSeg(idMov: Long): List<MovEquipProprioSeg>
 
     suspend fun saveEquipSeg(idMov: Int): Boolean
 

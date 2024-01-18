@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.SetMotoristaResidencia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,8 +22,8 @@ class MotoristaResidenciaViewModel @Inject constructor(
         _uiLiveData.value = MotoristaResidenciaFragmentState.CheckSetMotorista(check)
     }
 
-    fun setMotorista(veiculo: String) = viewModelScope.launch {
-        checkSetMotorista(setMotoristaResidencia(veiculo))
+    fun setMotorista(veiculo: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
+        checkSetMotorista(setMotoristaResidencia(veiculo, flowApp, pos))
     }
 
 }

@@ -19,7 +19,7 @@ class RecoverDetalheMovEquipVisitTercImpl @Inject constructor(
 ): RecoverDetalheMovEquipVisitTerc {
 
     override suspend fun invoke(pos: Int): DetalheMovEquipVisitTercModel {
-        val mov = movEquipVisitTercRepository.listMovEquipVisitTercEmpty()[pos]
+        val mov = movEquipVisitTercRepository.listMovEquipVisitTercStarted()[pos]
         val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(mov.dthrMovEquipVisitTerc)}"
         val tipoMov = if (mov.tipoMovEquipVisitTerc!!.ordinal == 0) "ENTRADA" else "SAÍDA"
         val veiculo = "VEÍCULO: ${mov.veiculoMovEquipVisitTerc}"
@@ -36,7 +36,7 @@ class RecoverDetalheMovEquipVisitTercImpl @Inject constructor(
             }
         }
         var passageiros = "PASSAGEIRO(S): "
-        val passagList = movEquipVisitTercPassagRepository.listPassagIdMov(mov.idMovEquipVisitTerc!!)
+        val passagList = movEquipVisitTercPassagRepository.listPassag(mov.idMovEquipVisitTerc!!)
         for (passag in passagList) {
             passageiros += when(mov.tipoVisitTercMovEquipVisitTerc!!){
                 TypeVisitTerc.VISITANTE -> {

@@ -9,11 +9,12 @@ class SetStatusSendCloseAllMovVisitTercImpl @Inject constructor(
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
     private val startProcessSendData: StartProcessSendData,
 ): SetStatusSendCloseAllMovVisitTerc {
+
     override suspend fun invoke(): Boolean {
         try{
-            val movEquipVisitTercList = movEquipVisitTercRepository.listMovEquipVisitTercEmpty()
+            val movEquipVisitTercList = movEquipVisitTercRepository.listMovEquipVisitTercStarted()
             for (movEquipVisitTerc in movEquipVisitTercList) {
-                movEquipVisitTercRepository.setStatusSendClosedMov(movEquipVisitTerc)
+                movEquipVisitTercRepository.setStatusSendCloseMov(movEquipVisitTerc)
             }
             startProcessSendData()
         } catch (exception: Exception) {

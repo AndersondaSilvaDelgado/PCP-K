@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.SetObservResidencia
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +23,8 @@ class ObservResidenciaViewModel @Inject constructor(
         _uiLiveData.value = ObservResidenciaFragmentState.CheckSetObserv(check)
     }
 
-    fun setObserv(observ: String?, pos: Int?, typeMov: TypeMov) = viewModelScope.launch {
-        checkSetObserv(setObservResidencia(observ = observ, pos = pos, typeMov = typeMov))
+    fun setObserv(observ: String?, pos: Int, typeMov: TypeMov?, flowApp: FlowApp) = viewModelScope.launch {
+        checkSetObserv(setObservResidencia(observ, typeMov, pos, flowApp))
     }
 
 }

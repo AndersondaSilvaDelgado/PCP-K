@@ -40,11 +40,20 @@ class MovEquipProprioPassagRepositoryImpl @Inject constructor (
         }
     }
 
+    override suspend fun deletePassag(pos: Int, idMov: Long): Boolean {
+        return try {
+            val movEquip = movEquipProprioPassagDatasourceRoom.listMovEquipProprioPassagIdMov(idMov)[pos]
+            movEquipProprioPassagDatasourceRoom.deleteMovEquipProprioPassag(movEquip)
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
     override suspend fun listPassag(): List<MovEquipProprioPassag> {
         return movEquipProprioPassagDatasourceSharedPreferences.listPassag().map { MovEquipProprioPassag(nroMatricMovEquipProprioPassag = it) }
     }
 
-    override suspend fun listPassagIdMov(idMov: Long): List<MovEquipProprioPassag> {
+    override suspend fun listPassag(idMov: Long): List<MovEquipProprioPassag> {
         return movEquipProprioPassagDatasourceRoom.listMovEquipProprioPassagIdMov(idMov).map { it.modelRoomToMovEquipProprioPassag() }
     }
 

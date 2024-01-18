@@ -4,6 +4,6 @@ import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 
 interface SetMotoristaPassagVisitTerc {
 
-    suspend operator fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante): Boolean
+    suspend operator fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int): Boolean
 
 }

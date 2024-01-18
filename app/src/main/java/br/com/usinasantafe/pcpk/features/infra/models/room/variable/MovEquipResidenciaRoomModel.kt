@@ -39,7 +39,7 @@ fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, id
             placaMovEquipResidencia = this.placaMovEquipResidencia!!,
             observMovEquipResidencia = this.observMovEquipResidencia,
             statusMovEquipResidencia = StatusData.OPEN,
-            statusSendMovEquipResidencia = StatusSend.EMPTY,
+            statusSendMovEquipResidencia = StatusSend.STARTED,
         )
     }
 }

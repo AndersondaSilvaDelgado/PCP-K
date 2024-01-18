@@ -4,7 +4,6 @@ import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipVisitT
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.StartProcessSendData
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SaveMovEquipVisitTerc
 import javax.inject.Inject
 
@@ -25,7 +24,7 @@ class SaveMovEquipVisitTercImpl @Inject constructor(
         val config = configRepository.getConfig()
         val idMov = movEquipVisitTercRepository.saveMovEquipVisitTerc(config.matricVigia!!, config.idLocal!!, movEquipVisitTerc)
         if(idMov == 0) return false
-        val passagList = movEquipVisitTercPassagRepository.listPassagIdMov(movEquipVisitTerc.idMovEquipVisitTerc!!)
+        val passagList = movEquipVisitTercPassagRepository.listPassag(movEquipVisitTerc.idMovEquipVisitTerc!!)
         if(!movEquipVisitTercPassagRepository.savePassag(idMov, passagList)) return false
         return true
     }

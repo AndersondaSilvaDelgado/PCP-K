@@ -26,12 +26,12 @@ class RecoverDetalheMovEquipProprioImpl @Inject constructor(
         val veiculo = "VEÍCULO: ${equipRepository.getEquipId(mov.idEquipMovEquipProprio!!).nroEquip}"
         val motorista = "MOTORISTA: ${mov.nroMatricColabMovEquipProprio} - ${colabRepository.getColabMatric(mov.nroMatricColabMovEquipProprio!!).nomeColab}"
         var passageiros = "PASSAGEIRO(S): "
-        val passagList = movEquipProprioPassagRepository.listPassagIdMov(mov.idMovEquipProprio!!)
+        val passagList = movEquipProprioPassagRepository.listPassag(mov.idMovEquipProprio!!)
         for (passag in passagList) {
             passageiros += "${passag.nroMatricMovEquipProprioPassag} - ${colabRepository.getColabMatric(passag.nroMatricMovEquipProprioPassag!!).nomeColab} - "
         }
         val destino = "DESTINO: ${mov.destinoMovEquipProprio}"
-        val equipSegList = movEquipProprioSegRepository.listEquipSegIdMov(mov.idMovEquipProprio!!)
+        val equipSegList = movEquipProprioSegRepository.listEquipSeg(mov.idMovEquipProprio!!)
         var equipSeg = "VEÍCULO SECUNDÁRIO: "
         for (equip in equipSegList){
             equipSeg += "${equipRepository.getEquipId(equip.idEquipMovEquipProprioSeg!!).nroEquip} - "

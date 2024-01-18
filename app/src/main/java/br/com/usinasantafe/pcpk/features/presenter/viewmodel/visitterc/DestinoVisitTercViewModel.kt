@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetDestinoProprio
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetDestinoVisitTerc
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +23,8 @@ class DestinoVisitTercViewModel @Inject constructor(
         _uiLiveData.value = DestinoVisitTercFragmentState.CheckSetDestino(check)
     }
 
-    fun setDestino(destino: String) = viewModelScope.launch {
-        checkSetDestino(setDestinoVisitTerc(destino))
+    fun setDestino(destino: String, flowApp: FlowApp, pos: Int) = viewModelScope.launch {
+        checkSetDestino(setDestinoVisitTerc(destino, flowApp, pos))
     }
 
 }

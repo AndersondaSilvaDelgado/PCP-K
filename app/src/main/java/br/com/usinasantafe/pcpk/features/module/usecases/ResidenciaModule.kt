@@ -22,7 +22,15 @@ interface ResidenciaModule {
 
     @Binds
     @Singleton
+    fun bindRecoverDetalheMovEquipResidencia (usecase: RecoverDetalheMovEquipResidenciaImpl): RecoverDetalheMovEquipResidencia
+
+    @Binds
+    @Singleton
     fun bindRecoverListMovEquipResidenciaOpen (usecase: RecoverListMovEquipResidenciaOpenImpl): RecoverListMovEquipResidenciaOpen
+
+    @Binds
+    @Singleton
+    fun bindRecoverListMovEquipResidenciaStarted (usecase: RecoverListMovEquipResidenciaStartedImpl): RecoverListMovEquipResidenciaStarted
 
     @Binds
     @Singleton
@@ -43,6 +51,14 @@ interface ResidenciaModule {
     @Binds
     @Singleton
     fun bindSetPlacaResidencia (usecase: SetPlacaResidenciaImpl): SetPlacaResidencia
+
+    @Binds
+    @Singleton
+    fun bindSetStatusSendCloseAllMovResidencia (usecase: SetStatusSendCloseAllMovResidenciaImpl): SetStatusSendCloseAllMovResidencia
+
+    @Binds
+    @Singleton
+    fun bindSetStatusSendCloseMovResidencia (usecase: SetStatusSendCloseMovResidenciaImpl): SetStatusSendCloseMovResidencia
 
     @Binds
     @Singleton

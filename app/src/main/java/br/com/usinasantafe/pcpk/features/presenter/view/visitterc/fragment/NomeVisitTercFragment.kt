@@ -27,9 +27,11 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
     private lateinit var cpfVisitTerc: String
     private lateinit var typeAddOcupante: TypeAddOcupante
+    private var pos: Int = 0
 
     companion object {
         const val KEY_CPF_VISIT_TERC = "key_cpf_visit_terc";
+        const val KEY_POS_NOME_VISIT_TERC = "key_pos_nome_visit_terc";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +39,7 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
 
         cpfVisitTerc = arguments?.getString(KEY_CPF_VISIT_TERC)!!
         typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC)!!]
+        pos = arguments?.getInt(KEY_POS_NOME_VISIT_TERC)!!
         observeState()
         startEvents()
         setListener()
@@ -56,7 +59,7 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private fun setListener() {
         with(binding) {
             buttonOkNome.setOnClickListener {
-                viewModel.setCPFVisitTerc(cpfVisitTerc, typeAddOcupante)
+                viewModel.setCPFVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
                 fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante)
@@ -81,7 +84,12 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
 
     private fun handleCheckSetCPF(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
-            fragmentAttachListenerVisitTerc?.goPassagList()
+            when(typeAddOcupante) {
+                TypeAddOcupante.ADDMOTORISTA,
+                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante)
+                TypeAddOcupante.CHANGEMOTORISTA,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(

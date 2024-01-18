@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.repositories.variable
 
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipResidencia
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipVisitTerc
 
 
 interface MovEquipResidenciaRepository {
@@ -10,7 +9,7 @@ interface MovEquipResidenciaRepository {
 
     suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidencia>
 
-    suspend fun listMovEquipResidenciaEmpty(): List<MovEquipResidencia>
+    suspend fun listMovEquipResidenciaStarted(): List<MovEquipResidencia>
 
     suspend fun listMovEquipResidenciaSend(): List<MovEquipResidencia>
 
@@ -28,12 +27,32 @@ interface MovEquipResidenciaRepository {
 
     suspend fun setPlacaMovEquipResidencia(placa: String): Boolean
 
-    suspend fun setStatusClosedMov(movEquipResidencia: MovEquipResidencia): Boolean
+    suspend fun setStatusCloseMov(movEquipResidencia: MovEquipResidencia): Boolean
 
-    suspend fun setStatusSendClosedMov(movEquipResidencia: MovEquipResidencia): Boolean
+    suspend fun setStatusSendCloseMov(movEquipResidencia: MovEquipResidencia): Boolean
 
     suspend fun setVeiculoMovEquipResidencia(veiculo: String): Boolean
 
     suspend fun startMovEquipResidencia(): Boolean
+
+    suspend fun updateVeiculoMovEquipResidencia(
+        veiculo: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean
+
+    suspend fun updatePlacaMovEquipResidencia(
+        placa: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean
+
+    suspend fun updateMotoristaMovEquipResidencia(
+        motorista: String,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean
+
+    suspend fun updateObservMovEquipResidencia(
+        observ: String?,
+        movEquipResidencia: MovEquipResidencia
+    ): Boolean
 
 }

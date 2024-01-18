@@ -32,15 +32,55 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
         return movEquipVisitTercDao.listMovStatus(StatusData.OPEN)
     }
 
-    override suspend fun listMovEquipVisitTercEmpty(): List<MovEquipVisitTercRoomModel> {
-        return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.EMPTY)
+    override suspend fun listMovEquipVisitTercStarted(): List<MovEquipVisitTercRoomModel> {
+        return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.STARTED)
     }
 
     override suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTercRoomModel> {
         return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.SEND)
     }
 
-    override suspend fun updateMovEquipVisitTercSent(idMov: Long): Boolean {
+    override suspend fun updateVeiculoMovEquipVisitTerc(
+        veiculo: String,
+        movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel
+    ): Boolean {
+        movEquipVisitTercRoomModel.veiculoMovEquipVisitTerc = veiculo
+        return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
+    }
+
+    override suspend fun updatePlacaMovEquipVisitTerc(
+        placa: String,
+        movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel
+    ): Boolean {
+        movEquipVisitTercRoomModel.placaMovEquipVisitTerc = placa
+        return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
+    }
+
+    override suspend fun updateMotoristaMovEquipVisitTerc(
+        idVisitTerc: Long,
+        movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel
+    ): Boolean {
+        movEquipVisitTercRoomModel.idVisitTercMovEquipVisitTerc = idVisitTerc
+        return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
+    }
+
+    override suspend fun updateDestinoMovEquipVisitTerc(
+        destino: String,
+        movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel
+    ): Boolean {
+        movEquipVisitTercRoomModel.destinoMovEquipVisitTerc = destino
+        return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
+    }
+
+    override suspend fun updateObservMovEquipVisitTerc(
+        observ: String?,
+        movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel
+    ): Boolean {
+        movEquipVisitTercRoomModel.observMovEquipVisitTerc = observ
+        return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
+    }
+
+    override suspend fun updateStatusMovEquipVisitTercSent(idMov: Long): Boolean {
         return try{
             val movEquip = movEquipVisitTercDao.listMovId(idMov).single()
             movEquip.statusSendMovEquipVisitTerc = StatusSend.SENT
@@ -50,7 +90,7 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
         }
     }
 
-    override suspend fun updateMovEquipVisitTercClose(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
+    override suspend fun updateStatusMovEquipVisitTercClose(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
         return try{
             movEquipVisitTercRoomModel.statusMovEquipVisitTerc = StatusData.CLOSE
             return movEquipVisitTercDao.update(movEquipVisitTercRoomModel) > 0
@@ -59,7 +99,7 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
         }
     }
 
-    override suspend fun updateMovEquipVisitTercCloseSend(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
+    override suspend fun updateStatusMovEquipVisitTercCloseSend(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
         return try{
             movEquipVisitTercRoomModel.statusMovEquipVisitTerc = StatusData.CLOSE
             movEquipVisitTercRoomModel.statusSendMovEquipVisitTerc = StatusSend.SEND

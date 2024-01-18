@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeleteEquipSeg
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverListEquipProprioSeg
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,12 +28,12 @@ class VeiculoSegProprioListViewModel @Inject constructor (
         _uiLiveData.value = VeiculoSegProprioListFragmentState.ListEquipSeg(equipSegList)
     }
 
-    fun deleteEquip(pos: Int) = viewModelScope.launch {
-        checkDeleteEquipProprioSeg(deleteEquipSeg(pos))
+    fun deleteEquip(posList: Int, typeAddEquip: TypeAddEquip, pos: Int) = viewModelScope.launch {
+        checkDeleteEquipProprioSeg(deleteEquipSeg(posList, typeAddEquip, pos))
     }
 
-    fun recoverListEquipSeg() = viewModelScope.launch {
-        setListEquipSeg(recoverListEquipProprioSeg())
+    fun recoverListEquipSeg(typeAddEquip: TypeAddEquip, pos: Int) = viewModelScope.launch {
+        setListEquipSeg(recoverListEquipProprioSeg(typeAddEquip, pos))
     }
 
 }

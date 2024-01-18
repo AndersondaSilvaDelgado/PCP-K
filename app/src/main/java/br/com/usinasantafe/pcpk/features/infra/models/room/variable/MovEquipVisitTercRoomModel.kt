@@ -44,7 +44,7 @@ fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLo
             destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             statusMovEquipVisitTerc = StatusData.OPEN,
-            statusSendMovEquipVisitTerc = StatusSend.EMPTY,
+            statusSendMovEquipVisitTerc = StatusSend.STARTED,
         )
     }
 }

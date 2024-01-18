@@ -4,17 +4,17 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.usinasantafe.pcpk.databinding.ItemRowMovEquipVisitTercEmptyBinding
+import br.com.usinasantafe.pcpk.databinding.ItemRowMovEquipVisitTercStartedBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 
-class MovEquipVisitTercEmptyAdapter(
+class MovEquipVisitTercStartedAdapter(
     private val dataSet: List<MovEquipVisitTercModel>
-) : RecyclerView.Adapter<MovEquipVisitTercEmptyAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MovEquipVisitTercStartedAdapter.ViewHolder>() {
 
     var onItemClick: ((position: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemBinding = ItemRowMovEquipVisitTercEmptyBinding
+        val itemBinding = ItemRowMovEquipVisitTercStartedBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemBinding)
     }
@@ -26,14 +26,14 @@ class MovEquipVisitTercEmptyAdapter(
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(
-        itemRowMovEquipVisitTercEmptyBinding: ItemRowMovEquipVisitTercEmptyBinding
-    ) : RecyclerView.ViewHolder(itemRowMovEquipVisitTercEmptyBinding.root) {
+        itemRowMovEquipVisitTercStartedBinding: ItemRowMovEquipVisitTercStartedBinding
+    ) : RecyclerView.ViewHolder(itemRowMovEquipVisitTercStartedBinding.root) {
 
-        private val textViewDthrMov = itemRowMovEquipVisitTercEmptyBinding.textViewDthrMov
-        private val textViewMotoristaMov = itemRowMovEquipVisitTercEmptyBinding.textViewMotoristaMov
-        private val textViewVeiculoMov = itemRowMovEquipVisitTercEmptyBinding.textViewVeiculoMov
-        private val textViewPlacaMov = itemRowMovEquipVisitTercEmptyBinding.textViewPlacaMov
-        private val textViewTipoMov = itemRowMovEquipVisitTercEmptyBinding.textViewTipoMov
+        private val textViewDthrMov = itemRowMovEquipVisitTercStartedBinding.textViewDthrMov
+        private val textViewMotoristaMov = itemRowMovEquipVisitTercStartedBinding.textViewMotoristaMov
+        private val textViewVeiculoMov = itemRowMovEquipVisitTercStartedBinding.textViewVeiculoMov
+        private val textViewPlacaMov = itemRowMovEquipVisitTercStartedBinding.textViewPlacaMov
+        private val textViewTipoMov = itemRowMovEquipVisitTercStartedBinding.textViewTipoMov
 
         fun bindView(movEquipVisitTercModel: MovEquipVisitTercModel, position: Int) {
 
@@ -46,6 +46,7 @@ class MovEquipVisitTercEmptyAdapter(
             } else {
                 textViewTipoMov.setTextColor(Color.RED)
             }
+
             itemView.setOnClickListener {
                 onItemClick?.invoke(position)
             }

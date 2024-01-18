@@ -28,4 +28,8 @@ class MovEquipProprioSegDatasourceRoomImpl @Inject constructor (
         return movEquipProprioSegDao.listMovEquipProprioSegIdMov(idMov)
     }
 
+    override suspend fun deleteMovEquipProprioSeg(movEquipProprioSegRoomModel: MovEquipProprioSegRoomModel): Boolean {
+        return movEquipProprioSegDao.delete(movEquipProprioSegRoomModel) > 0
+    }
+
 }

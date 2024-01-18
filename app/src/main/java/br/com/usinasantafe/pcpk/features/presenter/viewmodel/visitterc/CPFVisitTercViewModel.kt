@@ -35,8 +35,8 @@ class CPFVisitTercViewModel @Inject constructor(
         _uiLiveData.value = CPFVisitTercFragmentState.SetResultUpdate(resultUpdateDatabase)
     }
 
-    fun checkCPFVisitanteTerceiro(cpf: String) = viewModelScope.launch {
-        checkCPF(checkCPFVisitTerc(cpf))
+    fun checkCPFVisitanteTerceiro(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        checkCPF(checkCPFVisitTerc(cpf, typeAddOcupante, pos))
     }
 
     fun updateDataVisitTerc() =

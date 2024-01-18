@@ -20,13 +20,13 @@ class SetStatusSendCloseAllMovImpl @Inject constructor(
             for (movEquipProprio in movEquipProprioList) {
                 movEquipProprioRepository.setStatusSendClosedMov(movEquipProprio)
             }
-            val movEquipVisitTercList = movEquipVisitTercRepository.listMovEquipVisitTercEmpty()
+            val movEquipVisitTercList = movEquipVisitTercRepository.listMovEquipVisitTercStarted()
             for (movEquipVisitTerc in movEquipVisitTercList) {
-                movEquipVisitTercRepository.setStatusSendClosedMov(movEquipVisitTerc)
+                movEquipVisitTercRepository.setStatusSendCloseMov(movEquipVisitTerc)
             }
-            val movEquipResidenciaList = movEquipResidenciaRepository.listMovEquipResidenciaEmpty()
+            val movEquipResidenciaList = movEquipResidenciaRepository.listMovEquipResidenciaStarted()
             for (movEquipResidencia in movEquipResidenciaList) {
-                movEquipResidenciaRepository.setStatusSendClosedMov(movEquipResidencia)
+                movEquipResidenciaRepository.setStatusSendCloseMov(movEquipResidencia)
             }
             startProcessSendData()
         } catch (exception: Exception) {

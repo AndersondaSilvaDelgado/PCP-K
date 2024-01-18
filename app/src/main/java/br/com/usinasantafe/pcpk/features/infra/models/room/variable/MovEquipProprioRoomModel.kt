@@ -41,7 +41,7 @@ fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal:
             nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = StatusData.OPEN,
-            statusSendMovEquipProprio = StatusSend.EMPTY,
+            statusSendMovEquipProprio = StatusSend.STARTED,
         )
     }
 }

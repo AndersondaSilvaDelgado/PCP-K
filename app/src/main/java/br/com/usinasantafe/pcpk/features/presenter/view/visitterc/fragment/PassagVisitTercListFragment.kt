@@ -1,26 +1,18 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 
-import android.app.AlertDialog
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
-import br.com.usinasantafe.pcpk.databinding.FragmentPassagColabListBinding
 import br.com.usinasantafe.pcpk.databinding.FragmentPassagVisitTercListBinding
-import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
-import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.PassagColabListFragmentState
-import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.PassagColabListViewModel
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PassagVisitTercListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PassagVisitTercListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +25,21 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
 
     private val viewModel: PassagVisitTercListViewModel by viewModels()
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
+    private lateinit var typeAddOcupante: TypeAddOcupante
+    private var pos: Int = 0
+
+    companion object {
+        const val KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC_PASSAG_LIST =
+            "key_type_ocupante_veic_visit_terc_passag_list";
+        const val KEY_POS_PASSAG_VISIT_TERC = "key_pos_passag_visit_terc";
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        typeAddOcupante =
+            TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC_PASSAG_LIST)!!]
+        pos = arguments?.getInt(KEY_POS_PASSAG_VISIT_TERC)!!
         observeState()
         startEvents()
         setListener()
@@ -50,19 +53,29 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
     }
 
     private fun startEvents() {
-        viewModel.recoverListPassag()
+        viewModel.recoverListPassag(typeAddOcupante, pos)
     }
 
     private fun setListener() {
         with(binding) {
             buttonInserirPassageiro.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(TypeAddOcupante.ADDPASSAGEIRO)
+                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante)
             }
             buttonOkPassageiro.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goDestino()
+                when (typeAddOcupante) {
+                    TypeAddOcupante.ADDMOTORISTA,
+                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDestino(FlowApp.ADD)
+                    TypeAddOcupante.CHANGEMOTORISTA,
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                }
             }
             buttonCancPassageiro.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(TypeAddOcupante.ADDMOTORISTA)
+                when (typeAddOcupante) {
+                    TypeAddOcupante.ADDMOTORISTA,
+                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goCPFVisitTerc(TypeAddOcupante.ADDMOTORISTA)
+                    TypeAddOcupante.CHANGEMOTORISTA,
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -80,7 +93,7 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
 
     private fun handleCheckDeleteColabPassag(check: Boolean) {
         if(check) {
-            viewModel.recoverListPassag()
+            viewModel.recoverListPassag(typeAddOcupante, pos)
             return
         }
         showGenericAlertDialog(getString(R.string.texto_failure_delete, "PASSAGEIRO"), requireContext())
@@ -101,9 +114,9 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
         }
     }
 
-    private fun showMessage(pos: Int){
+    private fun showMessage(posList: Int){
         showGenericAlertDialogCheck("DESEJA EXCLUIR O PASSAGEIRO?", requireContext()) {
-            viewModel.deletePassag(pos)
+            viewModel.deletePassag(posList, typeAddOcupante, pos)
         }
     }
 

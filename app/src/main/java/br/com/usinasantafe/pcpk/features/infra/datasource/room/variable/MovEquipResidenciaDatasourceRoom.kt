@@ -18,10 +18,30 @@ interface MovEquipResidenciaDatasourceRoom {
 
     suspend fun listMovEquipResidenciaSend(): List<MovEquipResidenciaRoomModel>
 
-    suspend fun updateMovEquipResidenciaSent(idMov: Long): Boolean
+    suspend fun updateVeiculoMovEquipResidencia(
+        veiculo: String,
+        movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
+    ): Boolean
 
-    suspend fun updateMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
+    suspend fun updatePlacaMovEquipResidencia(
+        placa: String,
+        movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
+    ): Boolean
 
-    suspend fun updateMovEquipResidenciaSendClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
+    suspend fun updateMotoristaMovEquipResidencia(
+        motorista: String,
+        movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
+    ): Boolean
+
+    suspend fun updateObservMovEquipResidencia(
+        observ: String?,
+        movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
+    ): Boolean
+
+    suspend fun updateStatusSentMovEquipResidencia(idMov: Long): Boolean
+
+    suspend fun updateStatusCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
+
+    suspend fun updateStatusSendCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 
 }

@@ -26,8 +26,8 @@ class VeiculoVisitTercFragment : BaseFragment<FragmentVeiculoVisitTercBinding>(
     private var pos: Int = 0
 
     companion object {
-        const val KEY_FLOW_VEICULO_VISIT_TERC = "key_flow_observ_visit_terc";
-        const val KEY_POS_VEICULO_VISIT_TERC = "key_pos_observ_visit_terc";
+        const val KEY_FLOW_VEICULO_VISIT_TERC = "key_flow_veiculo_visit_terc";
+        const val KEY_POS_VEICULO_VISIT_TERC = "key_pos_veiculo_visit_terc";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,10 +58,13 @@ class VeiculoVisitTercFragment : BaseFragment<FragmentVeiculoVisitTercBinding>(
                     )
                     return@setOnClickListener
                 }
-                viewModel.setVeiculo(editTextVeicVisitTerc.text.toString())
+                viewModel.setVeiculo(editTextVeicVisitTerc.text.toString(), flowApp, pos)
             }
             buttonCancVeicVisitTerc.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                when(flowApp) {
+                    FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -78,7 +81,6 @@ class VeiculoVisitTercFragment : BaseFragment<FragmentVeiculoVisitTercBinding>(
                 FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goPlaca(flowApp)
                 FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
             }
-
             return
         }
         showGenericAlertDialog(

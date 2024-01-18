@@ -4,10 +4,7 @@ data class DetalheMovEquipResidenciaModel(
     val dthr: String,
     val tipoMov: String,
     val veiculo: String,
+    val placa: String,
     val motorista: String,
-    val passageiro: String,
-    val destino: String,
-    val veiculoSec: String,
-    val notaFiscal: String,
     val observ: String,
 )

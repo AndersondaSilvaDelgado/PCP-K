@@ -18,6 +18,14 @@ class MovEquipVisitTercPassagDatasourceRoomImpl @Inject constructor (
         return true
     }
 
+    override suspend fun addMovEquipVisitTercPassag(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel): Boolean {
+        return movEquipVisitTercPassagDao.insert(movEquipVisitTercPassagRoomModel) > 0
+    }
+
+    override suspend fun deleteMovEquipVisitTercPassag(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel): Boolean {
+        return movEquipVisitTercPassagDao.delete(movEquipVisitTercPassagRoomModel) > 0
+    }
+
     override suspend fun listMovEquipVisitTercPassagIdMov(idMov: Long): List<MovEquipVisitTercPassagRoomModel> {
         return movEquipVisitTercPassagDao.listMovEquipVisitTercPassagIdMov(idMov)
     }

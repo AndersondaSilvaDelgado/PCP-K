@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcpk.features.external.room.dao.variable
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -16,6 +17,9 @@ interface MovEquipProprioSegDao {
 
     @Insert
     suspend fun insert(movEquipProprioSegRoomModels: MovEquipProprioSegRoomModel): Long
+
+    @Delete
+    suspend fun delete(movEquipProprioSegRoomModels: MovEquipProprioSegRoomModel): Int
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_SEG WHERE idMovEquipProprio = :idMov")
     suspend fun listMovEquipProprioSegIdMov(idMov: Long): List<MovEquipProprioSegRoomModel>

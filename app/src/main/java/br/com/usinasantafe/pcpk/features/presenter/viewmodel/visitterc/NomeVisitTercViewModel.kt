@@ -33,8 +33,8 @@ class NomeVisitTercViewModel @Inject constructor(
         setDataVisitTerc(recoverDataVisitTerc(cpf))
     }
 
-    fun setCPFVisitTerc(matricVigia: String, typeAddOcupante: TypeAddOcupante) = viewModelScope.launch {
-        checkSetMatricColab(setMotoristaPassagVisitTerc(matricVigia, typeAddOcupante))
+    fun setCPFVisitTerc(matricVigia: String, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        checkSetMatricColab(setMotoristaPassagVisitTerc(matricVigia, typeAddOcupante, pos))
     }
 
 }

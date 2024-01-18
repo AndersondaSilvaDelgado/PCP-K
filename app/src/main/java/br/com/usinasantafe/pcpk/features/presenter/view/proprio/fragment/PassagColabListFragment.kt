@@ -53,7 +53,7 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     }
 
     private fun startEvents() {
-        viewModel.recoverListPassag()
+        viewModel.recoverListPassag(typeAddOcupante, pos)
     }
 
     private fun setListener() {
@@ -67,13 +67,17 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
                     TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goDestino(
                         FlowApp.ADD
                     )
-
                     TypeAddOcupante.CHANGEMOTORISTA,
                     TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
                 }
             }
             buttonCancPassageiro.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
+                when (typeAddOcupante) {
+                    TypeAddOcupante.ADDMOTORISTA,
+                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.ADDMOTORISTA)
+                    TypeAddOcupante.CHANGEMOTORISTA,
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                }
             }
         }
     }
@@ -93,7 +97,7 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
 
     private fun handleCheckDeleteColabPassag(check: Boolean) {
         if (check) {
-            viewModel.recoverListPassag()
+            viewModel.recoverListPassag(typeAddOcupante, pos)
             return
         }
         showGenericAlertDialog(
@@ -117,9 +121,9 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
         }
     }
 
-    private fun showMessage(pos: Int) {
+    private fun showMessage(posList: Int) {
         showGenericAlertDialogCheck("DESEJA EXCLUIR O PASSAGEIRO?", requireContext()) {
-            viewModel.deletePassag(pos)
+            viewModel.deletePassag(posList, typeAddOcupante, pos)
         }
     }
 

@@ -16,7 +16,7 @@ class SendDataMovEquipVisitTercImpl @Inject constructor(
     override suspend fun invoke(): Result<List<MovEquipVisitTerc>> {
         val listMovEquipVisitTercSend = movEquipVisitTercRepository.listMovEquipVisitTercSend()
         val listMovEquipVisitTercFullSend = listMovEquipVisitTercSend.map { movEquipVisitTerc ->
-            movEquipVisitTerc.movEquipVisitTercPassagList = movEquipVisitTercPassagRepository.listPassagIdMov(movEquipVisitTerc.idMovEquipVisitTerc!!)
+            movEquipVisitTerc.movEquipVisitTercPassagList = movEquipVisitTercPassagRepository.listPassag(movEquipVisitTerc.idMovEquipVisitTerc!!)
             return@map movEquipVisitTerc
         }
         val config = configRepository.getConfig()

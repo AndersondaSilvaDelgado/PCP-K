@@ -42,6 +42,10 @@ interface VisitTercModule {
 
     @Binds
     @Singleton
+    fun bindRecoverListMovEquipVisitTercStarted(usecase: RecoverListMovEquipVisitTercStartedImpl): RecoverListMovEquipVisitTercStarted
+
+    @Binds
+    @Singleton
     fun bindRecoverListPassagVisitTerc(usecase: RecoverListPassagVisitTercImpl): RecoverListPassagVisitTerc
 
     @Binds

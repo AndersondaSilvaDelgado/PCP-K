@@ -12,11 +12,13 @@ import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.setListenerButtonsCPF
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentCpfVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercViewModel
@@ -34,15 +36,18 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
     private lateinit var describeUpdate: String
     private lateinit var typeAddOcupante: TypeAddOcupante
     private lateinit var cpfVisitTerc: String
+    private var pos: Int = 0
 
     companion object {
         const val KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC = "key_type_ocupante_veic_visit_terc";
+        const val KEY_POS_CPF_VISIT_TERC = "key_pos_cpf_visit_terc";
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC)!!]
+        pos = arguments?.getInt(KEY_POS_CPF_VISIT_TERC)!!
         observeState()
         setListener()
 
@@ -68,7 +73,7 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
                     return@setOnClickListener
                 }
                 cpfVisitTerc = editTextPadrao.text.toString()
-                viewModel.checkCPFVisitanteTerceiro(cpfVisitTerc)
+                viewModel.checkCPFVisitanteTerceiro(cpfVisitTerc, typeAddOcupante, pos)
             }
             layoutBotoes.buttonAtualPadrao.setOnClickListener {
                 viewModel.updateDataVisitTerc()
@@ -86,7 +91,7 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
 
     private fun handleCheckCPF(checkMatric: Boolean) {
         if (checkMatric) {
-            fragmentAttachListenerVisitTerc?.goNomeVisitTerc(cpfVisitTerc, typeAddOcupante)
+            fragmentAttachListenerVisitTerc?.goNomeVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
             return
         }
         showGenericAlertDialog(
@@ -148,7 +153,12 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
             fragmentAttachListenerVisitTerc = context
         }
         onBackPressed {
-            fragmentAttachListenerVisitTerc?.goPlaca()
+            when(typeAddOcupante){
+                TypeAddOcupante.ADDMOTORISTA,
+                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.ADD)
+                TypeAddOcupante.CHANGEMOTORISTA,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
         }
     }
 

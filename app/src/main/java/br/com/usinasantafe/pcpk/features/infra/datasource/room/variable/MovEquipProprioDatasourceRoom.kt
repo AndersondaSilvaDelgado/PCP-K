@@ -7,8 +7,6 @@ interface MovEquipProprioDatasourceRoom {
 
     suspend fun checkMovSend(): Boolean
 
-    suspend fun closeSendMov(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean
-
     suspend fun lastIdMovStatusSend(): Int
 
     suspend fun listMovEquipProprioOpen(): List<MovEquipProprioRoomModel>
@@ -38,6 +36,8 @@ interface MovEquipProprioDatasourceRoom {
         notaFiscal: Long,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean
+
+    suspend fun updateStatusMovEquipProprioCloseSend(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean
 
     suspend fun updateStatusMovEquipProprioSent(idMov: Long): Boolean
 
