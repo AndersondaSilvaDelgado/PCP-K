@@ -29,14 +29,10 @@ class DetalheMovEquipProprioFragment : BaseFragment<FragmentDetalheMovEquipPropr
     private var fragmentAttachListenerProprio: FragmentAttachListenerProprio? = null
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_POS_DETALHE_PROPRIO = "key_pos_detalhe_proprio";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pos = arguments?.getInt(KEY_POS_DETALHE_PROPRIO)!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
         startEvents()

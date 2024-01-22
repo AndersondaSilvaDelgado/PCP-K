@@ -19,7 +19,12 @@ class MovEquipProprioPassagDatasourceRoomImpl @Inject constructor (
     }
 
     override suspend fun addMovEquipProprioPassag(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel): Boolean {
-        return movEquipProprioPassagDao.insert(movEquipProprioPassagRoomModel) > 0
+        try {
+            movEquipProprioPassagDao.insert(movEquipProprioPassagRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun listMovEquipProprioPassagIdMov(idMov: Long): List<MovEquipProprioPassagRoomModel> {
@@ -27,7 +32,12 @@ class MovEquipProprioPassagDatasourceRoomImpl @Inject constructor (
     }
 
     override suspend fun deleteMovEquipProprioPassag(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel): Boolean {
-        return movEquipProprioPassagDao.delete(movEquipProprioPassagRoomModel) > 0
+        try {
+            movEquipProprioPassagDao.delete(movEquipProprioPassagRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
 }

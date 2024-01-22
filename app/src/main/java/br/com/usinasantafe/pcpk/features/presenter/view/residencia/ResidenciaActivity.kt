@@ -13,27 +13,19 @@ import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity.Companion.KEY_FLOW_INITIAL
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.InitialActivity.Companion.FlowInitial
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.KEY_POS_DETALHE_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MovEquipResidenciaListFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MovEquipResidenciaStartedListFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.KEY_FLOW_OBSERV_RESIDENCIA
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.KEY_POS_OBSERV_RESIDENCIA
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.KEY_TYPE_OBSERV_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.PlacaResidenciaFragment
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.PlacaResidenciaFragment.Companion.KEY_FLOW_PLACA_RESIDENCIA
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.PlacaResidenciaFragment.Companion.KEY_POS_PLACA_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.KEY_FLOW_VEICULO_RESIDENCIA
-import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.KEY_POS_VEICULO_RESIDENCIA
-import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment
-import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PlacaVisitTercFragment
 
 class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia {
 
-
     private lateinit var binding: ActivityResidenciaBinding
+    private var flowApp = FlowApp.ADD
+    private var pos = 0;
+    private var typeMov : TypeMov? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +42,9 @@ class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia
     override fun goInicial() {
         val intent = Intent(this, InitialActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        val bundle = intent.extras
-        bundle?.putInt(KEY_FLOW_INITIAL, FlowInitial.RETURN.ordinal)
+        intent.apply {
+            putExtra(KEY_FLOW_INITIAL, FlowInitial.RETURN.ordinal)
+        }
         startActivity(intent)
     }
 
@@ -64,48 +57,45 @@ class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia
     }
 
     override fun goVeiculo(flowApp: FlowApp, pos: Int) {
-        val args = Bundle()
-        args.putInt(KEY_FLOW_VEICULO_RESIDENCIA, flowApp.ordinal)
-        args.putInt(KEY_POS_VEICULO_RESIDENCIA, pos)
-        val fragment = VeiculoResidenciaFragment()
-        fragment.arguments = args
-        replaceFragment(fragment)
+        this.flowApp = flowApp
+        this.pos = pos
+        replaceFragment(VeiculoResidenciaFragment())
     }
 
     override fun goPlaca(flowApp: FlowApp, pos: Int) {
-        val args = Bundle()
-        args.putInt(KEY_FLOW_PLACA_RESIDENCIA, flowApp.ordinal)
-        args.putInt(KEY_POS_PLACA_RESIDENCIA, pos)
-        val fragment = PlacaResidenciaFragment()
-        fragment.arguments = args
-        replaceFragment(fragment)
+        this.flowApp = flowApp
+        this.pos = pos
+        replaceFragment(PlacaResidenciaFragment())
     }
 
     override fun goMotorista(flowApp: FlowApp, pos: Int) {
-        val args = Bundle()
-        args.putInt(KEY_FLOW_PLACA_RESIDENCIA, flowApp.ordinal)
-        args.putInt(KEY_POS_PLACA_RESIDENCIA, pos)
-        val fragment = MotoristaResidenciaFragment()
-        fragment.arguments = args
-        replaceFragment(fragment)
+        this.flowApp = flowApp
+        this.pos = pos
+        replaceFragment(MotoristaResidenciaFragment())
     }
 
     override fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int) {
-        val args = Bundle()
-        args.putInt(KEY_TYPE_OBSERV_RESIDENCIA, typeMov?.ordinal ?: -1)
-        args.putInt(KEY_FLOW_OBSERV_RESIDENCIA, flowApp.ordinal)
-        args.putInt(KEY_POS_OBSERV_RESIDENCIA, pos)
-        val fragment = ObservResidenciaFragment()
-        fragment.arguments = args
-        replaceFragment(fragment)
+        this.typeMov = typeMov
+        this.flowApp = flowApp
+        this.pos = pos
+        replaceFragment(ObservResidenciaFragment())
     }
 
     override fun goDetalhe(pos: Int) {
-        val args = Bundle()
-        args.putInt(KEY_POS_DETALHE_RESIDENCIA, pos)
-        val fragment = DetalheMovEquipResidenciaFragment()
-        fragment.arguments = args
-        replaceFragment(fragment)
+        this.pos = pos
+        replaceFragment(DetalheMovEquipResidenciaFragment())
+    }
+
+    override fun getFlowApp(): FlowApp {
+        return flowApp
+    }
+
+    override fun getPos(): Int {
+        return pos
+    }
+
+    override fun getTypeMov(): TypeMov? {
+        return typeMov
     }
 
     private fun replaceFragment(fragment: Fragment) {

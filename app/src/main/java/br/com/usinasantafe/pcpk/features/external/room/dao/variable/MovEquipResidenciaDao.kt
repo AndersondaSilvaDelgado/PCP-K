@@ -13,10 +13,10 @@ import br.com.usinasantafe.pcpk.features.infra.models.room.variable.MovEquipResi
 interface MovEquipResidenciaDao {
 
     @Insert
-    suspend fun insert(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Long
+    suspend fun insert(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
 
     @Update
-    suspend fun update(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Int
+    suspend fun update(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status")
     suspend fun listMovStatus(status: StatusData): List<MovEquipResidenciaRoomModel>
@@ -25,7 +25,7 @@ interface MovEquipResidenciaDao {
     suspend fun listMovStatusEnvio(statusEnvio: StatusSend): List<MovEquipResidenciaRoomModel>
 
     @Query("SELECT MAX(idMovEquipResidencia) FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusSendMovEquipResidencia = :statusEnvio")
-    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Int
+    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Long
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE idMovEquipResidencia = :idMov")
     suspend fun listMovId(idMov: Long): List<MovEquipResidenciaRoomModel>

@@ -29,16 +29,11 @@ class NotaFiscalProprioFragment : BaseFragment<FragmentNotaFiscalProprioBinding>
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_FLOW_NOTA_FISCAL = "key_flow_nota_fiscal";
-        const val KEY_POS_NOTA_FISCAL = "key_pos_nota_fiscal";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_NOTA_FISCAL)!!]
-        pos = arguments?.getInt(KEY_POS_NOTA_FISCAL)!!
+        this.flowApp = fragmentAttachListenerProprio?.getFlowApp()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 

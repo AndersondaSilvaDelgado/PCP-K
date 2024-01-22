@@ -37,16 +37,11 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
     private lateinit var matricColab: String
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OCUPANTE_VEIC_PROPRIO = "key_type_ocupante_veic_proprio";
-        const val KEY_POS_MATRIC_COLAB = "key_pos_matric_colab";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_PROPRIO)!!]
-        pos = arguments?.getInt(KEY_POS_MATRIC_COLAB)!!
+        this.typeAddOcupante = fragmentAttachListenerProprio?.getTypeAddOcupante()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 

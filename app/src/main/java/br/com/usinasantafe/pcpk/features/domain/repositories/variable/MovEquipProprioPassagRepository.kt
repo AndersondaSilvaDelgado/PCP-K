@@ -8,6 +8,8 @@ interface MovEquipProprioPassagRepository {
 
     suspend fun addPassag(nroMatric: Long, idMov: Long): Boolean
 
+    suspend fun clearPassag(): Boolean
+
     suspend fun deletePassag(pos: Int): Boolean
 
     suspend fun deletePassag(pos: Int, idMov: Long): Boolean
@@ -16,6 +18,6 @@ interface MovEquipProprioPassagRepository {
 
     suspend fun listPassag(idMov: Long): List<MovEquipProprioPassag>
 
-    suspend fun savePassag(idMov: Int): Boolean
+    suspend fun savePassag(idMov: Long): Boolean
 
 }

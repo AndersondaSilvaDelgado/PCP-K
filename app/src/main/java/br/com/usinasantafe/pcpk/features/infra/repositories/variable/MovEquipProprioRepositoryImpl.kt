@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.infra.repositories.variable
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipProprio
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
@@ -76,15 +77,15 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
         return true
     }
 
-    override suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Int {
+    override suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Long {
         try {
             val movEquipProprio = movEquipProprioDatasourceSharedPreferences.getMovEquipProprio()
                 .modelSharedPreferencesToMovEquipProprio()
             val movEquipProprioRoomModel =
                 movEquipProprio.entityToMovEquipProprioRoomModel(matricVigia, idLocal)
-            if (!movEquipProprioDatasourceRoom.saveMovEquipProprioOpen(movEquipProprioRoomModel)) return 0
-            if (!movEquipProprioDatasourceSharedPreferences.clearMovEquipProprio()) return 0
-            return movEquipProprioDatasourceRoom.lastIdMovStatusSend()
+            if (!movEquipProprioDatasourceRoom.saveMovEquipProprioOpen(movEquipProprioRoomModel)) return 0L
+            if (!movEquipProprioDatasourceSharedPreferences.clearMovEquipProprio()) return 0L
+            return movEquipProprioDatasourceRoom.lastIdMovStatusStarted()
         } catch (exception: Exception) {
             return 0
         }
@@ -213,6 +214,23 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
         return try {
             movEquipProprioDatasourceRoom.updateIdEquipMovEquipProprio(
                 idEquip,
+                movEquipProprio.entityToMovEquipProprioRoomModel(
+                    movEquipProprio.nroMatricVigiaMovEquipProprio!!,
+                    movEquipProprio.idLocalMovEquipProprio!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateObservMovEquipProprio(
+        observ: String?,
+        movEquipProprio: MovEquipProprio
+    ): Boolean {
+        return try {
+            movEquipProprioDatasourceRoom.updateObservMovEquipProprio(
+                observ,
                 movEquipProprio.entityToMovEquipProprioRoomModel(
                     movEquipProprio.nroMatricVigiaMovEquipProprio!!,
                     movEquipProprio.idLocalMovEquipProprio!!

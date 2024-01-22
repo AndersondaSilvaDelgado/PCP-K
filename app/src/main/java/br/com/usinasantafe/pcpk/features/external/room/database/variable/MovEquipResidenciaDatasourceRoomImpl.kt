@@ -15,8 +15,8 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
         return movEquipResidenciaDao.listMovStatusEnvio(StatusSend.SEND).isNotEmpty()
     }
 
-    override suspend fun lastIdMovStatusSend(): Int {
-        return movEquipResidenciaDao.lastIdMovStatusEnvio(StatusSend.SEND)
+    override suspend fun lastIdMovStatusSend(): Long {
+        return movEquipResidenciaDao.lastIdMovStatusEnvio(StatusSend.STARTED)
     }
 
     override suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidenciaRoomModel> {
@@ -35,70 +35,103 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
         veiculo: String,
         movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
     ): Boolean {
-        movEquipVisitTercRoomModel.veiculoMovEquipResidencia = veiculo
-        return movEquipResidenciaDao.update(movEquipVisitTercRoomModel) > 0
+        try {
+            movEquipVisitTercRoomModel.veiculoMovEquipResidencia = veiculo
+            movEquipResidenciaDao.update(movEquipVisitTercRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun updatePlacaMovEquipResidencia(
         placa: String,
         movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
     ): Boolean {
-        movEquipVisitTercRoomModel.placaMovEquipResidencia = placa
-        return movEquipResidenciaDao.update(movEquipVisitTercRoomModel) > 0
+        try {
+            movEquipVisitTercRoomModel.placaMovEquipResidencia = placa
+            movEquipResidenciaDao.update(movEquipVisitTercRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun updateMotoristaMovEquipResidencia(
         motorista: String,
         movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
     ): Boolean {
-        movEquipVisitTercRoomModel.motoristaMovEquipResidencia = motorista
-        return movEquipResidenciaDao.update(movEquipVisitTercRoomModel) > 0
+        try {
+            movEquipVisitTercRoomModel.motoristaMovEquipResidencia = motorista
+            movEquipResidenciaDao.update(movEquipVisitTercRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun updateObservMovEquipResidencia(
         observ: String?,
         movEquipVisitTercRoomModel: MovEquipResidenciaRoomModel
     ): Boolean {
-        movEquipVisitTercRoomModel.observMovEquipResidencia = observ
-        return movEquipResidenciaDao.update(movEquipVisitTercRoomModel) > 0
+        try {
+            movEquipVisitTercRoomModel.observMovEquipResidencia = observ
+            movEquipResidenciaDao.update(movEquipVisitTercRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun insertMovEquipResidenciaOpen(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
-        return movEquipResidenciaDao.insert(movEquipResidenciaRoomModel) > 0
+        try {
+            movEquipResidenciaDao.insert(movEquipResidenciaRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun insertMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
-        movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
-        return movEquipResidenciaDao.insert(movEquipResidenciaRoomModel) > 0
+        try {
+            movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
+            movEquipResidenciaDao.insert(movEquipResidenciaRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun updateStatusSentMovEquipResidencia(idMov: Long): Boolean {
-        return try{
+        try {
             val movEquip = movEquipResidenciaDao.listMovId(idMov).single()
             movEquip.statusSendMovEquipResidencia = StatusSend.SENT
-            return movEquipResidenciaDao.update(movEquip) > 0
+            movEquipResidenciaDao.update(movEquip)
         } catch (exception: Exception){
-            false
+            return false
         }
+        return true
     }
 
     override suspend fun updateStatusCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
-        return try{
+        try {
             movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
-            return movEquipResidenciaDao.update(movEquipResidenciaRoomModel) > 0
+            movEquipResidenciaDao.update(movEquipResidenciaRoomModel)
         } catch (exception: Exception){
-            false
+            return false
         }
+        return true
     }
 
     override suspend fun updateStatusSendCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
-        return try{
+        try {
             movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
             movEquipResidenciaRoomModel.statusSendMovEquipResidencia = StatusSend.SEND
-            return movEquipResidenciaDao.update(movEquipResidenciaRoomModel) > 0
+            movEquipResidenciaDao.update(movEquipResidenciaRoomModel)
         } catch (exception: Exception){
-            false
+            return false
         }
+        return true
     }
 
 }

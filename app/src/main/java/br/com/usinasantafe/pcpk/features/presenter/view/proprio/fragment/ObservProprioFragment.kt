@@ -25,16 +25,11 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_FLOW_OBSERV_PROPRIO = "key_flow_observ_proprio";
-        const val KEY_POS_OBSERV_PROPRIO = "key_pos_observ_proprio";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_OBSERV_PROPRIO)!!]
-        pos = arguments?.getInt(KEY_POS_OBSERV_PROPRIO)!!
+        this.flowApp = fragmentAttachListenerProprio?.getFlowApp()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 
@@ -50,10 +45,10 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
         with(binding) {
             buttonOkObserv.setOnClickListener {
                 if (editTextObserv.text.isEmpty()) {
-                    viewModel.setObserv(null)
+                    viewModel.setObserv(null, flowApp, pos)
                     return@setOnClickListener
                 }
-                viewModel.setObserv(editTextObserv.text.toString())
+                viewModel.setObserv(editTextObserv.text.toString(), flowApp, pos)
             }
             buttonCancObserv.setOnClickListener {
                 when(flowApp) {

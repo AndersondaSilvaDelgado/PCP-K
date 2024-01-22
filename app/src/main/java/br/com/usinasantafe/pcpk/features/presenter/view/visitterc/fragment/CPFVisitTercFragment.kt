@@ -38,16 +38,11 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
     private lateinit var cpfVisitTerc: String
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC = "key_type_ocupante_veic_visit_terc";
-        const val KEY_POS_CPF_VISIT_TERC = "key_pos_cpf_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC)!!]
-        pos = arguments?.getInt(KEY_POS_CPF_VISIT_TERC)!!
+        this.typeAddOcupante = fragmentAttachListenerVisitTerc?.getTypeAddOcupante()!!
+        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 

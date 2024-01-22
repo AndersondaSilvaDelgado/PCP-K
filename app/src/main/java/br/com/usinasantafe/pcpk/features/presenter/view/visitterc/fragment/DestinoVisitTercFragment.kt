@@ -28,16 +28,11 @@ class DestinoVisitTercFragment : BaseFragment<FragmentDestinoVisitTercBinding>(
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_FLOW_DESTINO_VISIT_TERC = "key_flow_destino_visit_terc";
-        const val KEY_POS_DESTINO_VISIT_TERC = "key_pos_destino_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_DESTINO_VISIT_TERC)!!]
-        pos = arguments?.getInt(KEY_POS_DESTINO_VISIT_TERC)!!
+        this.flowApp = fragmentAttachListenerVisitTerc?.getFlowApp()!!
+        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 

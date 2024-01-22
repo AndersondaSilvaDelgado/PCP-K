@@ -41,12 +41,12 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         return true
     }
 
-    override suspend fun saveMovEquipResidencia(matricVigia: Long, idLocal: Long): Int {
+    override suspend fun saveMovEquipResidencia(matricVigia: Long, idLocal: Long): Long {
         try {
             val movEquipResidencia = movEquipResidenciaDatasourceSharedPreferences.getMovEquipResidencia().modelSharedPreferencesToMovEquipResidencia()
             val movEquipResidenciaRoomModel = movEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia, idLocal)
-            if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaOpen(movEquipResidenciaRoomModel)) return 0
-            if(!movEquipResidenciaDatasourceSharedPreferences.clearMovEquipResidencia()) return 0
+            if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaOpen(movEquipResidenciaRoomModel)) return 0L
+            if(!movEquipResidenciaDatasourceSharedPreferences.clearMovEquipResidencia()) return 0L
             return movEquipResidenciaDatasourceRoom.lastIdMovStatusSend()
         } catch (exception: Exception){
             return 0
@@ -57,7 +57,7 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         matricVigia: Long,
         idLocal: Long,
         movEquipResidencia: MovEquipResidencia
-    ): Int {
+    ): Long {
         try {
             val movEquipResidenciaRoomModel = movEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia, idLocal)
             if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaClose(movEquipResidenciaRoomModel)) return 0

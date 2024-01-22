@@ -16,17 +16,18 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
     }
 
     override suspend fun updateStatusMovEquipProprioCloseSend(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
-        return try {
+        try {
             movEquipProprioRoomModel.statusMovEquipProprio = StatusData.CLOSE
             movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
-            return movEquipProprioDao.update(movEquipProprioRoomModel) > 0
+            movEquipProprioDao.update(movEquipProprioRoomModel)
         } catch (exception: Exception) {
-            false
+            return false
         }
+        return true
     }
 
-    override suspend fun lastIdMovStatusSend(): Int {
-        return movEquipProprioDao.lastIdMovStatusEnvio(StatusSend.SEND)
+    override suspend fun lastIdMovStatusStarted(): Long {
+        return movEquipProprioDao.lastIdMovStatusEnvio(StatusSend.STARTED)
     }
 
     override suspend fun listMovEquipProprioOpen(): List<MovEquipProprioRoomModel> {
@@ -42,49 +43,88 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
     }
 
     override suspend fun saveMovEquipProprioOpen(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
-        return movEquipProprioDao.insert(movEquipProprioRoomModel) > 0
+        try {
+            movEquipProprioDao.insert(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun updateStatusMovEquipProprioSent(idMov: Long): Boolean {
-        return try {
+        try {
             val movEquip = movEquipProprioDao.listMovId(idMov).single()
             movEquip.statusSendMovEquipProprio = StatusSend.SENT
-            return movEquipProprioDao.update(movEquip) > 0
+            movEquipProprioDao.update(movEquip)
         } catch (exception: Exception) {
-            false
+            return false
         }
+        return true
     }
 
     override suspend fun updateDestinoMovEquipProprio(
         destino: String,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean {
-        movEquipProprioRoomModel.destinoMovEquipProprio = destino
-        return movEquipProprioDao.update(movEquipProprioRoomModel) > 0
+        try {
+            movEquipProprioRoomModel.destinoMovEquipProprio = destino
+            movEquipProprioDao.update(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun updateIdEquipMovEquipProprio(
         idEquip: Long,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean {
-        movEquipProprioRoomModel.idEquipMovEquipProprio = idEquip
-        return movEquipProprioDao.update(movEquipProprioRoomModel) > 0
+        try {
+            movEquipProprioRoomModel.idEquipMovEquipProprio = idEquip
+            movEquipProprioDao.update(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun updateNroColabMovEquipProprio(
         nroMatric: Long,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean {
-        movEquipProprioRoomModel.nroMatricColabMovEquipProprio = nroMatric
-        return movEquipProprioDao.update(movEquipProprioRoomModel) > 0
+        try {
+            movEquipProprioRoomModel.nroMatricColabMovEquipProprio = nroMatric
+            movEquipProprioDao.update(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun updateNotaFiscalMovEquipProprio(
         notaFiscal: Long,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean {
-        movEquipProprioRoomModel.nroNotaFiscalMovEquipProprio = notaFiscal
-        return movEquipProprioDao.update(movEquipProprioRoomModel) > 0
+        try {
+            movEquipProprioRoomModel.nroNotaFiscalMovEquipProprio = notaFiscal
+            movEquipProprioDao.update(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
+    }
+
+    override suspend fun updateObservMovEquipProprio(
+        observ: String?,
+        movEquipProprioRoomModel: MovEquipProprioRoomModel
+    ): Boolean {
+        try {
+            movEquipProprioRoomModel.observMovEquipProprio = observ
+            movEquipProprioDao.update(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
 }

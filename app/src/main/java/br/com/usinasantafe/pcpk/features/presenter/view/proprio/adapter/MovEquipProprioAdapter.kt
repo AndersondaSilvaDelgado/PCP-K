@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.proprio.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup

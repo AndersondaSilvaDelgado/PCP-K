@@ -16,8 +16,8 @@ interface MovEquipVisitTercPassagRepository {
 
     suspend fun listPassag(idMov: Long): List<MovEquipVisitTercPassag>
 
-    suspend fun savePassag(idMov: Int): Boolean
+    suspend fun savePassag(idMov: Long): Boolean
 
-    suspend fun savePassag(idMov: Int, passagList: List<MovEquipVisitTercPassag>): Boolean
+    suspend fun savePassag(idMov: Long, passagList: List<MovEquipVisitTercPassag>): Boolean
 
 }

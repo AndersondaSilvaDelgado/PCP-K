@@ -115,14 +115,12 @@ class MatricVigiaFragment : BaseFragment<FragmentMatricVigiaBinding>(
         when (statusUpdate) {
             StatusUpdate.UPDATED -> {
                 hideProgressBar()
-                showToast(
-                    getString(R.string.texto_msg_atualizacao, "COLABORADORES"),
-                    requireContext()
-                )
+                showGenericAlertDialog(getString(R.string.texto_msg_atualizacao, "COLABORADORES"),
+                    requireContext())
             }
             StatusUpdate.FAILURE -> {
                 hideProgressBar()
-                showToast(
+                showGenericAlertDialog(
                     getString(R.string.texto_update_failure, describeUpdate),
                     requireContext()
                 )

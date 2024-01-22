@@ -14,10 +14,10 @@ import br.com.usinasantafe.pcpk.features.infra.models.room.variable.MovEquipVisi
 interface MovEquipVisitTercDao {
 
     @Insert
-    suspend fun insert(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Long
+    suspend fun insert(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
 
     @Update
-    suspend fun update(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Int
+    suspend fun update(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusMovEquipVisitTerc = :status")
     suspend fun listMovStatus(status: StatusData): List<MovEquipVisitTercRoomModel>
@@ -26,7 +26,7 @@ interface MovEquipVisitTercDao {
     suspend fun listMovStatusEnvio(statusEnvio: StatusSend): List<MovEquipVisitTercRoomModel>
 
     @Query("SELECT MAX(idMovEquipVisitTerc) FROM $TB_MOV_EQUIP_VISIT_TERC WHERE statusSendMovEquipVisitTerc = :statusEnvio")
-    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Int
+    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Long
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC WHERE idMovEquipVisitTerc = :idMov")
     suspend fun listMovId(idMov: Long): List<MovEquipVisitTercRoomModel>

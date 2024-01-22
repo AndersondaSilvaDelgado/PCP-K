@@ -28,20 +28,12 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
     private var typeMov: TypeMov? = null
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OBSERV_RESIDENCIA = "key_type_observ_residencia";
-        const val KEY_POS_OBSERV_RESIDENCIA = "key_pos_observ_residencia";
-        const val KEY_FLOW_OBSERV_RESIDENCIA = "key_flow_observ_residencia";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!!]
-        if(arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!! > -1) {
-            typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_OBSERV_RESIDENCIA)!!]
-        }
-        pos = arguments?.getInt(KEY_POS_OBSERV_RESIDENCIA)!!
+        this.flowApp = fragmentAttachListenerResidencia?.getFlowApp()!!
+        this.typeMov = fragmentAttachListenerResidencia?.getTypeMov()
+        this.pos = fragmentAttachListenerResidencia?.getPos()!!
         observeState()
         setListener()
 

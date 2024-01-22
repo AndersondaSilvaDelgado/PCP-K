@@ -15,7 +15,7 @@ class SaveMovEquipVisitTercImpl @Inject constructor(
     override suspend fun invoke(): Boolean {
         val config = configRepository.getConfig()
         val idMov = movEquipVisitTercRepository.saveMovEquipVisitTerc(config.matricVigia!!, config.idLocal!!)
-        if(idMov == 0) return false
+        if(idMov == 0L) return false
         if(!movEquipVisitTercPassagRepository.savePassag(idMov)) return false
         return true
     }
@@ -23,7 +23,7 @@ class SaveMovEquipVisitTercImpl @Inject constructor(
     override suspend fun invoke(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
         val config = configRepository.getConfig()
         val idMov = movEquipVisitTercRepository.saveMovEquipVisitTerc(config.matricVigia!!, config.idLocal!!, movEquipVisitTerc)
-        if(idMov == 0) return false
+        if(idMov == 0L) return false
         val passagList = movEquipVisitTercPassagRepository.listPassag(movEquipVisitTerc.idMovEquipVisitTerc!!)
         if(!movEquipVisitTercPassagRepository.savePassag(idMov, passagList)) return false
         return true

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.proprio
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioPassagRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
@@ -17,10 +18,15 @@ class SaveMovEquipProprioOpenImpl @Inject constructor(
 
     override suspend fun invoke(): Boolean {
         val config = configRepository.getConfig()
+        Log.i("PCP", "CHEGOU AKI 1")
         val idMov = movEquipProprioRepository.saveMovEquipProprio(config.matricVigia!!, config.idLocal!!)
-        if(idMov == 0) return false
+        Log.i("PCP", "CHEGOU AKI 2")
+        if(idMov == 0L) return false
+        Log.i("PCP", "CHEGOU AKI 3")
         if(!movEquipProprioSegRepository.saveEquipSeg(idMov)) return false
+        Log.i("PCP", "CHEGOU AKI 4")
         if(!movEquipProprioPassagRepository.savePassag(idMov)) return false
+        Log.i("PCP", "CHEGOU AKI 5")
         return true
     }
 

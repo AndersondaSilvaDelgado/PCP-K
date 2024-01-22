@@ -28,18 +28,11 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC_PASSAG_LIST =
-            "key_type_ocupante_veic_visit_terc_passag_list";
-        const val KEY_POS_PASSAG_VISIT_TERC = "key_pos_passag_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddOcupante =
-            TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC_PASSAG_LIST)!!]
-        pos = arguments?.getInt(KEY_POS_PASSAG_VISIT_TERC)!!
+        this.typeAddOcupante = fragmentAttachListenerVisitTerc?.getTypeAddOcupante()!!
+        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         startEvents()
         setListener()

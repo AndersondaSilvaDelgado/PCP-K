@@ -28,18 +28,11 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OCUPANTE_VEIC_PROPRIO_PASSAG_LIST =
-            "key_type_ocupante_veic_proprio_passag_list";
-        const val KEY_POS_PASSAG_PROPRIO = "key_pos_passag_proprio";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddOcupante =
-            TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_PROPRIO_PASSAG_LIST)!!]
-        pos = arguments?.getInt(KEY_POS_PASSAG_PROPRIO)!!
+        this.typeAddOcupante = fragmentAttachListenerProprio?.getTypeAddOcupante()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -59,7 +52,7 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     private fun setListener() {
         with(binding) {
             buttonInserirPassageiro.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
+                fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.ADDPASSAGEIRO)
             }
             buttonOkPassageiro.setOnClickListener {
                 when (typeAddOcupante) {

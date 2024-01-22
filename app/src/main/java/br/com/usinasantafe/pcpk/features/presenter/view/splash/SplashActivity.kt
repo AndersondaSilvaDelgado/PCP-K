@@ -67,15 +67,18 @@ class SplashActivity : AppCompatActivity() {
     private fun handleCheckStartAPP(checkStartAPP: PointerStart){
         when(checkStartAPP){
             PointerStart.MENUINICIAL -> goMenuInicial()
-            else -> {}
+            PointerStart.MENUAPONT -> {}
+            PointerStart.IMPLEMENTO -> {}
+            PointerStart.CHECKLIST -> {}
         }
     }
 
     private fun goMenuInicial(){
         val intent = Intent(this, InitialActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        var bundle = intent.extras
-        bundle?.putInt(KEY_FLOW_INITIAL, FlowInitial.START.ordinal)
+        intent.apply {
+            putExtra(KEY_FLOW_INITIAL, FlowInitial.START.ordinal)
+        }
         startActivity(intent)
     }
 

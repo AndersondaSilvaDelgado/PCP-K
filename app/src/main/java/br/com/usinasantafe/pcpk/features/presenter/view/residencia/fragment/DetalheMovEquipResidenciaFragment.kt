@@ -27,14 +27,10 @@ class DetalheMovEquipResidenciaFragment : BaseFragment<FragmentDetalheMovEquipRe
     private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_POS_DETALHE_RESIDENCIA = "key_pos_detalhe_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pos = arguments?.getInt(KEY_POS_DETALHE_RESIDENCIA)!!
+        this.pos = fragmentAttachListenerResidencia?.getPos()!!
         observeState()
         setListener()
         startEvents()

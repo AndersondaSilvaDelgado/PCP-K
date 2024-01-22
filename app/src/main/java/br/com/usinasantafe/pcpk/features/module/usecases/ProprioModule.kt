@@ -22,11 +22,7 @@ interface ProprioModule {
 
     @Binds
     @Singleton
-    fun bindClearMovEquipProprioSeg(usecase: ClearEquipSegImpl): ClearEquipSeg
-
-    @Binds
-    @Singleton
-    fun bindClosedMovEquipProprioSeg(usecase: SetStatusSendCloseMovProprioImpl): SetStatusSendCloseMovProprio
+    fun bindClearEquipSeg(usecase: ClearEquipSegImpl): ClearEquipSeg
 
     @Binds
     @Singleton
@@ -48,9 +44,6 @@ interface ProprioModule {
     @Singleton
     fun bindRecoverDetalheMovEquipProprio(usecase: RecoverDetalheMovEquipProprioImpl): RecoverDetalheMovEquipProprio
 
-    @Binds
-    @Singleton
-    fun bindRecoverListEquipProprioSeg(usecase: RecoverDetalheMovEquipProprio): RecoverDetalheMovEquipProprio
 
     @Binds
     @Singleton
@@ -95,6 +88,10 @@ interface ProprioModule {
     @Binds
     @Singleton
     fun bindSetObservProprio(usecase: SetObservProprioImpl): SetObservProprio
+
+    @Binds
+    @Singleton
+    fun bindSetStatusSendCloseMovProprio(usecase: SetStatusSendCloseMovProprioImpl): SetStatusSendCloseMovProprio
 
     @Binds
     @Singleton

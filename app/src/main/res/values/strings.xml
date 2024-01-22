@@ -20,7 +20,7 @@
     <string name="texto_falha_acesso_apont">ACESSO INVÁLIDO! POR FAVOR, CONFIGURE O APLICATIVO ANTES DE COMEÇAR APONTAR.</string>
     <string name="texto_dado_invalido_com_atual">DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO %1$s FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.</string>
     <string name="texto_falha_insercao_campo">FALHA DE INSERÇÃO! OCORREU UMA FALHA NA INSERÇÃO DO CAMPO %1$s. POR FAVOR, ENTRE EM CONTATO COM TI.</string>
-    <string name="texto_msg_atualizacao">OS DADOS DOS %1$s. FOI ATUALIZADA COM SUCESSO!</string>
+    <string name="texto_msg_atualizacao">A BASE DE DADOS DO %1$s. FOI ATUALIZADA COM SUCESSO!</string>
     <string name="texto_failure_delete">FALHA DE EXCLUSÃO DE %1$s! POR FAVOR ENTRE EM CONTATO COM TI</string>
     <string name="texto_matric_vigia">MATRIC. VIGIA:</string>
     <string name="texto_num1">1</string>

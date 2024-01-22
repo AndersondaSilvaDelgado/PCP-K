@@ -14,4 +14,7 @@ interface FragmentAttachListenerResidencia {
     fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int = 0)
     fun goDetalhe(pos: Int)
 
+    fun getFlowApp(): FlowApp
+    fun getPos(): Int
+    fun getTypeMov(): TypeMov?
 }

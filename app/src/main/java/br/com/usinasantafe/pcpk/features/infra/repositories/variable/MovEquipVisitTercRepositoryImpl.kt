@@ -72,15 +72,15 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         return true
     }
 
-    override suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long): Int {
+    override suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long): Long {
         try {
             val movEquipVisitTerc = movEquipVisitTercDatasourceSharedPreferences.getMovEquipVisitTerc().modelSharedPreferencesToMovEquipVisitTerc()
             val movEquipVisitTercRoomModel = movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia, idLocal)
-            if(!movEquipVisitTercDatasourceRoom.insertMovEquipVisitTercOpen(movEquipVisitTercRoomModel)) return 0
-            if(!movEquipVisitTercDatasourceSharedPreferences.clearMovEquipVisitTerc()) return 0
-            return movEquipVisitTercDatasourceRoom.lastIdMovStatusSend()
+            if(!movEquipVisitTercDatasourceRoom.insertMovEquipVisitTercOpen(movEquipVisitTercRoomModel)) return 0L
+            if(!movEquipVisitTercDatasourceSharedPreferences.clearMovEquipVisitTerc()) return 0L
+            return movEquipVisitTercDatasourceRoom.lastIdMovStatusStarted()
         } catch (exception: Exception){
-            return 0
+            return 0L
         }
     }
 
@@ -88,11 +88,15 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         matricVigia: Long,
         idLocal: Long,
         movEquipVisitTerc: MovEquipVisitTerc
-    ): Int {
-        val movEquipVisitTercRoomModel = movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia, idLocal)
-        if(!movEquipVisitTercDatasourceRoom.insertMovEquipVisitTercClose(movEquipVisitTercRoomModel)) return 0
-        if(!movEquipVisitTercDatasourceSharedPreferences.clearMovEquipVisitTerc()) return 0
-        return movEquipVisitTercDatasourceRoom.lastIdMovStatusSend()
+    ): Long {
+        try {
+            val movEquipVisitTercRoomModel = movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia, idLocal)
+            if(!movEquipVisitTercDatasourceRoom.insertMovEquipVisitTercClose(movEquipVisitTercRoomModel)) return 0L
+            if(!movEquipVisitTercDatasourceSharedPreferences.clearMovEquipVisitTerc()) return 0L
+            return movEquipVisitTercDatasourceRoom.lastIdMovStatusStarted()
+        } catch (exception: Exception){
+            return 0L
+        }
     }
 
     override suspend fun sendMovEquipVisitTerc(

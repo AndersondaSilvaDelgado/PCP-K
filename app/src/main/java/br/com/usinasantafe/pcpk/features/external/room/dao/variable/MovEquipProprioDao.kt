@@ -13,10 +13,10 @@ import br.com.usinasantafe.pcpk.features.infra.models.room.variable.MovEquipProp
 interface MovEquipProprioDao {
 
     @Insert
-    suspend fun insert(movEquipProprioRoomModel: MovEquipProprioRoomModel): Long
+    suspend fun insert(movEquipProprioRoomModel: MovEquipProprioRoomModel)
 
     @Update
-    suspend fun update(movEquipProprioRoomModel: MovEquipProprioRoomModel): Int
+    suspend fun update(movEquipProprioRoomModel: MovEquipProprioRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE statusMovEquipProprio = :status")
     suspend fun listMovStatus(status: StatusData): List<MovEquipProprioRoomModel>
@@ -25,7 +25,7 @@ interface MovEquipProprioDao {
     suspend fun listMovStatusEnvio(statusEnvio: StatusSend): List<MovEquipProprioRoomModel>
 
     @Query("SELECT MAX(idMovEquipProprio) FROM $TB_MOV_EQUIP_PROPRIO WHERE statusSendMovEquipProprio = :statusEnvio")
-    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Int
+    suspend fun lastIdMovStatusEnvio(statusEnvio: StatusSend): Long
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO WHERE idMovEquipProprio = :idMov")
     suspend fun listMovId(idMov: Long): List<MovEquipProprioRoomModel>

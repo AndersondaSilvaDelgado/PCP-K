@@ -27,20 +27,12 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
     private var typeMov: TypeMov? = null
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_OBSERV_VISIT_TERC = "key_type_observ_visit_terc";
-        const val KEY_POS_OBSERV_VISIT_TERC = "key_pos_observ_visit_terc";
-        const val KEY_FLOW_OBSERV_VISIT_TERC = "key_flow_observ_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_OBSERV_VISIT_TERC)!!]
-        if(arguments?.getInt(KEY_TYPE_OBSERV_VISIT_TERC)!! > -1) {
-            typeMov = TypeMov.values()[arguments?.getInt(KEY_TYPE_OBSERV_VISIT_TERC)!!]
-        }
-        pos = arguments?.getInt(KEY_POS_OBSERV_VISIT_TERC)!!
+        this.flowApp = fragmentAttachListenerVisitTerc?.getFlowApp()!!
+        this.typeMov = fragmentAttachListenerVisitTerc?.getTypeMov()
+        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 

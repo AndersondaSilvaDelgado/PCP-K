@@ -18,8 +18,8 @@ data class MovEquipProprioRoomModel(
     var nroMatricVigiaMovEquipProprio: Long,
     var idLocalMovEquipProprio: Long,
     var tipoMovEquipProprio: TypeMov,
-    var idEquipMovEquipProprio: Long,
     var dthrMovEquipProprio: Long,
+    var idEquipMovEquipProprio: Long,
     var nroMatricColabMovEquipProprio: Long,
     var destinoMovEquipProprio: String,
     var nroNotaFiscalMovEquipProprio: Long?,
@@ -28,38 +28,40 @@ data class MovEquipProprioRoomModel(
     var statusSendMovEquipProprio: StatusSend,
 )
 
-fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal: Long): MovEquipProprioRoomModel{
-    return with(this){
-        MovEquipProprioRoomModel(
-            nroMatricVigiaMovEquipProprio = matricVigia,
-            idLocalMovEquipProprio = idLocal,
-            tipoMovEquipProprio = this.tipoMovEquipProprio!!,
-            idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
-            dthrMovEquipProprio = Date().time,
-            nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
-            destinoMovEquipProprio = this.destinoMovEquipProprio!!,
-            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
-            observMovEquipProprio = this.observMovEquipProprio,
-            statusMovEquipProprio = StatusData.OPEN,
-            statusSendMovEquipProprio = StatusSend.STARTED,
-        )
-    }
-}
-
 fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio{
     return with(this){
         MovEquipProprio(
             idMovEquipProprio = this.idMovEquipProprio,
-            tipoMovEquipProprio = this.tipoMovEquipProprio,
-            idLocalMovEquipProprio = this.idLocalMovEquipProprio,
-            dthrMovEquipProprio = Date(this.dthrMovEquipProprio),
             nroMatricVigiaMovEquipProprio = this.nroMatricVigiaMovEquipProprio,
+            idLocalMovEquipProprio = this.idLocalMovEquipProprio,
+            tipoMovEquipProprio = this.tipoMovEquipProprio,
+            dthrMovEquipProprio = Date(this.dthrMovEquipProprio),
+            idEquipMovEquipProprio = this.idEquipMovEquipProprio,
             nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio,
             destinoMovEquipProprio = this.destinoMovEquipProprio,
             nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
             statusMovEquipProprio = this.statusMovEquipProprio,
             statusSendMovEquipProprio = this.statusSendMovEquipProprio,
+        )
+    }
+}
+
+fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal: Long): MovEquipProprioRoomModel{
+    return with(this){
+        MovEquipProprioRoomModel(
+            idMovEquipProprio = idMovEquipProprio,
+            nroMatricVigiaMovEquipProprio = matricVigia,
+            idLocalMovEquipProprio = idLocal,
+            tipoMovEquipProprio = this.tipoMovEquipProprio!!,
+            dthrMovEquipProprio = Date().time,
+            idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
+            nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
+            destinoMovEquipProprio = this.destinoMovEquipProprio!!,
+            nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
+            observMovEquipProprio = this.observMovEquipProprio,
+            statusMovEquipProprio = StatusData.OPEN,
+            statusSendMovEquipProprio = StatusSend.STARTED,
         )
     }
 }

@@ -15,13 +15,13 @@ class SaveMovEquipResidenciaImpl @Inject constructor(
 
     override suspend fun invoke(): Boolean {
         val config = configRepository.getConfig()
-        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!) == 0) return false
+        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!) == 0L) return false
         return true
     }
 
     override suspend fun invoke(movEquipResidencia: MovEquipResidencia): Boolean {
         val config = configRepository.getConfig()
-        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!, movEquipResidencia) == 0) return false
+        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!, movEquipResidencia) == 0L) return false
         return true
     }
 

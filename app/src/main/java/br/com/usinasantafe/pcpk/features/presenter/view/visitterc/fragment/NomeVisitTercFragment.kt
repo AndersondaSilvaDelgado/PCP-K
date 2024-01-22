@@ -12,7 +12,6 @@ import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentNomeVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.DisplayDataVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
-import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.CPFVisitTercFragment.Companion.KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.NomeVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.NomeVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,17 +28,12 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_CPF_VISIT_TERC = "key_cpf_visit_terc";
-        const val KEY_POS_NOME_VISIT_TERC = "key_pos_nome_visit_terc";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cpfVisitTerc = arguments?.getString(KEY_CPF_VISIT_TERC)!!
-        typeAddOcupante = TypeAddOcupante.values()[arguments?.getInt(KEY_TYPE_OCUPANTE_VEIC_VISIT_TERC)!!]
-        pos = arguments?.getInt(KEY_POS_NOME_VISIT_TERC)!!
+        this.cpfVisitTerc = fragmentAttachListenerVisitTerc?.getCPF()!!
+        this.typeAddOcupante = fragmentAttachListenerVisitTerc?.getTypeAddOcupante()!!
+        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         startEvents()
         setListener()

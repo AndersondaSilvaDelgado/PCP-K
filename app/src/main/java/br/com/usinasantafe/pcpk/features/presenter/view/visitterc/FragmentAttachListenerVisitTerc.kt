@@ -18,5 +18,10 @@ interface FragmentAttachListenerVisitTerc {
     fun goDestino(flowApp: FlowApp, pos: Int = 0)
     fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int = 0)
     fun goDetalhe(pos: Int = 0)
+    fun getTypeAddOcupante(): TypeAddOcupante
+    fun getFlowApp(): FlowApp
+    fun getPos(): Int
+    fun getCPF(): String
+    fun getTypeMov(): TypeMov?
 
 }

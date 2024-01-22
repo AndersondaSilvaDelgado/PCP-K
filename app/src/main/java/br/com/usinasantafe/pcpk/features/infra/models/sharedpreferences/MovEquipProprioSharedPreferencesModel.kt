@@ -6,7 +6,7 @@ import java.util.Date
 
 data class MovEquipProprioSharedPreferencesModel(
     var dthrMovEquipProprio: Date = Date(),
-    var tipoMovEquipProprio: TypeMov = TypeMov.INPUT,
+    var tipoMovEquipProprio: TypeMov,
     var idEquipMovEquipProprio: Long? = null,
     var nroMatricColabMovEquipProprio: Long? = null,
     var destinoMovEquipProprio: String? = null,

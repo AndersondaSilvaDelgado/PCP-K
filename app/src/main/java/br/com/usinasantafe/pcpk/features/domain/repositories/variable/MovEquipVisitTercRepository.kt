@@ -17,9 +17,9 @@ interface MovEquipVisitTercRepository {
 
     suspend fun receiverSentMovEquipVisitTerc(movEquipList: List<MovEquipVisitTerc>): Boolean
 
-    suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long): Int
+    suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long): Long
 
-    suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long, movEquipVisitTerc: MovEquipVisitTerc): Int
+    suspend fun saveMovEquipVisitTerc(matricVigia: Long, idLocal: Long, movEquipVisitTerc: MovEquipVisitTerc): Long
 
     suspend fun sendMovEquipVisitTerc(movEquipList: List<MovEquipVisitTerc>, nroAparelho: Long): Result<List<MovEquipVisitTerc>>
 

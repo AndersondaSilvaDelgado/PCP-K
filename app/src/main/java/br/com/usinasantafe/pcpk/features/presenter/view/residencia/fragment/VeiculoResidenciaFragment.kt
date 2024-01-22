@@ -26,16 +26,11 @@ class VeiculoResidenciaFragment : BaseFragment<FragmentVeiculoResidenciaBinding>
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_FLOW_VEICULO_RESIDENCIA = "key_flow_veiculo_residencia";
-        const val KEY_POS_VEICULO_RESIDENCIA = "key_pos_veiculo_residencia";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        flowApp = FlowApp.values()[arguments?.getInt(KEY_FLOW_VEICULO_RESIDENCIA)!!]
-        pos = arguments?.getInt(KEY_POS_VEICULO_RESIDENCIA)!!
+        this.flowApp = fragmentAttachListenerResidencia?.getFlowApp()!!
+        this.pos = fragmentAttachListenerResidencia?.getPos()!!
         observeState()
         setListener()
 

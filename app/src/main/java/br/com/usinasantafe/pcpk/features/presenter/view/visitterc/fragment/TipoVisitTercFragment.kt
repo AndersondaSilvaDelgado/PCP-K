@@ -8,6 +8,8 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.common.utils.TypeVisitTerc
 import br.com.usinasantafe.pcpk.databinding.FragmentTipoVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
@@ -67,14 +69,14 @@ class TipoVisitTercFragment : BaseFragment<FragmentTipoVisitTercBinding>(
     private fun setListener() {
         with(binding) {
             buttonRetornarTipo.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goPlaca()
+                fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.ADD)
             }
         }
     }
 
     private fun handleCheckSetTipo(check: Boolean) {
         if (check) {
-            fragmentAttachListenerVisitTerc?.goTipoVisitTerc()
+            fragmentAttachListenerVisitTerc?.goCPFVisitTerc(TypeAddOcupante.ADDMOTORISTA)
             return
         }
         showGenericAlertDialog(

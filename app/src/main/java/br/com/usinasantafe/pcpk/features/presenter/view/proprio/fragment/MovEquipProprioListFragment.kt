@@ -1,10 +1,12 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
+import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
@@ -17,6 +19,7 @@ import br.com.usinasantafe.pcpk.features.presenter.view.proprio.adapter.MovEquip
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBinding>(

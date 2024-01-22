@@ -55,7 +55,7 @@ class MovEquipProprioSegRepositoryImpl @Inject constructor (
         return movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov).map { it.modelRoomToMovEquipSegPassag() }
     }
 
-    override suspend fun saveEquipSeg(idMov: Int): Boolean {
+    override suspend fun saveEquipSeg(idMov: Long): Boolean {
         if(!movEquipProprioSegDatasourceRoom.addAllMovEquipProprioSeg(*listEquipSeg().map {
             it.entityToMovEquipProprioSegRoomModel(idMov)
         }.toTypedArray())) return false

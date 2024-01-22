@@ -10,7 +10,7 @@ interface MovEquipResidenciaDatasourceRoom {
 
     suspend fun insertMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 
-    suspend fun lastIdMovStatusSend(): Int
+    suspend fun lastIdMovStatusSend(): Long
 
     suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidenciaRoomModel>
 

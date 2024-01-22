@@ -35,8 +35,8 @@ class InitialActivity : AppCompatActivity(), FragmentAttachListenerInitial {
         binding = ActivityInitialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var bundle = intent.extras
-        var flowInitial = FlowInitial.values()[bundle?.getInt(KEY_FLOW_INITIAL)!!]
+        val bundle = intent.extras
+        val flowInitial = FlowInitial.values()[bundle?.getInt(KEY_FLOW_INITIAL)!!]
 
         if(flowInitial == FlowInitial.START){
             goMenuInicial()

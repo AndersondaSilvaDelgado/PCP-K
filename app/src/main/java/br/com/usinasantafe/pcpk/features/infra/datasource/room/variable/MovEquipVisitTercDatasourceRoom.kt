@@ -11,7 +11,7 @@ interface MovEquipVisitTercDatasourceRoom {
 
     suspend fun insertMovEquipVisitTercClose(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean
 
-    suspend fun lastIdMovStatusSend(): Int
+    suspend fun lastIdMovStatusStarted(): Long
 
     suspend fun listMovEquipVisitTercOpen(): List<MovEquipVisitTercRoomModel>
 

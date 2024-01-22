@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
@@ -34,16 +35,11 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
     private lateinit var typeAddEquip : TypeAddEquip
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_EQUIP_PROPRIO = "key_type_equip_proprio";
-        const val KEY_POS_EQUIP_PROPRIO = "key_type_equip_proprio";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddEquip = TypeAddEquip.values()[arguments?.getInt(KEY_TYPE_EQUIP_PROPRIO)!!]
-        pos = arguments?.getInt(KEY_POS_EQUIP_PROPRIO)!!
+        this.typeAddEquip = fragmentAttachListenerProprio?.getTypeAddEquip()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 

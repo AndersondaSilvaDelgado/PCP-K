@@ -15,10 +15,10 @@ data class MovEquipVisitTercPassagRoomModel(
     var idVisitTercMovEquipVisitTercPassag: Long,
 )
 
-fun MovEquipVisitTercPassag.entityToMovEquipVisitTercPassagRoomModel(idMov: Int): MovEquipVisitTercPassagRoomModel{
+fun MovEquipVisitTercPassag.entityToMovEquipVisitTercPassagRoomModel(idMov: Long): MovEquipVisitTercPassagRoomModel{
     return with(this){
         MovEquipVisitTercPassagRoomModel(
-            idMovEquipVisitTerc = idMov.toLong(),
+            idMovEquipVisitTerc = idMov,
             idVisitTercMovEquipVisitTercPassag = this.idVisitTercMovEquipVisitTercPassag!!,
         )
     }

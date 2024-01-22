@@ -21,7 +21,12 @@ class MovEquipProprioSegDatasourceRoomImpl @Inject constructor (
     override suspend fun addMovEquipProprioSeg(
         movEquipProprioSegRoomModel: MovEquipProprioSegRoomModel
     ): Boolean {
-        return movEquipProprioSegDao.insert(movEquipProprioSegRoomModel) > 0
+        try {
+            movEquipProprioSegDao.insert(movEquipProprioSegRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
     override suspend fun listMovEquipProprioSegIdMov(idMov: Long): List<MovEquipProprioSegRoomModel> {
@@ -29,7 +34,12 @@ class MovEquipProprioSegDatasourceRoomImpl @Inject constructor (
     }
 
     override suspend fun deleteMovEquipProprioSeg(movEquipProprioSegRoomModel: MovEquipProprioSegRoomModel): Boolean {
-        return movEquipProprioSegDao.delete(movEquipProprioSegRoomModel) > 0
+        try {
+            movEquipProprioSegDao.delete(movEquipProprioSegRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
     }
 
 }

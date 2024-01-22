@@ -10,6 +10,7 @@ import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.dialog.GenericDialogProgressBar
 import br.com.usinasantafe.pcpk.common.extension.onBackPressed
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
@@ -110,14 +111,14 @@ class LocalListFragment : BaseFragment<FragmentLocalListBinding>(
         when (statusUpdate) {
             StatusUpdate.UPDATED -> {
                 hideProgressBar()
-                showToast(
-                    getString(R.string.texto_msg_atualizacao, "COLABORADORES"),
+                showGenericAlertDialog(
+                    getString(R.string.texto_msg_atualizacao, "LOCAL"),
                     requireContext()
                 )
             }
             StatusUpdate.FAILURE -> {
                 hideProgressBar()
-                showToast(
+                showGenericAlertDialog(
                     getString(R.string.texto_update_failure, describeUpdate),
                     requireContext()
                 )

@@ -15,10 +15,10 @@ interface MovEquipVisitTercPassagDao {
     suspend fun insertAll(vararg movEquipVisitTercPassagRoomModels: MovEquipVisitTercPassagRoomModel)
 
     @Insert
-    suspend fun insert(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel): Long
+    suspend fun insert(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel)
 
     @Delete
-    suspend fun delete(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel): Long
+    suspend fun delete(movEquipVisitTercPassagRoomModel: MovEquipVisitTercPassagRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_VISIT_TERC_PASSAG WHERE idMovEquipVisitTerc = :idMov")
     suspend fun listMovEquipVisitTercPassagIdMov(idMov: Long): List<MovEquipVisitTercPassagRoomModel>

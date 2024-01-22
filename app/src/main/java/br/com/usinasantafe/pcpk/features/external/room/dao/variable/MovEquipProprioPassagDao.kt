@@ -14,10 +14,10 @@ interface MovEquipProprioPassagDao {
     suspend fun insertAll(vararg movEquipProprioPassagRoomModels: MovEquipProprioPassagRoomModel)
 
     @Insert
-    suspend fun insert(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel): Long
+    suspend fun insert(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel)
 
     @Delete
-    suspend fun delete(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel): Int
+    suspend fun delete(movEquipProprioPassagRoomModel: MovEquipProprioPassagRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_PROPRIO_PASSAG WHERE idMovEquipProprio = :idMov")
     suspend fun listMovEquipProprioPassagIdMov(idMov: Long): List<MovEquipProprioPassagRoomModel>

@@ -23,7 +23,7 @@ interface MovEquipProprioRepository {
 
     suspend fun receiverSentMovEquipProprio(movEquipList: List<MovEquipProprio>): Boolean
 
-    suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Int
+    suspend fun saveMovEquipProprio(matricVigia: Long, idLocal: Long): Long
 
     suspend fun sendMovEquipProprio(
         movEquipList: List<MovEquipProprio>,
@@ -61,6 +61,11 @@ interface MovEquipProprioRepository {
 
     suspend fun updateVeiculoMovEquipProprio(
         idEquip: Long,
+        movEquipProprio: MovEquipProprio
+    ): Boolean
+
+    suspend fun updateObservMovEquipProprio(
+        observ: String?,
         movEquipProprio: MovEquipProprio
     ): Boolean
 

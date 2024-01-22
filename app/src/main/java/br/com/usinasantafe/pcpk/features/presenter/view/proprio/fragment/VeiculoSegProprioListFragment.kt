@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
@@ -28,16 +29,11 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private lateinit var typeAddEquip : TypeAddEquip
     private var pos: Int = 0
 
-    companion object {
-        const val KEY_TYPE_VEIC_PROPRIO_SEG_LIST = "key_type_veic_proprio_seg_list";
-        const val KEY_POS_EQUIP_SEG_PROPRIO = "key_pos_equip_seg_proprio";
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        typeAddEquip = TypeAddEquip.values()[arguments?.getInt(KEY_TYPE_VEIC_PROPRIO_SEG_LIST)!!]
-        pos = arguments?.getInt(KEY_POS_EQUIP_SEG_PROPRIO)!!
+        this.typeAddEquip = fragmentAttachListenerProprio?.getTypeAddEquip()!!
+        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -57,7 +53,7 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private fun setListener() {
         with(binding) {
             buttonInserirVeiculoSeg.setOnClickListener {
-                fragmentAttachListenerProprio?.goVeiculoProprio(typeAddEquip)
+                fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULOSEG)
             }
             buttonOkVeiculoSeg.setOnClickListener {
                 when(typeAddEquip) {

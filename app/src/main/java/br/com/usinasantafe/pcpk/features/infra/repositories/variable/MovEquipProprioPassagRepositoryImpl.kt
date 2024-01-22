@@ -32,6 +32,14 @@ class MovEquipProprioPassagRepositoryImpl @Inject constructor (
         }
     }
 
+    override suspend fun clearPassag(): Boolean {
+        return try {
+            movEquipProprioPassagDatasourceSharedPreferences.clearPassag()
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
     override suspend fun deletePassag(pos: Int): Boolean {
         return try {
             movEquipProprioPassagDatasourceSharedPreferences.deletePassag(pos)
@@ -57,7 +65,7 @@ class MovEquipProprioPassagRepositoryImpl @Inject constructor (
         return movEquipProprioPassagDatasourceRoom.listMovEquipProprioPassagIdMov(idMov).map { it.modelRoomToMovEquipProprioPassag() }
     }
 
-    override suspend fun savePassag(idMov: Int): Boolean {
+    override suspend fun savePassag(idMov: Long): Boolean {
         if(!movEquipProprioPassagDatasourceRoom.addAllMovEquipProprioPassag(*listPassag().map {
                 it.entityToMovEquipProprioPassagRoomModel(idMov)
         }.toTypedArray())) return false

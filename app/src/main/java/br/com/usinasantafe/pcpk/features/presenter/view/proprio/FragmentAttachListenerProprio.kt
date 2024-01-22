@@ -18,4 +18,9 @@ interface FragmentAttachListenerProprio {
     fun goObserv(flowApp: FlowApp, pos: Int = 0)
     fun goDetalhe(pos: Int = 0)
 
+    fun getTypeAddEquip(): TypeAddEquip
+    fun getTypeAddOcupante(): TypeAddOcupante
+    fun getFlowApp(): FlowApp
+    fun getPos(): Int
+    fun getMatricColab(): String
 }

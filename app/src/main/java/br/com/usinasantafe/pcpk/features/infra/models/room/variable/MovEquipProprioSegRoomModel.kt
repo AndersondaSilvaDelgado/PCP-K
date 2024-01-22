@@ -15,10 +15,10 @@ data class MovEquipProprioSegRoomModel(
     var idEquipMovEquipProprioSeg: Long,
 )
 
-fun MovEquipProprioSeg.entityToMovEquipProprioSegRoomModel(idMov: Int): MovEquipProprioSegRoomModel{
+fun MovEquipProprioSeg.entityToMovEquipProprioSegRoomModel(idMov: Long): MovEquipProprioSegRoomModel{
     return with(this){
         MovEquipProprioSegRoomModel(
-            idMovEquipProprio = idMov.toLong(),
+            idMovEquipProprio = idMov,
             idEquipMovEquipProprioSeg = this.idEquipMovEquipProprioSeg!!,
         )
     }

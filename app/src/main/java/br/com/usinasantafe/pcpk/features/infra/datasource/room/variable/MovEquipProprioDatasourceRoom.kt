@@ -7,7 +7,7 @@ interface MovEquipProprioDatasourceRoom {
 
     suspend fun checkMovSend(): Boolean
 
-    suspend fun lastIdMovStatusSend(): Int
+    suspend fun lastIdMovStatusStarted(): Long
 
     suspend fun listMovEquipProprioOpen(): List<MovEquipProprioRoomModel>
 
@@ -34,6 +34,11 @@ interface MovEquipProprioDatasourceRoom {
 
     suspend fun updateNotaFiscalMovEquipProprio(
         notaFiscal: Long,
+        movEquipProprioRoomModel: MovEquipProprioRoomModel
+    ): Boolean
+
+    suspend fun updateObservMovEquipProprio(
+        observ: String?,
         movEquipProprioRoomModel: MovEquipProprioRoomModel
     ): Boolean
 

@@ -87,7 +87,7 @@ class MovEquipProprioDatasourceSharedPreferencesImpl @Inject constructor(
 
     override suspend fun startMovEquipProprio(typeMov: TypeMov): Boolean {
         try {
-            saveMovEquipProprio(MovEquipProprioSharedPreferencesModel())
+            saveMovEquipProprio(MovEquipProprioSharedPreferencesModel(tipoMovEquipProprio = typeMov))
         } catch(exception: Exception) {
             return false
         }

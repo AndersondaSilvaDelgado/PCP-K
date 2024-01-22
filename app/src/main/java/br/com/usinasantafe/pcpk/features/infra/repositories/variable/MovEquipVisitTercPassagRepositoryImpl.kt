@@ -57,7 +57,7 @@ class MovEquipVisitTercPassagRepositoryImpl @Inject constructor (
         return movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov).map { it.modelRoomToMovEquipVisitTercPassag() }
     }
 
-    override suspend fun savePassag(idMov: Int): Boolean {
+    override suspend fun savePassag(idMov: Long): Boolean {
         if(!movEquipVisitTercPassagDatasourceRoom.addAllMovEquipVisitTercPassag(*listPassag().map {
                 it.entityToMovEquipVisitTercPassagRoomModel(idMov)
             }.toTypedArray())) return false
@@ -65,7 +65,7 @@ class MovEquipVisitTercPassagRepositoryImpl @Inject constructor (
     }
 
     override suspend fun savePassag(
-        idMov: Int,
+        idMov: Long,
         passagList: List<MovEquipVisitTercPassag>
     ): Boolean {
         return movEquipVisitTercPassagDatasourceRoom.addAllMovEquipVisitTercPassag(*passagList.map {

@@ -1,7 +1,7 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.proprio
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
-import br.com.usinasantafe.pcpk.features.domain.entities.stable.Colab
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.ColabRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.EquipRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
@@ -18,14 +18,13 @@ class RecoverListMovEquipProprioOpenImpl @Inject constructor(
 ): RecoverListMovEquipProprioOpen {
 
     override suspend fun invoke(): List<MovEquipProprioModel> {
-        return movEquipProprioRepository.listMovEquipProprioOpen().map { movEquipProprio ->
-            movEquipProprio.let {
-                val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(it.dthrMovEquipProprio)}"
-                val tipo = if (it.tipoMovEquipProprio == TypeMov.INPUT) "ENTRADA" else "SAIDA"
-                val equip = equipRepository.getEquipId(it.idEquipMovEquipProprio!!).nroEquip.toString()
-                val colab = colabRepository.getColabMatric(it.nroMatricColabMovEquipProprio!!)
-                return@map MovEquipProprioModel(dthr, tipo, "${colab.matricColab} - ${colab.nomeColab}", equip)
-            }
+        return movEquipProprioRepository.listMovEquipProprioOpen().map { movEquip ->
+            val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(movEquip.dthrMovEquipProprio)}"
+            val tipo = if (movEquip.tipoMovEquipProprio == TypeMov.INPUT) "ENTRADA" else "SAIDA"
+            val equip = "VEICULO: ${equipRepository.getEquipId(movEquip.idEquipMovEquipProprio!!).nroEquip}"
+            val colab = colabRepository.getColabMatric(movEquip.nroMatricColabMovEquipProprio!!)
+            val descrColab = "MOTORISTA: ${colab.matricColab} - ${colab.nomeColab}"
+            return@map MovEquipProprioModel(dthr, tipo, descrColab, equip)
         }
     }
 

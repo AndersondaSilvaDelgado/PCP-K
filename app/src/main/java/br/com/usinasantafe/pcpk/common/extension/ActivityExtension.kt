@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcpk.common.extension
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.databinding.LayoutBotoesBinding
 import br.com.usinasantafe.pcpk.databinding.LayoutBotoesSAtualBinding
