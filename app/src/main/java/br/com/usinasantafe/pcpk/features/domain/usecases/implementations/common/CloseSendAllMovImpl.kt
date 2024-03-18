@@ -1,34 +1,37 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.common
 
+import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.SetStatusSendCloseAllMov
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.StartProcessSendData
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.SetStatusSendConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CloseSendAllMov
 import javax.inject.Inject
 
-class SetStatusSendCloseAllMovImpl @Inject constructor(
+class CloseSendAllMovImpl @Inject constructor(
     private val movEquipProprioRepository: MovEquipProprioRepository,
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-    private val startProcessSendData: StartProcessSendData,
-): SetStatusSendCloseAllMov {
+    private val setStatusSendConfig: SetStatusSendConfig,
+): CloseSendAllMov {
 
     override suspend fun invoke(): Boolean {
-        try{
-            val movEquipProprioList = movEquipProprioRepository.listMovEquipProprioEmpty()
+        try {
+            var check = true
+            val movEquipProprioList = movEquipProprioRepository.listMovEquipProprioStarted()
             for (movEquipProprio in movEquipProprioList) {
-                movEquipProprioRepository.setStatusSendClosedMov(movEquipProprio)
+                check = movEquipProprioRepository.setStatusSendMov(movEquipProprio)
             }
             val movEquipVisitTercList = movEquipVisitTercRepository.listMovEquipVisitTercStarted()
             for (movEquipVisitTerc in movEquipVisitTercList) {
-                movEquipVisitTercRepository.setStatusSendCloseMov(movEquipVisitTerc)
+                check = movEquipVisitTercRepository.setStatusSendMov(movEquipVisitTerc)
             }
-            val movEquipResidenciaList = movEquipResidenciaRepository.listMovEquipResidenciaStarted()
-            for (movEquipResidencia in movEquipResidenciaList) {
-                movEquipResidenciaRepository.setStatusSendCloseMov(movEquipResidencia)
+            val movEquipList = movEquipResidenciaRepository.listMovEquipResidenciaStarted()
+            for (movEquip in movEquipList) {
+                check = movEquipResidenciaRepository.setStatusSendCloseMov(movEquip)
             }
-            startProcessSendData()
+            if(!check) return false
+            setStatusSendConfig(StatusSend.SEND)
         } catch (exception: Exception) {
             return false
         }

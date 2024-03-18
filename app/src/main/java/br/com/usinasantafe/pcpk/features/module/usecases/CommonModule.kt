@@ -17,11 +17,23 @@ interface CommonModule {
 
     @Binds
     @Singleton
-    fun bindCheckStatusSend(usecase: CheckStatusSendImpl): CheckStatusSend
+    fun bindCheckMovOpen(usecase: CheckMovOpenImpl): CheckMovOpen
 
     @Binds
     @Singleton
-    fun bindClosedAllMovEquip(usecase: SetStatusSendCloseAllMovImpl): SetStatusSendCloseAllMov
+    fun bindCheckStatusSend(usecase: CheckStatusSendImpl): CheckStatusSend
+
+    @Singleton
+    @Binds
+    fun bindCloseSendAllMov(usecase: CloseSendAllMovImpl): CloseSendAllMov
+
+    @Binds
+    @Singleton
+    fun bindDeleteMovSent(usecase: DeleteMovSentImpl): DeleteMovSent
+
+    @Binds
+    @Singleton
+    fun bindGetStatusSendConfig(usecase: GetStatusSendConfigImpl): GetStatusSendConfig
 
     @Binds
     @Singleton

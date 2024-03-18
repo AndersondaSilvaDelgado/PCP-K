@@ -7,6 +7,8 @@ interface MovEquipVisitTercRepository {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMovEquipVisitTerc(movEquipVisitTerc: MovEquipVisitTerc): Boolean
+
     suspend fun getTipoVisitTercMovEquipVisitTerc(): TypeVisitTerc
 
     suspend fun listMovEquipVisitTercOpen(): List<MovEquipVisitTerc>
@@ -14,6 +16,8 @@ interface MovEquipVisitTercRepository {
     suspend fun listMovEquipVisitTercStarted(): List<MovEquipVisitTerc>
 
     suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTerc>
+
+    suspend fun listMovEquipVisitTercSent(): List<MovEquipVisitTerc>
 
     suspend fun receiverSentMovEquipVisitTerc(movEquipList: List<MovEquipVisitTerc>): Boolean
 
@@ -35,7 +39,7 @@ interface MovEquipVisitTercRepository {
 
     suspend fun setStatusCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean
 
-    suspend fun setStatusSendCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean
+    suspend fun setStatusSendMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean
 
     suspend fun setVeiculoMovEquipVisitTerc(veiculo: String): Boolean
 

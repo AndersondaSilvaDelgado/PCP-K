@@ -19,18 +19,18 @@ class RecoverListMovEquipVisitTercStartedImpl @Inject constructor(
 
     override suspend fun invoke(): List<MovEquipVisitTercModel> {
         return movEquipVisitTercRepository.listMovEquipVisitTercStarted().map { movEquipVisitTerc ->
-            movEquipVisitTerc.let {
-                val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(it.dthrMovEquipVisitTerc)}"
-                val motorista = if(movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc == TypeVisitTerc.TERCEIRO){
-                    val terceiro = terceiroRepository.getTerceiroId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
-                    "TERCEIRO: ${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
-                } else {
-                    val visitante = visitanteRepository.getVisitanteId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
-                    "VISITANTE: ${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
-                }
-                val tipo = if (it.tipoMovEquipVisitTerc == TypeMov.INPUT) "ENTRADA" else "SAIDA"
-                return@map MovEquipVisitTercModel(dthr, motorista, it.veiculoMovEquipVisitTerc!!, it.placaMovEquipVisitTerc!!, tipo)
+            val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(movEquipVisitTerc.dthrMovEquipVisitTerc)}"
+            val motorista = if(movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc == TypeVisitTerc.TERCEIRO){
+                val terceiro = terceiroRepository.getTerceiroId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
+                "TERCEIRO: ${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
+            } else {
+                val visitante = visitanteRepository.getVisitanteId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
+                "VISITANTE: ${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
             }
+            val tipo = if (movEquipVisitTerc.tipoMovEquipVisitTerc == TypeMov.INPUT) "ENTRADA" else "SAIDA"
+            val veiculo = "VEÍCULO: ${movEquipVisitTerc.veiculoMovEquipVisitTerc!!}"
+            val placa = "PLACA: ${movEquipVisitTerc.placaMovEquipVisitTerc!!}"
+            return@map MovEquipVisitTercModel(dthr, motorista, veiculo, placa, tipo)
         }
     }
 

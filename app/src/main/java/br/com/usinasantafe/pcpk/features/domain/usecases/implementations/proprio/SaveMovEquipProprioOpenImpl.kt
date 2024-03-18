@@ -18,15 +18,10 @@ class SaveMovEquipProprioOpenImpl @Inject constructor(
 
     override suspend fun invoke(): Boolean {
         val config = configRepository.getConfig()
-        Log.i("PCP", "CHEGOU AKI 1")
         val idMov = movEquipProprioRepository.saveMovEquipProprio(config.matricVigia!!, config.idLocal!!)
-        Log.i("PCP", "CHEGOU AKI 2")
         if(idMov == 0L) return false
-        Log.i("PCP", "CHEGOU AKI 3")
         if(!movEquipProprioSegRepository.saveEquipSeg(idMov)) return false
-        Log.i("PCP", "CHEGOU AKI 4")
         if(!movEquipProprioPassagRepository.savePassag(idMov)) return false
-        Log.i("PCP", "CHEGOU AKI 5")
         return true
     }
 

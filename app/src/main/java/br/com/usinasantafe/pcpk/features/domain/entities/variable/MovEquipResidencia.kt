@@ -16,6 +16,6 @@ data class MovEquipResidencia(
     var placaMovEquipResidencia: String? = null,
     var motoristaMovEquipResidencia: String? = null,
     var observMovEquipResidencia: String? = null,
-    var statusMovEquipResidencia: StatusData? = null,
-    var statusSendMovEquipResidencia: StatusSend? = null,
+    var statusMovEquipResidencia: StatusData = StatusData.OPEN,
+    var statusSendMovEquipResidencia: StatusSend = StatusSend.STARTED,
 )

@@ -35,7 +35,7 @@ fun MovEquipProprio.entityToMovEquipProprioWebServiceModel(nroAparelho: Long): M
             nroMatricVigiaMovEquipProprio = this.nroMatricVigiaMovEquipProprio!!,
             idLocalMovEquipProprio = this.idLocalMovEquipProprio!!,
             dthrMovEquipProprio = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(this.dthrMovEquipProprio),
-            tipoMovEquipProprio = this.tipoMovEquipProprio!!.ordinal.toLong(),
+            tipoMovEquipProprio = this.tipoMovEquipProprio!!.ordinal.toLong() + 1L,
             idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
             nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
             destinoMovEquipProprio = this.destinoMovEquipProprio!!,

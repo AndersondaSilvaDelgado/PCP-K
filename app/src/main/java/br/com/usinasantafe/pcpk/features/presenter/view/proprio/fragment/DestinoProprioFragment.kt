@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
@@ -76,7 +77,10 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
 
     private fun handleCheckSetDestino(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
-            viewModel.checkNextFragment()
+            when(flowApp){
+                FlowApp.ADD -> viewModel.checkNextFragment()
+                FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(
@@ -106,6 +110,7 @@ class DestinoProprioFragment : BaseFragment<FragmentDestinoProprioBinding>(
         if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

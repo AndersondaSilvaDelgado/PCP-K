@@ -17,11 +17,11 @@ class SetMatricMotoristaPassagImpl @Inject constructor(
                 TypeAddOcupante.ADDMOTORISTA -> movEquipProprioRepository.setMotoristaMovEquipProprio(matricColab.toLong())
                 TypeAddOcupante.ADDPASSAGEIRO -> movEquipProprioPassagRepository.addPassag(matricColab.toLong())
                 TypeAddOcupante.CHANGEMOTORISTA -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioRepository.updateMotoristaMovEquipProprio(matricColab.toLong(), movEquip)
                 }
                 TypeAddOcupante.CHANGEPASSAGEIRO -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioPassagRepository.addPassag(matricColab.toLong(), movEquip.idMovEquipProprio!!)
                 }
             }

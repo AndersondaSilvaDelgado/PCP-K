@@ -10,6 +10,7 @@ import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.dialog.GenericDialogProgressBar
 import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.setListenerButtonsCPF
+import br.com.usinasantafe.pcpk.common.extension.setListenerButtonsGeneric
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showToast
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
@@ -23,6 +24,7 @@ import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttach
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import org.checkerframework.checker.units.qual.t
 
 @AndroidEntryPoint
 class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
@@ -49,14 +51,16 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
     }
 
     private fun observeState() {
-        viewModel.uiLiveData.observe(viewLifecycleOwner) { state ->
-            handleStateChange(state)
+        viewModel.uiLiveData.observe(viewLifecycleOwner) {
+            state -> handleStateChange(state)
         }
     }
 
     private fun setListener() {
         with(binding) {
-            setListenerButtonsCPF(layoutBotoes, editTextPadrao)
+            setListenerButtonsGeneric(layoutBotoes, editTextPadrao) {
+                editText -> setListenerButtonsCPF(editText)
+            }
             layoutBotoes.buttonOkPadrao.setOnClickListener {
                 if (editTextPadrao.text.isEmpty()) {
                     showGenericAlertDialog(
@@ -149,10 +153,10 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
         }
         onBackPressed {
             when(typeAddOcupante){
-                TypeAddOcupante.ADDMOTORISTA,
-                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.ADD)
-                TypeAddOcupante.CHANGEMOTORISTA,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.ADD)
+                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDPASSAGEIRO,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante, pos)
             }
         }
     }

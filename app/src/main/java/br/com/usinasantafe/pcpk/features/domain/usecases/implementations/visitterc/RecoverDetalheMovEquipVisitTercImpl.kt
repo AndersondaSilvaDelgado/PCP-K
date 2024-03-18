@@ -41,16 +41,18 @@ class RecoverDetalheMovEquipVisitTercImpl @Inject constructor(
             passageiros += when(mov.tipoVisitTercMovEquipVisitTerc!!){
                 TypeVisitTerc.VISITANTE -> {
                     val visit = visitanteRepository.getVisitanteId(passag.idVisitTercMovEquipVisitTercPassag!!)
-                    "${visit.cpfVisitante} - ${visit.nomeVisitante}"
+                    "${visit.cpfVisitante} - ${visit.nomeVisitante} -- "
                 }
                 TypeVisitTerc.TERCEIRO -> {
                     val terc = terceiroRepository.getTerceiroId(passag.idVisitTercMovEquipVisitTercPassag!!)
-                    "${terc.cpfTerceiro} - ${terc.nomeTerceiro}"
+                    "${terc.cpfTerceiro} - ${terc.nomeTerceiro} -- "
                 }
             }
         }
-        val destino = "DESTINO: ${mov.destinoMovEquipVisitTerc}"
-        val observ = "OBSERV.: ${mov.observMovEquipVisitTerc}"
+        val descrDestino = if (mov.destinoMovEquipVisitTerc.isNullOrEmpty()) "" else mov.destinoMovEquipVisitTerc
+        val destino = "DESTINO: $descrDestino"
+        val descrObserv = if (mov.observMovEquipVisitTerc.isNullOrEmpty()) "" else mov.observMovEquipVisitTerc
+        val observ = "OBS.: $descrObserv"
         return DetalheMovEquipVisitTercModel(dthr, tipoMov, veiculo, placa, tipoVisitTerc, motorista, passageiros, destino, observ)
     }
 

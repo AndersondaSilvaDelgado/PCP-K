@@ -42,11 +42,23 @@ class MovEquipVisitTercPassagRepositoryImpl @Inject constructor (
 
     override suspend fun deletePassag(pos: Int, idMov: Long): Boolean {
         return try {
-            val movEquip = movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov)[pos]
-            movEquipVisitTercPassagDatasourceRoom.deleteMovEquipVisitTercPassag(movEquip)
+            val passag = movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov)[pos]
+            movEquipVisitTercPassagDatasourceRoom.deleteMovEquipVisitTercPassag(passag)
         } catch (exception: Exception) {
             false
         }
+    }
+
+    override suspend fun deletePassag(idMov: Long): Boolean {
+        try {
+            val passagList = movEquipVisitTercPassagDatasourceRoom.listMovEquipVisitTercPassagIdMov(idMov)
+            for (passag in passagList) {
+                movEquipVisitTercPassagDatasourceRoom.deleteMovEquipVisitTercPassag(passag)
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun listPassag(): List<MovEquipVisitTercPassag> {

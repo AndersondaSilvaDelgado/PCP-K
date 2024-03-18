@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
@@ -57,7 +58,7 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
                 when (flowApp) {
                     FlowApp.ADD -> {
                         when (typeMov!!) {
-                            TypeMov.INPUT -> fragmentAttachListenerVisitTerc?.goDestino(FlowApp.ADD)
+                            TypeMov.INPUT -> fragmentAttachListenerVisitTerc?.goDestino(flowApp)
                             TypeMov.OUTPUT -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
                         }
                     }
@@ -94,6 +95,7 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
         if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

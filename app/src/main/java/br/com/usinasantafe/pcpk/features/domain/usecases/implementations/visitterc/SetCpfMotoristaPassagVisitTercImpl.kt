@@ -6,15 +6,15 @@ import br.com.usinasantafe.pcpk.features.domain.repositories.stable.TerceiroRepo
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.VisitanteRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercPassagRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercRepository
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetMotoristaPassagVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetCpfMotoristaPassagVisitTerc
 import javax.inject.Inject
 
-class SetMotoristaPassagVisitTercImpl @Inject constructor(
+class SetCpfMotoristaPassagVisitTercImpl @Inject constructor(
     private val movEquipVisitTercRepository: MovEquipVisitTercRepository,
     private val movEquipVisitTercPassagRepository: MovEquipVisitTercPassagRepository,
     private val visitanteRepository: VisitanteRepository,
     private val terceiroRepository: TerceiroRepository,
-): SetMotoristaPassagVisitTerc {
+): SetCpfMotoristaPassagVisitTerc {
 
     override suspend fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int): Boolean {
         return when(typeAddOcupante) {

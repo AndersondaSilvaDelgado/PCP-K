@@ -18,7 +18,9 @@ class ConfigDatasourceSharedPreferencesImpl @Inject constructor(
     }
 
     override suspend fun getConfig(): Config {
-        var config = sharedPreferences.getString(BASE_SHARE_PREFERENCES_TABLE_CONFIG, null)!!
+        val config = sharedPreferences.getString(BASE_SHARE_PREFERENCES_TABLE_CONFIG, null)
+        if(config.isNullOrEmpty())
+            return Config()
         return Gson().fromJson(config, Config::class.java)
     }
 
@@ -29,7 +31,7 @@ class ConfigDatasourceSharedPreferencesImpl @Inject constructor(
     }
 
     override suspend fun setStatusSend(statusSend: StatusSend) {
-        var config = getConfig()
+        val config = getConfig()
         config.statusEnvio = statusSend
         saveConfig(config)
     }

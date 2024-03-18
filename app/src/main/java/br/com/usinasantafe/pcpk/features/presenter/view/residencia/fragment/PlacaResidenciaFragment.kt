@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
@@ -43,6 +44,7 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
 
     private fun setListener() {
         with(binding) {
+            editTextPlacaResidencia.filters = editTextPlacaResidencia.filters + InputFilter.AllCaps()
             buttonOkPlacaResidencia.setOnClickListener {
                 if (editTextPlacaResidencia.text.isEmpty()) {
                     showGenericAlertDialog(

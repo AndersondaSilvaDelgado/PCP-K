@@ -26,6 +26,14 @@ interface ProprioModule {
 
     @Binds
     @Singleton
+    fun bindCloseSendMovProprio(usecase: CloseSendMovProprioImpl): CloseSendMovProprio
+
+    @Binds
+    @Singleton
+    fun bindCloseSendAllMovProprio(usecase: CloseSendAllMovProprioImpl): CloseSendAllMovProprio
+
+    @Binds
+    @Singleton
     fun bindDeleteColabPassag(usecase: DeletePassagColabImpl): DeletePassagColab
 
     @Binds
@@ -88,10 +96,6 @@ interface ProprioModule {
     @Binds
     @Singleton
     fun bindSetObservProprio(usecase: SetObservProprioImpl): SetObservProprio
-
-    @Binds
-    @Singleton
-    fun bindSetStatusSendCloseMovProprio(usecase: SetStatusSendCloseMovProprioImpl): SetStatusSendCloseMovProprio
 
     @Binds
     @Singleton

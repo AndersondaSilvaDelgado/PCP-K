@@ -54,7 +54,7 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
                 viewModel.checkSetInitialMov()
             }
             buttonEditarMovEquipResidencia.setOnClickListener {
-                fragmentAttachListenerResidencia?.goMovResidenciaList()
+                fragmentAttachListenerResidencia?.goMovResidenciaStartedList()
             }
             buttonRetornarMovEquipResidencia.setOnClickListener {
                 fragmentAttachListenerResidencia?.goInicial()

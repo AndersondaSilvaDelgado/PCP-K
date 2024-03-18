@@ -8,13 +8,13 @@ import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetMatricMotoristaPassag
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.CheckCPFVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetMotoristaPassagVisitTerc
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CPFVisitTercViewModel @Inject constructor(
     private val checkCPFVisitTerc: CheckCPFVisitTerc,
     private val updateVisitTerc: UpdateVisitTerc,

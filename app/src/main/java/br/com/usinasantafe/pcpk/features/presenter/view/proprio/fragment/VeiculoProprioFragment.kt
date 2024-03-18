@@ -97,10 +97,10 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
     private fun handleCheckSetNroEquip(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddEquip) {
-                TypeAddEquip.ADDVEICULO,
-                TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip)
-                TypeAddEquip.CHANGEVEICULO,
-                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddEquip.ADDVEICULO -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG)
+                TypeAddEquip.CHANGEVEICULO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddEquip.ADDVEICULOSEG,
+                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip, pos)
             }
             return
         }
@@ -163,7 +163,12 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
             fragmentAttachListenerProprio = context
         }
         onBackPressed {
-            fragmentAttachListenerProprio?.goMovProprioList()
+            when(typeAddEquip) {
+                TypeAddEquip.ADDVEICULO -> fragmentAttachListenerProprio?.goMovProprioList()
+                TypeAddEquip.CHANGEVEICULO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddEquip.ADDVEICULOSEG,
+                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip, pos)
+            }
         }
     }
 

@@ -15,6 +15,15 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
         return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.SEND).isNotEmpty()
     }
 
+    override suspend fun deleteMovEquipVisitTerc(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
+        try {
+            movEquipVisitTercDao.delete(movEquipVisitTercRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
+    }
+
     override suspend fun insertMovEquipVisitTercOpen(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
         try {
             movEquipVisitTercDao.insert(movEquipVisitTercRoomModel)
@@ -26,6 +35,7 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
 
     override suspend fun insertMovEquipVisitTercClose(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean {
         try {
+            movEquipVisitTercRoomModel.idMovEquipVisitTerc = null
             movEquipVisitTercRoomModel.statusMovEquipVisitTerc = StatusData.CLOSE
             movEquipVisitTercDao.insert(movEquipVisitTercRoomModel)
         } catch (exception: Exception){
@@ -48,6 +58,10 @@ class MovEquipVisitTercDatasourceRoomImpl @Inject constructor (
 
     override suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTercRoomModel> {
         return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.SEND)
+    }
+
+    override suspend fun listMovEquipVisitTercSent(): List<MovEquipVisitTercRoomModel> {
+        return movEquipVisitTercDao.listMovStatusEnvio(StatusSend.SENT)
     }
 
     override suspend fun updateVeiculoMovEquipVisitTerc(

@@ -33,6 +33,7 @@ data class MovEquipVisitTercRoomModel(
 fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLocal: Long): MovEquipVisitTercRoomModel{
     return with(this){
         MovEquipVisitTercRoomModel(
+            idMovEquipVisitTerc = this.idMovEquipVisitTerc,
             nroMatricVigiaMovEquipVisitTerc = matricVigia,
             idLocalMovEquipVisitTerc = idLocal,
             tipoMovEquipVisitTerc = this.tipoMovEquipVisitTerc!!,
@@ -43,8 +44,8 @@ fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLo
             placaMovEquipVisitTerc = this.placaMovEquipVisitTerc!!,
             destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
-            statusMovEquipVisitTerc = StatusData.OPEN,
-            statusSendMovEquipVisitTerc = StatusSend.STARTED,
+            statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
+            statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,
         )
     }
 }

@@ -17,7 +17,7 @@ class DeleteEquipSegImpl @Inject constructor(
             TypeAddEquip.ADDVEICULOSEG -> movEquipProprioSegRepository.deleteEquipSeg(posList)
             TypeAddEquip.CHANGEVEICULO,
             TypeAddEquip.CHANGEVEICULOSEG -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioEmpty()[pos]
+                val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                 movEquipProprioSegRepository.deleteEquipSeg(posList, movEquip.idMovEquipProprio!!)
             }
         }

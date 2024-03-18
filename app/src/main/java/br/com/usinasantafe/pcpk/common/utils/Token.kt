@@ -1,11 +1,7 @@
 package br.com.usinasantafe.pcpk.common.utils
 
-import android.content.SharedPreferences
 import br.com.usinasantafe.pcpk.BuildConfig
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
-import br.com.usinasantafe.pcpk.features.infra.datasource.sharedpreferences.ConfigDatasourceSharedPreferences
 import com.google.common.base.Strings
-import com.google.gson.Gson
 import java.math.BigInteger
 
 import java.security.MessageDigest

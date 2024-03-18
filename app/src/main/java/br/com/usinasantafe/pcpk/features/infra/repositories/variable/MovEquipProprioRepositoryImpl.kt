@@ -34,7 +34,20 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
         return movEquipProprioDatasourceRoom.checkMovSend()
     }
 
-    override suspend fun setStatusSendClosedMov(movEquipProprio: MovEquipProprio): Boolean {
+    override suspend fun deleteMovEquipProprio(movEquipProprio: MovEquipProprio): Boolean {
+        return try {
+            movEquipProprioDatasourceRoom.deleteMov(
+                movEquipProprio.entityToMovEquipProprioRoomModel(
+                    movEquipProprio.nroMatricVigiaMovEquipProprio!!,
+                    movEquipProprio.idLocalMovEquipProprio!!
+                )
+            )
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun setStatusSendMov(movEquipProprio: MovEquipProprio): Boolean {
         return try {
             movEquipProprioDatasourceRoom.updateStatusMovEquipProprioCloseSend(
                 movEquipProprio.entityToMovEquipProprioRoomModel(
@@ -55,18 +68,18 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
         return movEquipProprioDatasourceSharedPreferences.getMovEquipProprio().tipoMovEquipProprio!!
     }
 
-    override suspend fun listMovEquipProprioOpen(): List<MovEquipProprio> {
-        return movEquipProprioDatasourceRoom.listMovEquipProprioOpen()
-            .map { it.modelRoomToMovEquipProprio() }
-    }
-
-    override suspend fun listMovEquipProprioEmpty(): List<MovEquipProprio> {
-        return movEquipProprioDatasourceRoom.listMovEquipProprioEmpty()
+    override suspend fun listMovEquipProprioStarted(): List<MovEquipProprio> {
+        return movEquipProprioDatasourceRoom.listMovEquipProprioStarted()
             .map { it.modelRoomToMovEquipProprio() }
     }
 
     override suspend fun listMovEquipProprioSend(): List<MovEquipProprio> {
         return movEquipProprioDatasourceRoom.listMovEquipProprioSend()
+            .map { it.modelRoomToMovEquipProprio() }
+    }
+
+    override suspend fun listMovEquipProprioSent(): List<MovEquipProprio> {
+        return movEquipProprioDatasourceRoom.listMovEquipProprioSent()
             .map { it.modelRoomToMovEquipProprio() }
     }
 

@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcpk.features.external.room.dao.variable
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -17,6 +18,9 @@ interface MovEquipResidenciaDao {
 
     @Update
     suspend fun update(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
+
+    @Delete
+    suspend fun delete(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel)
 
     @Query("SELECT * FROM $TB_MOV_EQUIP_RESIDENCIA WHERE statusMovEquipResidencia = :status")
     suspend fun listMovStatus(status: StatusData): List<MovEquipResidenciaRoomModel>

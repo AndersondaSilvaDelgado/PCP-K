@@ -7,9 +7,9 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
-import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentMenuApontListBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.FragmentAttachListenerInitial
@@ -85,7 +85,10 @@ class MenuApontListFragment : BaseFragment<FragmentMenuApontListBinding>(
     }
 
     private fun showMessage(){
-        showGenericAlertDialogCheck("DESEJA REALMENTE RETORNAR? ISSO FECHARÁ TODOS OS MOVIMENTOS.", requireContext()) {
+        showGenericAlertDialogCheck(
+            "DESEJA REALMENTE RETORNAR? ISSO FECHARÁ TODOS OS MOVIMENTOS.",
+            requireContext()
+        ) {
             viewModel.closedAllMov()
         }
     }
@@ -128,6 +131,7 @@ class MenuApontListFragment : BaseFragment<FragmentMenuApontListBinding>(
         if (context is FragmentAttachListenerInitial) {
             fragmentAttachListenerInitial = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

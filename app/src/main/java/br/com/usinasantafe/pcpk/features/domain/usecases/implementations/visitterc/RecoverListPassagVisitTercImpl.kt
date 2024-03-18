@@ -21,19 +21,7 @@ class RecoverListPassagVisitTercImpl @Inject constructor(
             TypeAddOcupante.ADDMOTORISTA,
             TypeAddOcupante.ADDPASSAGEIRO -> {
                 movEquipVisitTercPassagRepository.listPassag().map {
-                    return@map when (movEquipVisitTercRepository.getTipoVisitTercMovEquipVisitTerc()) {
-                        TypeVisitTerc.VISITANTE -> {
-                            val terceiro =
-                                terceiroRepository.getTerceiroId(it.idVisitTercMovEquipVisitTercPassag!!)
-                            "${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
-                        }
-
-                        TypeVisitTerc.TERCEIRO -> {
-                            val visitante =
-                                visitanteRepository.getVisitanteId(it.idVisitTercMovEquipVisitTercPassag!!)
-                            "${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
-                        }
-                    }
+                    return@map getNomeVisitTerc(it.idVisitTercMovEquipVisitTercPassag!!, movEquipVisitTercRepository.getTipoVisitTercMovEquipVisitTerc())
                 }
             }
 
@@ -41,22 +29,29 @@ class RecoverListPassagVisitTercImpl @Inject constructor(
             TypeAddOcupante.CHANGEPASSAGEIRO -> {
                 val movEquip = movEquipVisitTercRepository.listMovEquipVisitTercStarted()[pos]
                 movEquipVisitTercPassagRepository.listPassag(movEquip.idMovEquipVisitTerc!!).map {
-                    return@map when (movEquip.tipoVisitTercMovEquipVisitTerc!!) {
-                        TypeVisitTerc.VISITANTE -> {
-                            val terceiro =
-                                terceiroRepository.getTerceiroId(it.idVisitTercMovEquipVisitTercPassag!!)
-                            "${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
-                        }
-
-                        TypeVisitTerc.TERCEIRO -> {
-                            val visitante =
-                                visitanteRepository.getVisitanteId(it.idVisitTercMovEquipVisitTercPassag!!)
-                            "${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
-                        }
-                    }
+                    return@map getNomeVisitTerc(it.idVisitTercMovEquipVisitTercPassag!!, movEquip.tipoVisitTercMovEquipVisitTerc!!)
                 }
             }
         }
 
     }
+
+
+    private suspend fun getNomeVisitTerc(id: Long, typeVisitTerc: TypeVisitTerc): String {
+        return when(typeVisitTerc) {
+            TypeVisitTerc.VISITANTE -> {
+                val visitante =
+                    visitanteRepository.getVisitanteId(id)
+                "${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
+            }
+
+            TypeVisitTerc.TERCEIRO -> {
+                val terceiro =
+                    terceiroRepository.getTerceiroId(id)
+                "${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
+            }
+        }
+    }
+
+
 }

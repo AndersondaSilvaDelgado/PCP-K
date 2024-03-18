@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetStatusSendCloseMovProprio
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverDetalheMovEquipVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetStatusSendCloseMovVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.CloseSendMovVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.model.DetalheMovEquipVisitTercModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetalheMovEquipVisitTercViewModel @Inject constructor (
     private val recoverDetalheMovEquipVisitTerc: RecoverDetalheMovEquipVisitTerc,
-    private val setStatusSendCloseMovVisitTerc: SetStatusSendCloseMovVisitTerc,
+    private val closeSendMovVisitTerc: CloseSendMovVisitTerc,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<DetalheMovEquipVisitTercFragmentState>()
@@ -34,7 +33,7 @@ class DetalheMovEquipVisitTercViewModel @Inject constructor (
     }
 
     fun closeMov(pos: Int) = viewModelScope.launch {
-        checkCloseMov(setStatusSendCloseMovVisitTerc(pos))
+        checkCloseMov(closeSendMovVisitTerc(pos))
     }
 
 }

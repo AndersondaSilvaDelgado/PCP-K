@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentObservProprioBinding
@@ -86,6 +87,7 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
         if(context is FragmentAttachListenerProprio){
             fragmentAttachListenerProprio = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

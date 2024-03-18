@@ -19,7 +19,9 @@ import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MovE
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.PlacaResidenciaFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia {
 
     private lateinit var binding: ActivityResidenciaBinding

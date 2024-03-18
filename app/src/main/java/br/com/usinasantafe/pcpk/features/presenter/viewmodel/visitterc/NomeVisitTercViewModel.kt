@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverDataVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetMotoristaPassagVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetCpfMotoristaPassagVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.model.DisplayDataVisitTercModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NomeVisitTercViewModel @Inject constructor(
     private val recoverDataVisitTerc: RecoverDataVisitTerc,
-    private val setMotoristaPassagVisitTerc: SetMotoristaPassagVisitTerc,
+    private val setCpfMotoristaPassagVisitTerc: SetCpfMotoristaPassagVisitTerc,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<NomeVisitTercFragmentState>()
@@ -29,12 +29,12 @@ class NomeVisitTercViewModel @Inject constructor(
         _uiLiveData.value = NomeVisitTercFragmentState.GetDataVisitTerc(display)
     }
 
-    fun recoverData(cpf: String) = viewModelScope.launch {
-        setDataVisitTerc(recoverDataVisitTerc(cpf))
+    fun recoverData(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
+        setDataVisitTerc(recoverDataVisitTerc(cpf, typeAddOcupante, pos))
     }
 
     fun setCPFVisitTerc(matricVigia: String, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
-        checkSetMatricColab(setMotoristaPassagVisitTerc(matricVigia, typeAddOcupante, pos))
+        checkSetMatricColab(setCpfMotoristaPassagVisitTerc(matricVigia, typeAddOcupante, pos))
     }
 
 }

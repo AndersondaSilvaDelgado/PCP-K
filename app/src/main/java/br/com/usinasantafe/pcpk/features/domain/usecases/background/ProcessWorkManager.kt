@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.background
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -78,8 +79,12 @@ class ProcessWorkManager @AssistedInject constructor(
                 )
             }
         } catch (e: Exception) {
+            Log.i("PCP", "ERRO = $e")
+            setStatusSendConfig(StatusSend.SEND)
             return Result.retry()
         }
+        Log.i("PCP", "SUCESSO")
+        setStatusSendConfig(StatusSend.SENT)
         return Result.success()
     }
 

@@ -13,7 +13,7 @@ class MovEquipProprioPassagDatasourceSharedPreferencesImpl @Inject constructor(
 
     override suspend fun addPassag(nroMatric: Long): Boolean {
         try {
-            var data = listPassag() as MutableList<Long>
+            val data = listPassag() as MutableList<Long>
             data.add(nroMatric)
             val editor = sharedPreferences.edit()
             val typeToken = object : TypeToken<List<Long>>() {}.type

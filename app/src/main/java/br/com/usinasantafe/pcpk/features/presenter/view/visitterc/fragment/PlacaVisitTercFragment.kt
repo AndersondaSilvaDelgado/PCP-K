@@ -2,10 +2,14 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentPlacaVisitTercBinding
@@ -13,6 +17,7 @@ import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttach
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PlacaVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PlacaVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
@@ -43,6 +48,7 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
 
     private fun setListener() {
         with(binding) {
+            editTextPlacaVisitTerc.filters = editTextPlacaVisitTerc.filters + InputFilter.AllCaps()
             buttonOkPlacaVisitTerc.setOnClickListener {
                 if (editTextPlacaVisitTerc.text.isEmpty()) {
                     showGenericAlertDialog(
@@ -72,7 +78,10 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
 
     private fun handleCheckSetPlaca(check: Boolean) {
         if (check) {
-            fragmentAttachListenerVisitTerc?.goTipoVisitTerc()
+            when(flowApp) {
+                FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goTipoVisitTerc()
+                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+            }
             return
         }
         showGenericAlertDialog(
@@ -88,6 +97,7 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
         if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

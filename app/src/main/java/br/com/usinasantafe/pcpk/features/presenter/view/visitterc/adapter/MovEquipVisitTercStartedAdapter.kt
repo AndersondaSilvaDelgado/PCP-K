@@ -41,6 +41,7 @@ class MovEquipVisitTercStartedAdapter(
             textViewMotoristaMov.text = movEquipVisitTercModel.motorista
             textViewVeiculoMov.text = movEquipVisitTercModel.placa
             textViewPlacaMov.text = movEquipVisitTercModel.veiculo
+            textViewTipoMov.text = movEquipVisitTercModel.tipo
             if(movEquipVisitTercModel.tipo == "ENTRADA"){
                 textViewTipoMov.setTextColor(Color.BLUE)
             } else {

@@ -24,7 +24,9 @@ import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.Passa
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PlacaVisitTercFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.TipoVisitTercFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VisitTercActivity : AppCompatActivity(), FragmentAttachListenerVisitTerc {
 
     private lateinit var binding: ActivityVisitTercBinding

@@ -55,15 +55,15 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
                 viewModel.setMatricMotorista(matricColab, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
+                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante, pos)
             }
         }
     }
 
     private fun handleStateChange(state: NomeColabFragmentState){
         when(state){
-            is NomeColabFragmentState.GetNomeColab -> handleNomeVigia(state.nomeColab)
             is NomeColabFragmentState.CheckSetMatric -> handleCheckSetMatricColab(state.checkSetMatric)
+            is NomeColabFragmentState.GetNomeColab -> handleNomeVigia(state.nomeColab)
         }
     }
 
@@ -76,10 +76,10 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
     private fun handleCheckSetMatricColab(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddOcupante) {
-                TypeAddOcupante.ADDMOTORISTA,
-                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goPassagList(typeAddOcupante)
-                TypeAddOcupante.CHANGEMOTORISTA,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerProprio?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
+                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddOcupante.ADDPASSAGEIRO,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goPassagList(typeAddOcupante, pos)
             }
             return
         }
@@ -96,9 +96,7 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
         if(context is FragmentAttachListenerProprio){
             fragmentAttachListenerProprio = context
         }
-        onBackPressed {
-            fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante)
-        }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

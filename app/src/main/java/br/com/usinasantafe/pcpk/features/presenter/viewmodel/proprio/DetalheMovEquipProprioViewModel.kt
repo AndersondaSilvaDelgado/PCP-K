@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetStatusSendCloseMovProprio
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.CloseSendMovProprio
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverDetalheMovEquipProprio
 import br.com.usinasantafe.pcpk.features.presenter.model.DetalheMovEquipProprioModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetalheMovEquipProprioViewModel @Inject constructor (
     private val recoverDetalheMovEquipProprio: RecoverDetalheMovEquipProprio,
-    private val setStatusSendCloseMovProprio: SetStatusSendCloseMovProprio,
+    private val closeSendMovProprio: CloseSendMovProprio,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<DetalheMovEquipProprioFragmentState>()
@@ -33,7 +33,7 @@ class DetalheMovEquipProprioViewModel @Inject constructor (
     }
 
     fun closeMov(pos: Int) = viewModelScope.launch {
-        checkCloseMov(setStatusSendCloseMovProprio(pos))
+        checkCloseMov(closeSendMovProprio(pos))
     }
 
 }

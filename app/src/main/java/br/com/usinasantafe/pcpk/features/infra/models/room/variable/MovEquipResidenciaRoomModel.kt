@@ -30,6 +30,7 @@ data class MovEquipResidenciaRoomModel(
 fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, idLocal: Long): MovEquipResidenciaRoomModel{
     return with(this){
         MovEquipResidenciaRoomModel(
+            idMovEquipResidencia = this.idMovEquipResidencia,
             nroMatricVigiaMovEquipResidencia = matricVigia,
             idLocalMovEquipResidencia = idLocal,
             dthrMovEquipResidencia = Date().time,
@@ -38,8 +39,8 @@ fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, id
             veiculoMovEquipResidencia = this.veiculoMovEquipResidencia!!,
             placaMovEquipResidencia = this.placaMovEquipResidencia!!,
             observMovEquipResidencia = this.observMovEquipResidencia,
-            statusMovEquipResidencia = StatusData.OPEN,
-            statusSendMovEquipResidencia = StatusSend.STARTED,
+            statusMovEquipResidencia = this.statusMovEquipResidencia,
+            statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,
         )
     }
 }

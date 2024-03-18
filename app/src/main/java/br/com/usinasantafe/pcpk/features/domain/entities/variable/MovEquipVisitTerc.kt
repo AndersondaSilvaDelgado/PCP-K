@@ -19,7 +19,7 @@ data class MovEquipVisitTerc(
     var placaMovEquipVisitTerc: String? = null,
     var destinoMovEquipVisitTerc: String? = null,
     var observMovEquipVisitTerc: String? = null,
-    var statusMovEquipVisitTerc: StatusData? = null,
-    var statusSendMovEquipVisitTerc: StatusSend? = null,
+    var statusMovEquipVisitTerc: StatusData = StatusData.OPEN,
+    var statusSendMovEquipVisitTerc: StatusSend = StatusSend.STARTED,
     var movEquipVisitTercPassagList: List<MovEquipVisitTercPassag>? = emptyList(),
 )

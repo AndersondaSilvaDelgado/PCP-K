@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.RecoverListMovEquipResidenciaStarted
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.SetStatusSendCloseAllMovResidencia
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.CloseSendAllMovResidencia
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovEquipResidenciaStartedListViewModel @Inject constructor (
-    private val setStatusSendCloseAllMovResidencia: SetStatusSendCloseAllMovResidencia,
+    private val closeSendAllMovResidencia: CloseSendAllMovResidencia,
     private val recoverListMovEquipResidenciaStarted: RecoverListMovEquipResidenciaStarted,
 ): ViewModel() {
 
@@ -29,7 +29,7 @@ class MovEquipResidenciaStartedListViewModel @Inject constructor (
     }
 
     fun closeAllMov() = viewModelScope.launch {
-        checkCloseAllMov(setStatusSendCloseAllMovResidencia())
+        checkCloseAllMov(closeSendAllMovResidencia())
     }
 
     fun recoverListMov() = viewModelScope.launch {

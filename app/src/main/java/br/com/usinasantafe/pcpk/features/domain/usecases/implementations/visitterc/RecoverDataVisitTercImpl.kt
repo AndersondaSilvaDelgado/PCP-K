@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.visitterc
 
+import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.common.utils.TypeVisitTerc
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.TerceiroRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.stable.VisitanteRepository
@@ -14,17 +15,35 @@ class RecoverDataVisitTercImpl @Inject constructor (
     private val visitanteRepository: VisitanteRepository,
 ): RecoverDataVisitTerc {
 
-    override suspend fun invoke(cpf: String): DisplayDataVisitTercModel {
-        return if(movEquipVisitTercRepository.getTipoVisitTercMovEquipVisitTerc() == TypeVisitTerc.TERCEIRO){
-            val terceiroList = terceiroRepository.getTerceiroListCPF(cpf)
-            var empresas = ""
-            for(terceiro in terceiroList){
-                empresas += terceiro.empresaTerceiro + "\n"
+    override suspend fun invoke(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int): DisplayDataVisitTercModel {
+        return when(typeAddOcupante) {
+            TypeAddOcupante.ADDMOTORISTA,
+            TypeAddOcupante.ADDPASSAGEIRO -> {
+                getNomeVisitTerc(cpf, movEquipVisitTercRepository.getTipoVisitTercMovEquipVisitTerc())
             }
-            DisplayDataVisitTercModel("NOME TERCEIRO", terceiroList.single().nomeTerceiro, empresas)
-        } else {
-            val visitante = visitanteRepository.getVisitanteCPF(cpf)
-            DisplayDataVisitTercModel("NOME VISITANTE", visitante.nomeVisitante, visitante.empresaVisitante)
+
+            TypeAddOcupante.CHANGEMOTORISTA,
+            TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                val movEquip = movEquipVisitTercRepository.listMovEquipVisitTercStarted()[pos]
+                getNomeVisitTerc(cpf, movEquip.tipoVisitTercMovEquipVisitTerc!!)
+            }
+        }
+    }
+
+    private suspend fun getNomeVisitTerc(cpf: String, typeVisitTerc: TypeVisitTerc): DisplayDataVisitTercModel {
+        return when(typeVisitTerc) {
+            TypeVisitTerc.VISITANTE -> {
+                val visitante = visitanteRepository.getVisitanteCPF(cpf)
+                DisplayDataVisitTercModel("NOME VISITANTE", visitante.nomeVisitante, visitante.empresaVisitante)
+            }
+            TypeVisitTerc.TERCEIRO -> {
+                val terceiroList = terceiroRepository.getTerceiroListCPF(cpf)
+                var empresas = ""
+                for(terceiro in terceiroList){
+                    empresas += terceiro.empresaTerceiro + "\n"
+                }
+                DisplayDataVisitTercModel("NOME TERCEIRO", terceiroList.single().nomeTerceiro, empresas)
+            }
         }
     }
 

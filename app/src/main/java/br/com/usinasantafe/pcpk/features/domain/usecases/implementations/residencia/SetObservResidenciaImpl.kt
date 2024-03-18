@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.residencia
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipResidenciaRepository
@@ -19,28 +20,33 @@ class SetObservResidenciaImpl @Inject constructor(
         pos: Int,
         flowApp: FlowApp
     ): Boolean {
-        return when (flowApp) {
+        when (flowApp) {
             FlowApp.ADD -> {
-                return when (typeMov!!) {
+                when (typeMov!!) {
                     TypeMov.INPUT -> {
-                        if (!movEquipResidenciaRepository.setObservMovEquipResidencia(observ)) false
-                        saveMovEquipResidencia()
+                        if (!movEquipResidenciaRepository.setObservMovEquipResidencia(observ)) return false
+                        return saveMovEquipResidencia()
                     }
 
                     TypeMov.OUTPUT -> {
+                        Log.i("PCPK", "CHEGOU AKI SET OBSERV 1")
                         val movEquipResidencia =
-                            movEquipResidenciaRepository.listMovEquipResidenciaOpen()[pos!!]
+                            movEquipResidenciaRepository.listMovEquipResidenciaOpen()[pos]
+                        Log.i("PCPK", "CHEGOU AKI SET OBSERV 2")
+                        if (!movEquipResidenciaRepository.setStatusCloseMov(movEquipResidencia)) return false
+                        Log.i("PCPK", "CHEGOU AKI SET OBSERV 3")
                         movEquipResidencia.observMovEquipResidencia = observ
                         movEquipResidencia.tipoMovEquipResidencia = TypeMov.OUTPUT
                         movEquipResidencia.dthrMovEquipResidencia = Date()
-                        saveMovEquipResidencia(movEquipResidencia)
+                        Log.i("PCPK", "CHEGOU AKI SET OBSERV 4")
+                        return saveMovEquipResidencia(movEquipResidencia)
                     }
                 }
             }
 
             FlowApp.CHANGE -> {
                 val movEquip = movEquipResidenciaRepository.listMovEquipResidenciaStarted()[pos]
-                movEquipResidenciaRepository.updateObservMovEquipResidencia(observ, movEquip)
+                return movEquipResidenciaRepository.updateObservMovEquipResidencia(observ, movEquip)
             }
         }
     }

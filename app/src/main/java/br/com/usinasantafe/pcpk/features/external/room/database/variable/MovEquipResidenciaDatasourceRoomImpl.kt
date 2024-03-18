@@ -15,7 +15,16 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
         return movEquipResidenciaDao.listMovStatusEnvio(StatusSend.SEND).isNotEmpty()
     }
 
-    override suspend fun lastIdMovStatusSend(): Long {
+    override suspend fun deleteMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
+        try {
+            movEquipResidenciaDao.delete(movEquipResidenciaRoomModel)
+        } catch (exception: Exception){
+            return false
+        }
+        return true
+    }
+
+    override suspend fun lastIdMovStatusStarted(): Long {
         return movEquipResidenciaDao.lastIdMovStatusEnvio(StatusSend.STARTED)
     }
 
@@ -29,6 +38,10 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
 
     override suspend fun listMovEquipResidenciaSend(): List<MovEquipResidenciaRoomModel> {
         return movEquipResidenciaDao.listMovStatusEnvio(StatusSend.SEND)
+    }
+
+    override suspend fun listMovEquipResidenciaSent(): List<MovEquipResidenciaRoomModel> {
+        return movEquipResidenciaDao.listMovStatusEnvio(StatusSend.SENT)
     }
 
     override suspend fun updateVeiculoMovEquipResidencia(
@@ -94,6 +107,7 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
 
     override suspend fun insertMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
         try {
+            movEquipResidenciaRoomModel.idMovEquipResidencia = null
             movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
             movEquipResidenciaDao.insert(movEquipResidenciaRoomModel)
         } catch (exception: Exception){
@@ -113,7 +127,7 @@ class MovEquipResidenciaDatasourceRoomImpl @Inject constructor (
         return true
     }
 
-    override suspend fun updateStatusCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
+    override suspend fun updateStatusMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean {
         try {
             movEquipResidenciaRoomModel.statusMovEquipResidencia = StatusData.CLOSE
             movEquipResidenciaDao.update(movEquipResidenciaRoomModel)

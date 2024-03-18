@@ -41,6 +41,7 @@ private val dataSet: List<MovEquipResidenciaModel>
             textViewMotoristaMov.text = movEquipResidenciaModel.motorista
             textViewVeiculoMov.text = movEquipResidenciaModel.placa
             textViewPlacaMov.text = movEquipResidenciaModel.veiculo
+            textViewTipoMov.text = movEquipResidenciaModel.tipo
             if(movEquipResidenciaModel.tipo == "ENTRADA"){
                 textViewTipoMov.setTextColor(Color.BLUE)
             } else {

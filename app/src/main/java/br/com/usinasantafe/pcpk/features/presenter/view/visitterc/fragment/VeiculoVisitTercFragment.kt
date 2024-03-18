@@ -6,8 +6,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
+import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.VeiculoVisitTercFragmentState
@@ -91,6 +93,7 @@ class VeiculoVisitTercFragment : BaseFragment<FragmentVeiculoVisitTercBinding>(
         if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

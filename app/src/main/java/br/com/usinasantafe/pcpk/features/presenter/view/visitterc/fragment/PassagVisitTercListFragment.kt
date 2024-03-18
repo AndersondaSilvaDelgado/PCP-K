@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
@@ -52,7 +53,7 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
     private fun setListener() {
         with(binding) {
             buttonInserirPassageiro.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante)
+                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante, pos)
             }
             buttonOkPassageiro.setOnClickListener {
                 when (typeAddOcupante) {
@@ -118,6 +119,7 @@ class PassagVisitTercListFragment : BaseFragment<FragmentPassagVisitTercListBind
         if(context is FragmentAttachListenerVisitTerc){
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.visitterc
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipVisitTercRepository
@@ -18,30 +19,29 @@ class SetObservVisitTercImpl @Inject constructor(
         pos: Int,
         flowApp: FlowApp
     ): Boolean {
-        return when (flowApp) {
+        when (flowApp) {
             FlowApp.ADD -> {
-                return when (typeMov!!) {
+                when (typeMov!!) {
                     TypeMov.INPUT -> {
                         if (!movEquipVisitTercRepository.setObservMovEquipVisitTerc(observ)) return false
-                        saveMovEquipVisitTerc()
+                        return saveMovEquipVisitTerc()
                     }
-
                     TypeMov.OUTPUT -> {
                         val movEquipVisitTerc =
                             movEquipVisitTercRepository.listMovEquipVisitTercOpen()[pos]
-                        movEquipVisitTercRepository.setStatusCloseMov(movEquipVisitTerc)
+                        if (!movEquipVisitTercRepository.setStatusCloseMov(movEquipVisitTerc)) return false
                         movEquipVisitTerc.observMovEquipVisitTerc = observ
                         movEquipVisitTerc.tipoMovEquipVisitTerc = TypeMov.OUTPUT
                         movEquipVisitTerc.dthrMovEquipVisitTerc = Date()
                         movEquipVisitTerc.destinoMovEquipVisitTerc = null
-                        saveMovEquipVisitTerc(movEquipVisitTerc)
+                        return saveMovEquipVisitTerc(movEquipVisitTerc)
                     }
                 }
             }
 
             FlowApp.CHANGE -> {
                 val movEquip = movEquipVisitTercRepository.listMovEquipVisitTercStarted()[pos]
-                movEquipVisitTercRepository.updateObservMovEquipVisitTerc(observ, movEquip)
+                return movEquipVisitTercRepository.updateObservMovEquipVisitTerc(observ, movEquip)
             }
         }
     }

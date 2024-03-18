@@ -7,11 +7,15 @@ interface MovEquipResidenciaRepository {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMovEquipResidencia(movEquipResidencia: MovEquipResidencia): Boolean
+
     suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidencia>
 
     suspend fun listMovEquipResidenciaStarted(): List<MovEquipResidencia>
 
     suspend fun listMovEquipResidenciaSend(): List<MovEquipResidencia>
+
+    suspend fun listMovEquipResidenciaSent(): List<MovEquipResidencia>
 
     suspend fun receiverSentMovEquipResidencia(movEquipList: List<MovEquipResidencia>): Boolean
 

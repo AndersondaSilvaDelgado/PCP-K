@@ -43,8 +43,24 @@ class MovEquipProprioSegRepositoryImpl @Inject constructor (
     }
 
     override suspend fun deleteEquipSeg(pos: Int, idMov: Long): Boolean {
-        val movEquip = movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov)[pos]
-        return movEquipProprioSegDatasourceRoom.deleteMovEquipProprioSeg(movEquip)
+        return try {
+            val equipSeg = movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov)[pos]
+            movEquipProprioSegDatasourceRoom.deleteMovEquipProprioSeg(equipSeg)
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    override suspend fun deleteEquipSeg(idMov: Long): Boolean {
+        try {
+            val equipSegList = movEquipProprioSegDatasourceRoom.listMovEquipProprioSegIdMov(idMov)
+            for(equipSeg in equipSegList){
+                movEquipProprioSegDatasourceRoom.deleteMovEquipProprioSeg(equipSeg)
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
     }
 
     override suspend fun listEquipSeg(): List<MovEquipProprioSeg> {

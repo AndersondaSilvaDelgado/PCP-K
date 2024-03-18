@@ -69,9 +69,7 @@ class NomeVigiaFragment : BaseFragment<FragmentNomeVigiaBinding>(
         if(context is FragmentAttachListenerInitial){
             fragmentAttachListenerInitial = context
         }
-        onBackPressed {
-            fragmentAttachListenerInitial?.goMatricVigia()
-        }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

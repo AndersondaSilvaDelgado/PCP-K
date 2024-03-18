@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.proprio
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipProprioRepository
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.SetDestinoProprio
@@ -14,7 +15,7 @@ class SetDestinoProprioImpl @Inject constructor(
             when(flowApp) {
                 FlowApp.ADD -> movEquipProprioRepository.setDestinoMovEquipProprio(destino)
                 FlowApp.CHANGE -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioRepository.updateDestinoMovEquipProprio(destino, movEquip)
                 }
             }

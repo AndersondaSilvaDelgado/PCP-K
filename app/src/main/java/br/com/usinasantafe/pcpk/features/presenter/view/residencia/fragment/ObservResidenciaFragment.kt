@@ -57,7 +57,7 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
             buttonCancObserv.setOnClickListener {
                 when (flowApp) {
                     FlowApp.ADD -> {
-                        when(typeMov!!) {
+                        when (typeMov!!) {
                             TypeMov.INPUT -> fragmentAttachListenerResidencia?.goMotorista(flowApp)
                             TypeMov.OUTPUT -> fragmentAttachListenerResidencia?.goMovResidenciaList()
                         }

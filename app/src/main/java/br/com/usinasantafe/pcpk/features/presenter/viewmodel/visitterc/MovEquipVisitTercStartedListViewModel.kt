@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverListMovEquipVisitTercStarted
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetStatusSendCloseAllMovVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.CloseSendAllMovVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovEquipVisitTercEmptyListViewModel @Inject constructor (
-    private val setStatusSendCloseAllMovVisitTerc: SetStatusSendCloseAllMovVisitTerc,
+    private val closeSendAllMovVisitTerc: CloseSendAllMovVisitTerc,
     private val recoverListMovEquipVisitTercStarted: RecoverListMovEquipVisitTercStarted,
 ): ViewModel() {
 
@@ -29,7 +29,7 @@ class MovEquipVisitTercEmptyListViewModel @Inject constructor (
     }
 
     fun closeAllMov() = viewModelScope.launch {
-        checkCloseAllMov(setStatusSendCloseAllMovVisitTerc())
+        checkCloseAllMov(closeSendAllMovVisitTerc())
     }
 
     fun recoverListMov() = viewModelScope.launch {

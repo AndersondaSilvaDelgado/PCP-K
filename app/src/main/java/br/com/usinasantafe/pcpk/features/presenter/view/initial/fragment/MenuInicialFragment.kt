@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.initial.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -10,6 +11,7 @@ import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.databinding.FragmentMenuInicialBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.initial.FragmentAttachListenerInitial
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.initial.MenuInicialFragmentState
@@ -31,6 +33,7 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
         observeState()
         viewList()
         version()
+        startEvents()
 
     }
 
@@ -67,6 +70,10 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
         binding.textViewPrincipal.text = "PRINCIPAL - V " + BuildConfig.VERSION_NAME
     }
 
+    private fun startEvents() {
+        viewModel.stateSend()
+    }
+
     private fun eventApont(){
         viewModel.checkAccessApont()
     }
@@ -85,7 +92,32 @@ class MenuInicialFragment : BaseFragment<FragmentMenuInicialBinding>(
     private fun handleStateChange(state: MenuInicialFragmentState){
         when(state){
             is MenuInicialFragmentState.HasAcessApont -> handleAcessApont(state.hasAcessApont)
+            is MenuInicialFragmentState.SetStatusSend -> handleStatusSend(state.statusSend)
         }
+    }
+
+    private fun handleStatusSend(statusSend: StatusSend) {
+        when(statusSend){
+            StatusSend.STARTED,
+            StatusSend.SENT -> setTextStatusSent()
+            StatusSend.SEND -> setTextStatusSend()
+            StatusSend.SENDING -> setTextStatusSending()
+        }
+    }
+
+    private fun setTextStatusSent(){
+        binding.textViewProcesso.setTextColor(Color.GREEN)
+        binding.textViewProcesso.text = "Todos os Dados já foram Enviados"
+    }
+
+    private fun setTextStatusSend(){
+        binding.textViewProcesso.setTextColor(Color.RED)
+        binding.textViewProcesso.text = "Existem Dados para serem Enviados"
+    }
+
+    private fun setTextStatusSending(){
+        binding.textViewProcesso.setTextColor(Color.YELLOW)
+        binding.textViewProcesso.text = "Dados sendo Enviado"
     }
 
     private fun handleAcessApont(hasAcessApont: Boolean){

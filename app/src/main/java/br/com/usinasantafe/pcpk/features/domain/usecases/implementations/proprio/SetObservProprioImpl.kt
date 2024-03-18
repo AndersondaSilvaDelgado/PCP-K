@@ -18,7 +18,7 @@ class SetObservProprioImpl @Inject constructor(
                 return saveMovEquipProprioOpen()
             }
             FlowApp.CHANGE -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                 movEquipProprioRepository.updateObservMovEquipProprio(observ, movEquip)
             }
         }

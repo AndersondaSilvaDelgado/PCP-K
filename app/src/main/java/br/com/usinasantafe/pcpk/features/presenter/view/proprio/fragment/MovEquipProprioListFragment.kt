@@ -1,14 +1,14 @@
 package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
-import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipProprioListBinding
@@ -19,7 +19,6 @@ import br.com.usinasantafe.pcpk.features.presenter.view.proprio.adapter.MovEquip
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBinding>(
@@ -52,15 +51,24 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
 
     private fun setListener() {
         with(binding) {
-            buttonEntradaMovEquipProprio.setOnClickListener {
+            buttonEntradaMov.setOnClickListener {
                 viewModel.checkSetInitialMov(TypeMov.INPUT)
             }
-            buttonSaidaMovEquipProprio.setOnClickListener {
+            buttonSaidaMov.setOnClickListener {
                 viewModel.checkSetInitialMov(TypeMov.OUTPUT)
             }
-            buttonRetornarMovEquipProprio.setOnClickListener {
+            buttonFecharMov.setOnClickListener {
+                showMessage()
+            }
+            buttonRetornarMov.setOnClickListener {
                 fragmentAttachListenerProprio?.goInicial()
             }
+        }
+    }
+
+    private fun showMessage(){
+        showGenericAlertDialogCheck("DESEJA REALMENTE FECHAR TODOS OS MOVIMENTOS?", requireContext()) {
+            viewModel.closeAllMov()
         }
     }
 
@@ -69,7 +77,20 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
             is MovEquipProprioListFragmentState.RecoverHeader -> handleHeader(state.header)
             is MovEquipProprioListFragmentState.ListMovEquip -> handleListMov(state.movEquipProprioList)
             is MovEquipProprioListFragmentState.CheckInitialMovEquip -> handleStartMov(state.check)
+            is MovEquipProprioListFragmentState.CheckCloseAllMov -> handleCloseAllMov(state.check)
         }
+    }
+
+    private fun handleCloseAllMov(check: Boolean){
+        if (check) {
+            fragmentAttachListenerProprio?.goInicial()
+            return
+        }
+        showGenericAlertDialog(
+            getString(
+                R.string.texto_failure_app,
+            ), requireContext()
+        )
     }
 
     private fun handleHeader(header: HeaderModel){
@@ -108,6 +129,7 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
         if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

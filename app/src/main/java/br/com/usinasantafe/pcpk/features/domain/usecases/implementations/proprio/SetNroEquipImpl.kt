@@ -17,16 +17,15 @@ class SetNroEquipImpl @Inject constructor(
     override suspend fun invoke(nroEquip: String, typeAddEquip: TypeAddEquip, pos: Int): Boolean {
         return try {
             val idEquip = equipRepository.getEquipNro(nroEquip.toLong()).idEquip
-            Log.i("PCP", typeAddEquip.toString())
             when(typeAddEquip){
                 TypeAddEquip.ADDVEICULO -> movEquipProprioRepository.setVeiculoMovEquipProprio(idEquip)
                 TypeAddEquip.ADDVEICULOSEG -> movEquipProprioSegRepository.addEquipSeg(idEquip)
                 TypeAddEquip.CHANGEVEICULO -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioRepository.updateVeiculoMovEquipProprio(idEquip, movEquip)
                 }
                 TypeAddEquip.CHANGEVEICULOSEG -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioSegRepository.addEquipSeg(idEquip, movEquip.idMovEquipProprio!!)
                 }
             }

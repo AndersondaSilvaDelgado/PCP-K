@@ -18,7 +18,7 @@ class RecoverListMovEquipProprioOpenImpl @Inject constructor(
 ): RecoverListMovEquipProprioOpen {
 
     override suspend fun invoke(): List<MovEquipProprioModel> {
-        return movEquipProprioRepository.listMovEquipProprioOpen().map { movEquip ->
+        return movEquipProprioRepository.listMovEquipProprioStarted().map { movEquip ->
             val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(movEquip.dthrMovEquipProprio)}"
             val tipo = if (movEquip.tipoMovEquipProprio == TypeMov.INPUT) "ENTRADA" else "SAIDA"
             val equip = "VEICULO: ${equipRepository.getEquipId(movEquip.idEquipMovEquipProprio!!).nroEquip}"

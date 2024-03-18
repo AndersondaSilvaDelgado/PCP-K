@@ -23,8 +23,22 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
         return movEquipVisitTercDatasourceRoom.checkMovSend()
     }
 
+    override suspend fun deleteMovEquipVisitTerc(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
+        try {
+            movEquipVisitTercDatasourceRoom.deleteMovEquipVisitTerc(
+                movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
+                    movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
+                    movEquipVisitTerc.idLocalMovEquipVisitTerc!!
+                )
+            )
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
+    }
+
     override suspend fun setStatusCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
-        return try {
+        try {
             movEquipVisitTercDatasourceRoom.updateStatusMovEquipVisitTercClose(
                 movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
                     movEquipVisitTerc.nroMatricVigiaMovEquipVisitTerc!!,
@@ -32,11 +46,12 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
                 )
             )
         } catch (exception: Exception) {
-            false
+            return false
         }
+        return true
     }
 
-    override suspend fun setStatusSendCloseMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
+    override suspend fun setStatusSendMov(movEquipVisitTerc: MovEquipVisitTerc): Boolean {
         return try {
             movEquipVisitTercDatasourceRoom.updateStatusMovEquipVisitTercCloseSend(
                 movEquipVisitTerc.entityToMovEquipVisitTercRoomModel(
@@ -63,6 +78,10 @@ class MovEquipVisitTercRepositoryImpl @Inject constructor (
 
     override suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTerc> {
         return movEquipVisitTercDatasourceRoom.listMovEquipVisitTercSend().map { it.modelRoomToMovEquipVisitTerc() }
+    }
+
+    override suspend fun listMovEquipVisitTercSent(): List<MovEquipVisitTerc> {
+        return movEquipVisitTercDatasourceRoom.listMovEquipVisitTercSent().map { it.modelRoomToMovEquipVisitTerc() }
     }
 
     override suspend fun receiverSentMovEquipVisitTerc(movEquipList: List<MovEquipVisitTerc>): Boolean {

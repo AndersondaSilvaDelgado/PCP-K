@@ -17,7 +17,6 @@ interface FragmentAttachListenerProprio {
     fun goNotaFiscal(flowApp: FlowApp, pos: Int = 0)
     fun goObserv(flowApp: FlowApp, pos: Int = 0)
     fun goDetalhe(pos: Int = 0)
-
     fun getTypeAddEquip(): TypeAddEquip
     fun getTypeAddOcupante(): TypeAddOcupante
     fun getFlowApp(): FlowApp

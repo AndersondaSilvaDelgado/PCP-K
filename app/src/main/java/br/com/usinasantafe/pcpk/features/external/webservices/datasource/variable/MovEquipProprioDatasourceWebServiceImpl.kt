@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.external.webservices.datasource.variable
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.token
 import br.com.usinasantafe.pcpk.features.external.webservices.api.variable.MovEquipProprioApi
 
@@ -20,6 +21,7 @@ class MovEquipProprioDatasourceWebServiceImpl @Inject constructor(
         return if (response.isSuccessful) {
             Result.success(response.body()!!)
         } else {
+            Log.i("PCP","Erro envio de dados" )
             Result.failure(Throwable("Erro envio de dados"))
         }
     }

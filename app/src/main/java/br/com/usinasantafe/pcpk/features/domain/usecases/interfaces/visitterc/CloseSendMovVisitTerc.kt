@@ -1,6 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc
 
-interface SetStatusSendCloseMovVisitTerc {
+interface CloseSendMovVisitTerc {
 
     suspend operator fun invoke(pos: Int): Boolean
 

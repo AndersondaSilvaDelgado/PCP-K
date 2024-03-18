@@ -6,7 +6,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipVisitTercStartedListBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
@@ -42,7 +44,7 @@ class MovEquipVisitTercStartedListFragment : BaseFragment<FragmentMovEquipVisitT
     private fun setListener() {
         with(binding) {
             buttonFecharMov.setOnClickListener {
-                viewModel.closeAllMov()
+                showMessage()
             }
             buttonRetMov.setOnClickListener {
                 fragmentAttachListenerVisitTerc?.goMovVisitTercList()
@@ -52,6 +54,12 @@ class MovEquipVisitTercStartedListFragment : BaseFragment<FragmentMovEquipVisitT
 
     private fun startEvents() {
         viewModel.recoverListMov()
+    }
+
+    private fun showMessage(){
+        showGenericAlertDialogCheck("DESEJA REALMENTE FECHAR TODOS OS MOVIMENTOS?", requireContext()) {
+            viewModel.closeAllMov()
+        }
     }
 
     private fun handleStateChange(state: MovEquipVisitTercStartedListFragmentState) {
@@ -90,6 +98,7 @@ class MovEquipVisitTercStartedListFragment : BaseFragment<FragmentMovEquipVisitT
         if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

@@ -87,6 +87,7 @@ class LocalListFragment : BaseFragment<FragmentLocalListBinding>(
         val localListView = localList.map { it }
 
         val listAdapter = CustomAdapter(localListView).apply {
+
             onItemClick = { _, pos ->
                 viewModel.setPosLocal(pos)
             }
@@ -147,9 +148,7 @@ class LocalListFragment : BaseFragment<FragmentLocalListBinding>(
         if(context is FragmentAttachListenerInitial){
             fragmentAttachListenerInitial = context
         }
-        onBackPressed {
-            fragmentAttachListenerInitial?.goNomeVigia()
-        }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

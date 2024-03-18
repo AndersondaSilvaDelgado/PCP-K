@@ -62,7 +62,7 @@ interface VisitTercModule {
 
     @Binds
     @Singleton
-    fun bindSetMotoristaPassagVisitTerc(usecase: SetMotoristaPassagVisitTercImpl): SetMotoristaPassagVisitTerc
+    fun bindSetMotoristaPassagVisitTerc(usecase: SetCpfMotoristaPassagVisitTercImpl): SetCpfMotoristaPassagVisitTerc
 
     @Binds
     @Singleton
@@ -74,11 +74,11 @@ interface VisitTercModule {
 
     @Binds
     @Singleton
-    fun bindSetStatusSendCloseAllMovVisitTerc(usecase: SetStatusSendCloseAllMovVisitTercImpl): SetStatusSendCloseAllMovVisitTerc
+    fun bindSetStatusSendCloseAllMovVisitTerc(usecase: CloseSendAllMovVisitTercImpl): CloseSendAllMovVisitTerc
 
     @Binds
     @Singleton
-    fun bindSetStatusSendCloseMovVisitTerc(usecase: SetStatusSendCloseMovVisitTercImpl): SetStatusSendCloseMovVisitTerc
+    fun bindSetStatusSendCloseMovVisitTerc(usecase: CloseSendMovVisitTercImpl): CloseSendMovVisitTerc
 
     @Binds
     @Singleton

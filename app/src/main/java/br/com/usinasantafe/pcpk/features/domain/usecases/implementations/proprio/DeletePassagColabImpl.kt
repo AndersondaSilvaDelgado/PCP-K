@@ -17,7 +17,7 @@ class DeletePassagColabImpl @Inject constructor(
             TypeAddOcupante.ADDPASSAGEIRO -> movEquipProprioPassagRepository.deletePassag(posList)
             TypeAddOcupante.CHANGEMOTORISTA,
             TypeAddOcupante.CHANGEPASSAGEIRO -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                 movEquipProprioPassagRepository.deletePassag(posList, movEquip.idMovEquipProprio!!)
             }
         }

@@ -11,15 +11,17 @@ interface MovEquipProprioRepository {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMovEquipProprio(movEquipProprio: MovEquipProprio): Boolean
+
     suspend fun getMatricMotoristaMovEquipProprio(): Long
 
     suspend fun getTipoMovEquipProprio(): TypeMov
 
-    suspend fun listMovEquipProprioOpen(): List<MovEquipProprio>
-
-    suspend fun listMovEquipProprioEmpty(): List<MovEquipProprio>
+    suspend fun listMovEquipProprioStarted(): List<MovEquipProprio>
 
     suspend fun listMovEquipProprioSend(): List<MovEquipProprio>
+
+    suspend fun listMovEquipProprioSent(): List<MovEquipProprio>
 
     suspend fun receiverSentMovEquipProprio(movEquipList: List<MovEquipProprio>): Boolean
 
@@ -38,7 +40,7 @@ interface MovEquipProprioRepository {
 
     suspend fun setObservMovEquipProprio(observ: String?): Boolean
 
-    suspend fun setStatusSendClosedMov(movEquipProprio: MovEquipProprio): Boolean
+    suspend fun setStatusSendMov(movEquipProprio: MovEquipProprio): Boolean
 
     suspend fun setVeiculoMovEquipProprio(idEquip: Long): Boolean
 

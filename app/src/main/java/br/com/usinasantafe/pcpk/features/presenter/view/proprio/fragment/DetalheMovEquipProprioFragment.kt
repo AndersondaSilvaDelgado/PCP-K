@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
@@ -107,7 +108,7 @@ class DetalheMovEquipProprioFragment : BaseFragment<FragmentDetalheMovEquipPropr
                     3 -> fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.CHANGEMOTORISTA, pos)
                     4 -> fragmentAttachListenerProprio?.goPassagList(TypeAddOcupante.CHANGEPASSAGEIRO, pos)
                     5 -> fragmentAttachListenerProprio?.goDestino(FlowApp.CHANGE, pos)
-                    6 -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG, pos)
+                    6 -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.CHANGEVEICULOSEG, pos)
                     7 -> fragmentAttachListenerProprio?.goNotaFiscal(FlowApp.CHANGE, pos)
                     8 -> fragmentAttachListenerProprio?.goObserv(FlowApp.CHANGE, pos)
                 }
@@ -125,6 +126,7 @@ class DetalheMovEquipProprioFragment : BaseFragment<FragmentDetalheMovEquipPropr
         if (context is FragmentAttachListenerProprio) {
             fragmentAttachListenerProprio = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

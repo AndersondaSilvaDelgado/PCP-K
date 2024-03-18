@@ -15,7 +15,7 @@ class SetNotaFiscalProprioImpl @Inject constructor(
             when(flowApp){
                 FlowApp.ADD -> movEquipProprioRepository.setNotaFiscalMovEquipProprio(notaFiscal.toLong())
                 FlowApp.CHANGE -> {
-                    val movEquip = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+                    val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                     movEquipProprioRepository.updateNotaFiscalMovEquipProprio(notaFiscal.toLong(), movEquip)
                 }
             }

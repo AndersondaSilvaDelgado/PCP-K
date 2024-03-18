@@ -20,7 +20,7 @@ class RecoverListEquipProprioSegImpl @Inject constructor(
                 .map { equipRepository.getEquipId(it.idEquipMovEquipProprioSeg!!).nroEquip.toString() }
             TypeAddEquip.CHANGEVEICULO,
             TypeAddEquip.CHANGEVEICULOSEG -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioEmpty()[pos]
+                val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                 movEquipProprioSegRepository.listEquipSeg(movEquip.idMovEquipProprio!!)
                     .map { equipRepository.getEquipId(it.idEquipMovEquipProprioSeg!!).nroEquip.toString() }
             }

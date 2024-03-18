@@ -6,17 +6,21 @@ interface MovEquipResidenciaDatasourceRoom {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
+
     suspend fun insertMovEquipResidenciaOpen(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 
     suspend fun insertMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 
-    suspend fun lastIdMovStatusSend(): Long
+    suspend fun lastIdMovStatusStarted(): Long
 
     suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidenciaRoomModel>
 
     suspend fun listMovEquipResidenciaEmpty(): List<MovEquipResidenciaRoomModel>
 
     suspend fun listMovEquipResidenciaSend(): List<MovEquipResidenciaRoomModel>
+
+    suspend fun listMovEquipResidenciaSent(): List<MovEquipResidenciaRoomModel>
 
     suspend fun updateVeiculoMovEquipResidencia(
         veiculo: String,
@@ -40,7 +44,7 @@ interface MovEquipResidenciaDatasourceRoom {
 
     suspend fun updateStatusSentMovEquipResidencia(idMov: Long): Boolean
 
-    suspend fun updateStatusCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
+    suspend fun updateStatusMovEquipResidenciaClose(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 
     suspend fun updateStatusSendCloseMovEquipResidencia(movEquipResidenciaRoomModel: MovEquipResidenciaRoomModel): Boolean
 

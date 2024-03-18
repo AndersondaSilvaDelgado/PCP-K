@@ -24,7 +24,6 @@ data class MovEquipProprioRoomModel(
     var destinoMovEquipProprio: String,
     var nroNotaFiscalMovEquipProprio: Long?,
     var observMovEquipProprio: String?,
-    var statusMovEquipProprio: StatusData,
     var statusSendMovEquipProprio: StatusSend,
 )
 
@@ -41,7 +40,6 @@ fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio{
             destinoMovEquipProprio = this.destinoMovEquipProprio,
             nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
-            statusMovEquipProprio = this.statusMovEquipProprio,
             statusSendMovEquipProprio = this.statusSendMovEquipProprio,
         )
     }
@@ -60,8 +58,7 @@ fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal:
             destinoMovEquipProprio = this.destinoMovEquipProprio!!,
             nroNotaFiscalMovEquipProprio = this.nroNotaFiscalMovEquipProprio,
             observMovEquipProprio = this.observMovEquipProprio,
-            statusMovEquipProprio = StatusData.OPEN,
-            statusSendMovEquipProprio = StatusSend.STARTED,
+            statusSendMovEquipProprio = this.statusSendMovEquipProprio,
         )
     }
 }

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.common
 
+import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.NetworkType

@@ -2,12 +2,12 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
@@ -53,7 +53,7 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private fun setListener() {
         with(binding) {
             buttonInserirVeiculoSeg.setOnClickListener {
-                fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULOSEG)
+                fragmentAttachListenerProprio?.goVeiculoProprio(typeAddEquip, pos)
             }
             buttonOkVeiculoSeg.setOnClickListener {
                 when(typeAddEquip) {
@@ -119,6 +119,7 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
         if(context is FragmentAttachListenerProprio){
             fragmentAttachListenerProprio = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

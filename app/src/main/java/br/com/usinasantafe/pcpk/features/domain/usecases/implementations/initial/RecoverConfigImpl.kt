@@ -11,9 +11,11 @@ class RecoverConfigImpl @Inject constructor (
 ): RecoverConfig {
 
     override suspend fun invoke(): ConfigModel? {
-        if (configRepository.hasConfig())
-            return configRepository.getConfig().toConfigModel()
-        return null
+        if (!configRepository.hasConfig())
+            return null
+        if(configRepository.getConfig().passwordConfig.isNullOrEmpty())
+            return null
+        return configRepository.getConfig().toConfigModel()
     }
 
 }

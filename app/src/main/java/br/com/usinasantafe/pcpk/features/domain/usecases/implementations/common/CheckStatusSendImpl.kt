@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.common
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CheckStatusSend
@@ -11,10 +12,7 @@ class CheckStatusSendImpl @Inject constructor (
 
     override suspend fun invoke(): Boolean {
         try {
-            if(configRepository.getConfig().statusEnvio != StatusSend.SENT) {
-                return false
-            }
-            configRepository.setStatusSendConfig(StatusSend.SEND)
+            if(configRepository.getConfig().statusEnvio == StatusSend.SENT) return false
         } catch (exception: Exception) {
             return false
         }

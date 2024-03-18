@@ -15,7 +15,6 @@ class SplashViewModel @Inject constructor(
     private val startAPP: StartApp
 ) : ViewModel() {
 
-
     private val _uiLiveData = MutableLiveData<SplashState>()
     val uiLiveData: LiveData<SplashState> = _uiLiveData
 

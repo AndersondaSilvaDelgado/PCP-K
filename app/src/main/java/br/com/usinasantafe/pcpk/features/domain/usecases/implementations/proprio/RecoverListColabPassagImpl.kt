@@ -25,7 +25,7 @@ class RecoverListColabPassagImpl @Inject constructor(
             }
             TypeAddOcupante.CHANGEMOTORISTA,
             TypeAddOcupante.CHANGEPASSAGEIRO -> {
-                val movEquip = movEquipProprioRepository.listMovEquipProprioEmpty()[pos]
+                val movEquip = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
                 movEquipProprioPassagRepository.listPassag(movEquip.idMovEquipProprio!!).map {
                     val colab = colabRepository.getColabMatric(it.nroMatricMovEquipProprioPassag!!)
                     return@map "${colab.matricColab} - ${colab.nomeColab}"

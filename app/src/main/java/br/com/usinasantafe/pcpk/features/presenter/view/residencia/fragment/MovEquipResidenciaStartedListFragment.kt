@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
+import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialogCheck
 import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipResidenciaStartedListBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
@@ -42,7 +43,7 @@ class MovEquipResidenciaStartedListFragment : BaseFragment<FragmentMovEquipResid
     private fun setListener() {
         with(binding) {
             buttonFecharMov.setOnClickListener {
-                viewModel.closeAllMov()
+                showMessage()
             }
             buttonRetMov.setOnClickListener {
                 fragmentAttachListenerResidencia?.goMovResidenciaList()
@@ -52,6 +53,12 @@ class MovEquipResidenciaStartedListFragment : BaseFragment<FragmentMovEquipResid
 
     private fun startEvents() {
         viewModel.recoverListMov()
+    }
+
+    private fun showMessage(){
+        showGenericAlertDialogCheck("DESEJA REALMENTE FECHAR TODOS OS MOVIMENTOS?", requireContext()) {
+            viewModel.closeAllMov()
+        }
     }
 
     private fun handleStateChange(state: MovEquipResidenciaStartedListFragmentState) {

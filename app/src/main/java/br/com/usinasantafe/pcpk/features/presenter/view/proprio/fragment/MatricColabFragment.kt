@@ -148,10 +148,10 @@ class MatricColabFragment : BaseFragment<FragmentMatricColabBinding>(
         }
         onBackPressed {
             when(typeAddOcupante) {
-                TypeAddOcupante.ADDMOTORISTA,
-                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG)
-                TypeAddOcupante.CHANGEMOTORISTA,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG)
+                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddOcupante.ADDPASSAGEIRO,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goPassagList(typeAddOcupante, pos)
             }
         }
     }

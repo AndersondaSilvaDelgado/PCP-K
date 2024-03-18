@@ -13,7 +13,7 @@ class MovEquipVisitTercPassagDatasourceSharedPreferencesImpl @Inject constructor
 
     override suspend fun addPassag(idVisitTerc: Long): Boolean {
         try {
-            var data = listPassag() as MutableList<Long>
+            val data = listPassag() as MutableList<Long>
             data.add(idVisitTerc)
             val editor = sharedPreferences.edit()
             val typeToken = object : TypeToken<List<Long>>() {}.type

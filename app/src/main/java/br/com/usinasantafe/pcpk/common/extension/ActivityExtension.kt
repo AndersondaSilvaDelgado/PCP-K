@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcpk.common.extension
 
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -11,9 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.databinding.LayoutBotoesBinding
 import br.com.usinasantafe.pcpk.databinding.LayoutBotoesSAtualBinding
@@ -51,7 +48,7 @@ fun Fragment.showGenericAlertDialog(message: String, context: Context) {
     }.show()
 }
 
-fun Fragment.showGenericAlertDialogCheck(message: String, context: Context, callback: () -> Unit) {
+fun showGenericAlertDialogCheck(message: String, context: Context, callback: () -> Unit) {
     AlertDialog.Builder(context)
         .setMessage(message)
         .setPositiveButton("SIM") { _, _ ->
@@ -62,51 +59,60 @@ fun Fragment.showGenericAlertDialogCheck(message: String, context: Context, call
         .show()
 }
 
-fun setListenerButtonsCPF(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText) {
-    var texto = editText.text.toString()
-    if (texto.length < 14) {
-        if ((texto.length == 3) || (texto.length == 7)) {
-            texto += "."
+fun setListenerButtonsCPF(editText: EditText) {
+    if (editText.text.length < 15) {
+        if ((editText.text.length == 3) || (editText.text.length == 7)) {
+            editText.setText("${editText.text}.")
         }
-        if ((texto.length == 11)) {
-            texto += "-"
+        if ((editText.text.length == 11)) {
+            editText.setText("${editText.text}-")
         }
-        editText.setText(texto)
-        setListenerButtonsGeneric(layoutBotoesBinding, editText)
+    } else {
+        editText.setText(editText.text.substring(0, editText.text.length - 1))
     }
 }
 
-fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText) {
+fun setListenerButtonsGeneric(layoutBotoesBinding: LayoutBotoesBinding, editText: EditText, operation: ((editText: EditText) -> Unit)? = null) {
     with(layoutBotoesBinding) {
         buttonNum0.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum0.text)
+            operation?.invoke(editText)
         }
         buttonNum1.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum1.text)
+            operation?.invoke(editText)
         }
         buttonNum2.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum2.text)
+            operation?.invoke(editText)
         }
         buttonNum3.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum3.text)
+            operation?.invoke(editText)
         }
         buttonNum4.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum4.text)
+            operation?.invoke(editText)
         }
         buttonNum5.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum5.text)
+            operation?.invoke(editText)
         }
         buttonNum6.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum6.text)
+            operation?.invoke(editText)
         }
         buttonNum7.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum7.text)
+            operation?.invoke(editText)
         }
         buttonNum8.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum8.text)
+            operation?.invoke(editText)
         }
         buttonNum9.setOnClickListener {
             editText.setText("${editText.text}" + buttonNum9.text)
+            operation?.invoke(editText)
         }
         buttonCancPadrao.setOnClickListener {
             if (editText.text.isNotEmpty()) {

@@ -32,7 +32,7 @@ fun MovEquipResidencia.entityToMovEquipResidenciaWebServiceModel(nroAparelho: Lo
             nroMatricVigiaMovEquipResidencia = this.nroMatricVigiaMovEquipResidencia!!,
             idLocalMovEquipResidencia = this.idLocalMovEquipResidencia!!,
             dthrMovEquipResidencia = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(this.dthrMovEquipResidencia),
-            tipoMovEquipResidencia = this.tipoMovEquipResidencia!!.ordinal.toLong(),
+            tipoMovEquipResidencia = this.tipoMovEquipResidencia!!.ordinal.toLong() + 1L,
             nomeVisitanteMovEquipResidencia = this.motoristaMovEquipResidencia!!,
             veiculoMovEquipResidencia = this.veiculoMovEquipResidencia!!,
             placaMovEquipResidencia = this.placaMovEquipResidencia!!,

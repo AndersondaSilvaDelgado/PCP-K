@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.external.room.database.variable
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.common.utils.StatusData
 import br.com.usinasantafe.pcpk.common.utils.StatusSend
 import br.com.usinasantafe.pcpk.features.external.room.dao.variable.MovEquipProprioDao
@@ -15,9 +16,17 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
         return movEquipProprioDao.listMovStatusEnvio(StatusSend.SEND).isNotEmpty()
     }
 
+    override suspend fun deleteMov(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
+        try {
+            movEquipProprioDao.delete(movEquipProprioRoomModel)
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
+    }
+
     override suspend fun updateStatusMovEquipProprioCloseSend(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {
         try {
-            movEquipProprioRoomModel.statusMovEquipProprio = StatusData.CLOSE
             movEquipProprioRoomModel.statusSendMovEquipProprio = StatusSend.SEND
             movEquipProprioDao.update(movEquipProprioRoomModel)
         } catch (exception: Exception) {
@@ -30,16 +39,16 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
         return movEquipProprioDao.lastIdMovStatusEnvio(StatusSend.STARTED)
     }
 
-    override suspend fun listMovEquipProprioOpen(): List<MovEquipProprioRoomModel> {
-        return movEquipProprioDao.listMovStatus(StatusData.OPEN)
-    }
-
-    override suspend fun listMovEquipProprioEmpty(): List<MovEquipProprioRoomModel> {
+    override suspend fun listMovEquipProprioStarted(): List<MovEquipProprioRoomModel> {
         return movEquipProprioDao.listMovStatusEnvio(StatusSend.STARTED)
     }
 
     override suspend fun listMovEquipProprioSend(): List<MovEquipProprioRoomModel> {
         return movEquipProprioDao.listMovStatusEnvio(StatusSend.SEND)
+    }
+
+    override suspend fun listMovEquipProprioSent(): List<MovEquipProprioRoomModel> {
+        return movEquipProprioDao.listMovStatusEnvio(StatusSend.SENT)
     }
 
     override suspend fun saveMovEquipProprioOpen(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean {

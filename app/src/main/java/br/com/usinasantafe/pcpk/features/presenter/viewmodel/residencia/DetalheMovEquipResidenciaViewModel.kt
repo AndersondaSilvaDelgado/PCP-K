@@ -5,14 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.RecoverDetalheMovEquipResidencia
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.SetStatusSendCloseMovResidencia
+import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.CloseSendMovResidencia
 import br.com.usinasantafe.pcpk.features.presenter.model.DetalheMovEquipResidenciaModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DetalheMovEquipResidenciaViewModel @Inject constructor (
     private val recoverDetalheMovEquipResidencia: RecoverDetalheMovEquipResidencia,
-    private val setStatusSendCloseMovResidencia: SetStatusSendCloseMovResidencia,
+    private val closeSendMovResidencia: CloseSendMovResidencia,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<DetalheMovEquipResidenciaFragmentState>()
@@ -31,7 +33,7 @@ class DetalheMovEquipResidenciaViewModel @Inject constructor (
     }
 
     fun closeMov(pos: Int) = viewModelScope.launch {
-        checkCloseMov(setStatusSendCloseMovResidencia(pos))
+        checkCloseMov(closeSendMovResidencia(pos))
     }
 
 }

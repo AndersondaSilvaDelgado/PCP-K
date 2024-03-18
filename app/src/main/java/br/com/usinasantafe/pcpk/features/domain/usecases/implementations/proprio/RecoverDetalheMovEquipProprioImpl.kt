@@ -20,7 +20,7 @@ class RecoverDetalheMovEquipProprioImpl @Inject constructor(
 ): RecoverDetalheMovEquipProprio {
 
     override suspend fun invoke(pos: Int): DetalheMovEquipProprioModel {
-        val mov = movEquipProprioRepository.listMovEquipProprioOpen()[pos]
+        val mov = movEquipProprioRepository.listMovEquipProprioStarted()[pos]
         val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(mov.dthrMovEquipProprio)}"
         val tipoMov = if (mov.tipoMovEquipProprio!!.ordinal == 0) "ENTRADA" else "SAÍDA"
         val veiculo = "VEÍCULO: ${equipRepository.getEquipId(mov.idEquipMovEquipProprio!!).nroEquip}"
@@ -36,8 +36,10 @@ class RecoverDetalheMovEquipProprioImpl @Inject constructor(
         for (equip in equipSegList){
             equipSeg += "${equipRepository.getEquipId(equip.idEquipMovEquipProprioSeg!!).nroEquip} - "
         }
-        val notaFiscal = "NOTAL FISCAL: ${mov.nroNotaFiscalMovEquipProprio}"
-        val observ = "OBS.: ${mov.observMovEquipProprio}"
+        val descrNotaFiscal = if (mov.nroNotaFiscalMovEquipProprio == null) "" else mov.nroNotaFiscalMovEquipProprio
+        val notaFiscal = "NOTAL FISCAL: $descrNotaFiscal"
+        val descrObserv = if (mov.observMovEquipProprio.isNullOrEmpty()) "" else mov.observMovEquipProprio
+        val observ = "OBS.: $descrObserv"
         return DetalheMovEquipProprioModel(dthr, tipoMov, veiculo, motorista, passageiros, destino, equipSeg, notaFiscal, observ)
     }
 

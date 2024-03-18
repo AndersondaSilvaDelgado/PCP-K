@@ -7,6 +7,8 @@ interface MovEquipVisitTercDatasourceRoom {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMovEquipVisitTerc(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean
+
     suspend fun insertMovEquipVisitTercOpen(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean
 
     suspend fun insertMovEquipVisitTercClose(movEquipVisitTercRoomModel: MovEquipVisitTercRoomModel): Boolean
@@ -18,6 +20,8 @@ interface MovEquipVisitTercDatasourceRoom {
     suspend fun listMovEquipVisitTercStarted(): List<MovEquipVisitTercRoomModel>
 
     suspend fun listMovEquipVisitTercSend(): List<MovEquipVisitTercRoomModel>
+
+    suspend fun listMovEquipVisitTercSent(): List<MovEquipVisitTercRoomModel>
 
     suspend fun updateVeiculoMovEquipVisitTerc(
         veiculo: String,

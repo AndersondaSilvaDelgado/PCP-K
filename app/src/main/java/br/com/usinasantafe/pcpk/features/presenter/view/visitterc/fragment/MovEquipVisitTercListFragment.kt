@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
+import br.com.usinasantafe.pcpk.common.extension.onBackPressed
 import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
@@ -49,13 +50,13 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
 
     private fun setListener() {
         with(binding) {
-            buttonEntradaMovEquipVisitTerc.setOnClickListener {
+            buttonEntradaMov.setOnClickListener {
                 viewModel.checkSetInitialMov()
             }
-            buttonEditarMovEquipVisitTerc.setOnClickListener {
+            buttonEditarMov.setOnClickListener {
                 fragmentAttachListenerVisitTerc?.goMovVisitTercListStarted()
             }
-            buttonRetornarMovEquipVisitTerc.setOnClickListener {
+            buttonRetornarMov.setOnClickListener {
                 fragmentAttachListenerVisitTerc?.goInicial()
             }
         }
@@ -105,6 +106,7 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
         if (context is FragmentAttachListenerVisitTerc) {
             fragmentAttachListenerVisitTerc = context
         }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

@@ -54,11 +54,11 @@ interface ResidenciaModule {
 
     @Binds
     @Singleton
-    fun bindSetStatusSendCloseAllMovResidencia (usecase: SetStatusSendCloseAllMovResidenciaImpl): SetStatusSendCloseAllMovResidencia
+    fun bindSetStatusSendCloseAllMovResidencia (usecase: CloseSendAllMovResidenciaImpl): CloseSendAllMovResidencia
 
     @Binds
     @Singleton
-    fun bindSetStatusSendCloseMovResidencia (usecase: SetStatusSendCloseMovResidenciaImpl): SetStatusSendCloseMovResidencia
+    fun bindSetStatusSendCloseMovResidencia (usecase: CloseSendMovResidenciaImpl): CloseSendMovResidencia
 
     @Binds
     @Singleton

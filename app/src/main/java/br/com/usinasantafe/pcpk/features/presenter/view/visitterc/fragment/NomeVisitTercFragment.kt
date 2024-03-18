@@ -47,7 +47,7 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     }
 
     private fun startEvents() {
-        viewModel.recoverData(cpfVisitTerc)
+        viewModel.recoverData(cpfVisitTerc, typeAddOcupante, pos)
     }
 
     private fun setListener() {
@@ -56,7 +56,7 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
                 viewModel.setCPFVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante)
+                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante, pos)
             }
         }
     }
@@ -79,10 +79,10 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private fun handleCheckSetCPF(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddOcupante) {
-                TypeAddOcupante.ADDMOTORISTA,
-                TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante)
-                TypeAddOcupante.CHANGEMOTORISTA,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerVisitTerc?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
+                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDPASSAGEIRO,
+                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante, pos)
             }
             return
         }
@@ -99,9 +99,7 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
         if(context is FragmentAttachListenerVisitTerc){
             fragmentAttachListenerVisitTerc = context
         }
-        onBackPressed {
-            fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante)
-        }
+        onBackPressed {}
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.domain.usecases.implementations.residencia
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipResidencia
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipResidenciaRepository
@@ -10,19 +11,18 @@ import javax.inject.Inject
 class SaveMovEquipResidenciaImpl @Inject constructor(
     private val configRepository: ConfigRepository,
     private val movEquipResidenciaRepository: MovEquipResidenciaRepository,
-    private val startProcessSendData: StartProcessSendData,
 ): SaveMovEquipResidencia {
 
     override suspend fun invoke(): Boolean {
         val config = configRepository.getConfig()
-        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!) == 0L) return false
-        return true
+        return (movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!) != 0L)
     }
 
     override suspend fun invoke(movEquipResidencia: MovEquipResidencia): Boolean {
+        Log.i("PCPK", "CHEGOU AKI SAVE 1")
         val config = configRepository.getConfig()
-        if(movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!, movEquipResidencia) == 0L) return false
-        return true
+        Log.i("PCPK", "CHEGOU AKI SAVE 2")
+        return (movEquipResidenciaRepository.saveMovEquipResidencia(config.matricVigia!!, config.idLocal!!, movEquipResidencia) != 0L)
     }
 
 }

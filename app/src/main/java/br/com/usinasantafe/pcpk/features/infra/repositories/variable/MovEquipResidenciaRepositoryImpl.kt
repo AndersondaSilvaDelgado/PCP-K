@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pcpk.features.infra.repositories.variable
 
+import android.util.Log
 import br.com.usinasantafe.pcpk.features.domain.entities.variable.MovEquipResidencia
 import br.com.usinasantafe.pcpk.features.domain.repositories.variable.MovEquipResidenciaRepository
 import br.com.usinasantafe.pcpk.features.infra.datasource.room.variable.MovEquipResidenciaDatasourceRoom
@@ -22,6 +23,20 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
         return movEquipResidenciaDatasourceRoom.checkMovSend()
     }
 
+    override suspend fun deleteMovEquipResidencia(movEquipResidencia: MovEquipResidencia): Boolean {
+        try {
+            movEquipResidenciaDatasourceRoom.deleteMovEquipResidencia(
+                movEquipResidencia.entityToMovEquipResidenciaRoomModel(
+                    movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
+                    movEquipResidencia.idLocalMovEquipResidencia!!
+                )
+            )
+        } catch (exception: Exception) {
+            return false
+        }
+        return true
+    }
+
     override suspend fun listMovEquipResidenciaOpen(): List<MovEquipResidencia> {
         return movEquipResidenciaDatasourceRoom.listMovEquipResidenciaOpen().map { it.modelRoomToMovEquipResidencia() }
     }
@@ -32,6 +47,10 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
 
     override suspend fun listMovEquipResidenciaSend(): List<MovEquipResidencia> {
         return movEquipResidenciaDatasourceRoom.listMovEquipResidenciaSend().map { it.modelRoomToMovEquipResidencia() }
+    }
+
+    override suspend fun listMovEquipResidenciaSent(): List<MovEquipResidencia> {
+        return movEquipResidenciaDatasourceRoom.listMovEquipResidenciaSent().map { it.modelRoomToMovEquipResidencia() }
     }
 
     override suspend fun receiverSentMovEquipResidencia(movEquipList: List<MovEquipResidencia>): Boolean {
@@ -47,9 +66,9 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
             val movEquipResidenciaRoomModel = movEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia, idLocal)
             if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaOpen(movEquipResidenciaRoomModel)) return 0L
             if(!movEquipResidenciaDatasourceSharedPreferences.clearMovEquipResidencia()) return 0L
-            return movEquipResidenciaDatasourceRoom.lastIdMovStatusSend()
+            return movEquipResidenciaDatasourceRoom.lastIdMovStatusStarted()
         } catch (exception: Exception){
-            return 0
+            return 0L
         }
     }
 
@@ -60,11 +79,11 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
     ): Long {
         try {
             val movEquipResidenciaRoomModel = movEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia, idLocal)
-            if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaClose(movEquipResidenciaRoomModel)) return 0
-            if(!movEquipResidenciaDatasourceSharedPreferences.clearMovEquipResidencia()) return 0
-            return movEquipResidenciaDatasourceRoom.lastIdMovStatusSend()
+            if(!movEquipResidenciaDatasourceRoom.insertMovEquipResidenciaClose(movEquipResidenciaRoomModel)) return 0L
+            if(!movEquipResidenciaDatasourceSharedPreferences.clearMovEquipResidencia()) return 0L
+            return movEquipResidenciaDatasourceRoom.lastIdMovStatusStarted()
         } catch (exception: Exception){
-            return 0
+            return 0L
         }
     }
 
@@ -108,16 +127,17 @@ class MovEquipResidenciaRepositoryImpl @Inject constructor (
     }
 
     override suspend fun setStatusCloseMov(movEquipResidencia: MovEquipResidencia): Boolean {
-        return try {
-            movEquipResidenciaDatasourceRoom.updateStatusCloseMovEquipResidencia(
+        try {
+            movEquipResidenciaDatasourceRoom.updateStatusMovEquipResidenciaClose(
                 movEquipResidencia.entityToMovEquipResidenciaRoomModel(
                     movEquipResidencia.nroMatricVigiaMovEquipResidencia!!,
                     movEquipResidencia.idLocalMovEquipResidencia!!
                 )
             )
         } catch (exception: Exception) {
-            false
+            return false
         }
+        return true
     }
 
     override suspend fun setStatusSendCloseMov(movEquipResidencia: MovEquipResidencia): Boolean {

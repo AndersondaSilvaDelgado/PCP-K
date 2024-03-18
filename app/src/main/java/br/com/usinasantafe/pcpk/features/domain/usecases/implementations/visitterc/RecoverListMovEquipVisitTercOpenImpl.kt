@@ -18,17 +18,17 @@ class RecoverListMovEquipVisitTercOpenImpl @Inject constructor(
 
     override suspend fun invoke(): List<MovEquipVisitTercModel> {
         return movEquipVisitTercRepository.listMovEquipVisitTercOpen().map { movEquipVisitTerc ->
-            movEquipVisitTerc.let {
-                val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(it.dthrMovEquipVisitTerc)}"
-                val motorista = if(movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc == TypeVisitTerc.TERCEIRO){
-                    val terceiro = terceiroRepository.getTerceiroId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
-                    "TERCEIRO: ${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
-                } else {
-                    val visitante = visitanteRepository.getVisitanteId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
-                    "VISITANTE: ${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
-                }
-                return@map MovEquipVisitTercModel(dthr, motorista, it.veiculoMovEquipVisitTerc!!, it.placaMovEquipVisitTerc!!)
+            val dthr = "DATA/HORA: ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(movEquipVisitTerc.dthrMovEquipVisitTerc)}"
+            val motorista = if(movEquipVisitTerc.tipoVisitTercMovEquipVisitTerc == TypeVisitTerc.TERCEIRO){
+                val terceiro = terceiroRepository.getTerceiroId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
+                "TERCEIRO: ${terceiro.cpfTerceiro} - ${terceiro.nomeTerceiro}"
+            } else {
+                val visitante = visitanteRepository.getVisitanteId(movEquipVisitTerc.idVisitTercMovEquipVisitTerc!!)
+                "VISITANTE: ${visitante.cpfVisitante} - ${visitante.nomeVisitante}"
             }
+            val veiculo = "VEÍCULO: ${movEquipVisitTerc.veiculoMovEquipVisitTerc!!}"
+            val placa = "PLACA: ${movEquipVisitTerc.placaMovEquipVisitTerc!!}"
+            return@map MovEquipVisitTercModel(dthr, motorista, veiculo, placa)
         }
     }
 

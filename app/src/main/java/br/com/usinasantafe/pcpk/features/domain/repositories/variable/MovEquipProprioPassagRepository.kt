@@ -14,6 +14,8 @@ interface MovEquipProprioPassagRepository {
 
     suspend fun deletePassag(pos: Int, idMov: Long): Boolean
 
+    suspend fun deletePassag(idMov: Long): Boolean
+
     suspend fun listPassag(): List<MovEquipProprioPassag>
 
     suspend fun listPassag(idMov: Long): List<MovEquipProprioPassag>

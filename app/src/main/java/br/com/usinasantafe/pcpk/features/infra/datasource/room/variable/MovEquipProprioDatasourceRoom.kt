@@ -7,13 +7,15 @@ interface MovEquipProprioDatasourceRoom {
 
     suspend fun checkMovSend(): Boolean
 
+    suspend fun deleteMov(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean
+
     suspend fun lastIdMovStatusStarted(): Long
 
-    suspend fun listMovEquipProprioOpen(): List<MovEquipProprioRoomModel>
-
-    suspend fun listMovEquipProprioEmpty(): List<MovEquipProprioRoomModel>
+    suspend fun listMovEquipProprioStarted(): List<MovEquipProprioRoomModel>
 
     suspend fun listMovEquipProprioSend(): List<MovEquipProprioRoomModel>
+
+    suspend fun listMovEquipProprioSent(): List<MovEquipProprioRoomModel>
 
     suspend fun saveMovEquipProprioOpen(movEquipProprioRoomModel: MovEquipProprioRoomModel): Boolean
 
