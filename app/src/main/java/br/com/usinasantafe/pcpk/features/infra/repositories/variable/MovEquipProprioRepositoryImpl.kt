@@ -65,7 +65,7 @@ class MovEquipProprioRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTipoMovEquipProprio(): TypeMov {
-        return movEquipProprioDatasourceSharedPreferences.getMovEquipProprio().tipoMovEquipProprio!!
+        return movEquipProprioDatasourceSharedPreferences.getMovEquipProprio().tipoMovEquipProprio
     }
 
     override suspend fun listMovEquipProprioStarted(): List<MovEquipProprio> {

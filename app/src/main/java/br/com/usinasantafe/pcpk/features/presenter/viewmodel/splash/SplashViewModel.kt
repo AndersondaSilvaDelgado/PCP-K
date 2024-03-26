@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.PointerStart
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.StartApp
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.StartApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

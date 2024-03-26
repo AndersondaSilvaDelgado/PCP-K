@@ -8,13 +8,9 @@ interface FragmentAttachListenerResidencia {
     fun goInicial()
     fun goMovResidenciaList()
     fun goMovResidenciaStartedList()
-    fun goVeiculo(flowApp: FlowApp, pos: Int = 0)
-    fun goPlaca(flowApp: FlowApp, pos: Int = 0)
-    fun goMotorista(flowApp: FlowApp, pos: Int = 0)
-    fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int = 0)
-    fun goDetalhe(pos: Int)
-
-    fun getFlowApp(): FlowApp
-    fun getPos(): Int
-    fun getTypeMov(): TypeMov?
+    fun goVeiculo()
+    fun goPlaca()
+    fun goMotorista()
+    fun goObserv()
+    fun goDetalhe()
 }

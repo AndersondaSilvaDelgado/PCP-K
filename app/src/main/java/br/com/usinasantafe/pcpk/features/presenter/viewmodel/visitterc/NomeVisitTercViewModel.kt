@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverDataVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.SetCpfMotoristaPassagVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.RecoverDataVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.SetCPFMotoristaPassagVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.model.DisplayDataVisitTercModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NomeVisitTercViewModel @Inject constructor(
     private val recoverDataVisitTerc: RecoverDataVisitTerc,
-    private val setCpfMotoristaPassagVisitTerc: SetCpfMotoristaPassagVisitTerc,
+    private val setCPFMotoristaPassagVisitTerc: SetCPFMotoristaPassagVisitTerc,
 ): ViewModel() {
 
     private val _uiLiveData = MutableLiveData<NomeVisitTercFragmentState>()
@@ -34,7 +34,7 @@ class NomeVisitTercViewModel @Inject constructor(
     }
 
     fun setCPFVisitTerc(matricVigia: String, typeAddOcupante: TypeAddOcupante, pos: Int) = viewModelScope.launch {
-        checkSetMatricColab(setCpfMotoristaPassagVisitTerc(matricVigia, typeAddOcupante, pos))
+        checkSetMatricColab(setCPFMotoristaPassagVisitTerc(matricVigia, typeAddOcupante, pos))
     }
 
 }

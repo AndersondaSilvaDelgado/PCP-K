@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcpk.common.utils
 
 enum class StatusData { OPEN, CLOSE  }
 enum class StatusSend { STARTED, SEND, SENDING, SENT }
-enum class TypeMov { INPUT, OUTPUT }
+enum class TypeMov { INPUT, OUTPUT, EMPTY }
 enum class StatusUpdate { UPDATED, FAILURE }
 enum class StatusRecover { SUCCESS, EMPTY, FAILURE }
 enum class PointerStart { MENUINICIAL, MENUAPONT }

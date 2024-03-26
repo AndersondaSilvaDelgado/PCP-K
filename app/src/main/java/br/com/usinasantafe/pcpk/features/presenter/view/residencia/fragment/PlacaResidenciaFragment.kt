@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -11,6 +13,14 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentPlacaResidenciaBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.POS_DETALHE_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.REQUEST_KEY_DETALHE_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.FLOW_APP_MOTORISTA_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.POS_MOTORISTA_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.REQUEST_KEY_MOTORISTA_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.FLOW_APP_VEIC_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.POS_VEIC_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.REQUEST_KEY_VEIC_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.PlacaResidenciaFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.PlacaResidenciaViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,11 +36,25 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_PLACA_RESIDENCIA = "requestKeyPlacaResidencia"
+        const val FLOW_APP_PLACA_RESIDENCIA = "flowAppPlacaResidencia"
+        const val POS_PLACA_RESIDENCIA = "posPlacaResidencia"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_PLACA_RESIDENCIA) { _, bundle ->
+            this.flowApp = FlowApp.values()[bundle.getInt(FLOW_APP_PLACA_RESIDENCIA)]
+            this.pos = bundle.getInt(POS_PLACA_RESIDENCIA)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.flowApp = fragmentAttachListenerResidencia?.getFlowApp()!!
-        this.pos = fragmentAttachListenerResidencia?.getPos()!!
         observeState()
         setListener()
 
@@ -59,8 +83,14 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
             }
             buttonCancPlacaResidencia.setOnClickListener {
                 when(flowApp) {
-                    FlowApp.ADD -> fragmentAttachListenerResidencia?.goVeiculo(flowApp)
-                    FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                    FlowApp.ADD -> {
+                        setBundleVeicResidencia(flowApp, 0)
+                        fragmentAttachListenerResidencia?.goVeiculo()
+                    }
+                    FlowApp.CHANGE -> {
+                        setBundleDetalheResidencia(pos)
+                        fragmentAttachListenerResidencia?.goDetalhe()
+                    }
                 }
             }
         }
@@ -75,8 +105,14 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
     private fun handleCheckSetPlaca(check: Boolean) {
         if (check) {
             when (flowApp) {
-                FlowApp.ADD -> fragmentAttachListenerResidencia?.goMotorista(flowApp)
-                FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                FlowApp.ADD -> {
+                    setBundleMotoristaResidencia(flowApp, 0)
+                    fragmentAttachListenerResidencia?.goMotorista()
+                }
+                FlowApp.CHANGE -> {
+                    setBundleDetalheResidencia(pos)
+                    fragmentAttachListenerResidencia?.goDetalhe()
+                }
             }
             return
         }
@@ -86,6 +122,26 @@ class PlacaResidenciaFragment : BaseFragment<FragmentPlacaResidenciaBinding>(
                 "PLACA"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalheResidencia(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_RESIDENCIA, bundle)
+    }
+
+    private fun setBundleMotoristaResidencia(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_MOTORISTA_RESIDENCIA, flowApp.ordinal)
+        bundle.putInt(POS_MOTORISTA_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_MOTORISTA_RESIDENCIA, bundle)
+    }
+
+    private fun setBundleVeicResidencia(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_VEIC_RESIDENCIA, flowApp.ordinal)
+        bundle.putInt(POS_VEIC_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_VEIC_RESIDENCIA, bundle)
     }
 
     override fun onAttach(context: Context) {

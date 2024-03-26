@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.RecoverHeader
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.RecoverListMovEquipVisitTercOpen
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.StartMovEquipVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.RecoverHeader
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.RecoverListMovEquipVisitTercOpen
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.StartMovEquipVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListFragmentState

@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -21,6 +23,18 @@ import br.com.usinasantafe.pcpk.databinding.FragmentCpfVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.POS_DETALHE_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.REQUEST_KEY_DETALHE_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.NomeVisitTercFragment.Companion.CPF_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.NomeVisitTercFragment.Companion.POS_NOME_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.NomeVisitTercFragment.Companion.REQUEST_KEY_NOME_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.NomeVisitTercFragment.Companion.TYPE_ADD_OCUPANTE_NOME_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.POS_PASSAG_VISIT_TERC_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.REQUEST_KEY_PASSAG_VISIT_TERC_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.TYPE_ADD_OCUPANTE_PASSAG_VISIT_TERC_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PlacaVisitTercFragment.Companion.FLOW_APP_PLACA_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PlacaVisitTercFragment.Companion.POS_PLACA_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PlacaVisitTercFragment.Companion.REQUEST_KEY_PLACA_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.CPFVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,11 +54,25 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
     private lateinit var cpfVisitTerc: String
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_CPF_VISIT_TERC = "requestKeyCPFVisitTerc"
+        const val TYPE_ADD_OCUPANTE_CPF_VISIT_TERC = "typeAddOcupanteCPFVisitTerc"
+        const val POS_CPF_VISIT_TERC = "posCPFVisitTerc"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_CPF_VISIT_TERC) { _, bundle ->
+            this.typeAddOcupante = TypeAddOcupante.values()[bundle.getInt(TYPE_ADD_OCUPANTE_CPF_VISIT_TERC)]
+            this.pos = bundle.getInt(POS_CPF_VISIT_TERC)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.typeAddOcupante = fragmentAttachListenerVisitTerc?.getTypeAddOcupante()!!
-        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 
@@ -90,7 +118,8 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
 
     private fun handleCheckCPF(checkMatric: Boolean) {
         if (checkMatric) {
-            fragmentAttachListenerVisitTerc?.goNomeVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
+            setBundleNomeVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
+            fragmentAttachListenerVisitTerc?.goNomeVisitTerc()
             return
         }
         showGenericAlertDialog(
@@ -153,12 +182,49 @@ class CPFVisitTercFragment : BaseFragment<FragmentCpfVisitTercBinding>(
         }
         onBackPressed {
             when(typeAddOcupante){
-                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerVisitTerc?.goPlaca(FlowApp.ADD)
-                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> {
+                    setBundlePlacaVisitTerc(FlowApp.ADD, 0)
+                    fragmentAttachListenerVisitTerc?.goPlaca()
+                }
+                TypeAddOcupante.CHANGEMOTORISTA -> {
+                    setBundleDetalheVisitTerc(pos)
+                    fragmentAttachListenerVisitTerc?.goDetalhe()
+                }
                 TypeAddOcupante.ADDPASSAGEIRO,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante, pos)
+                TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                    setBundlePassagVisitTerc(typeAddOcupante, pos)
+                    fragmentAttachListenerVisitTerc?.goPassagList()
+                }
             }
         }
+    }
+
+    private fun setBundlePassagVisitTerc(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_PASSAG_VISIT_TERC_LIST, typeAddOcupante.ordinal)
+        bundle.putInt(POS_PASSAG_VISIT_TERC_LIST, pos)
+        setFragmentResult(REQUEST_KEY_PASSAG_VISIT_TERC_LIST, bundle)
+    }
+
+    private fun setBundleDetalheVisitTerc(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_VISIT_TERC, bundle)
+    }
+
+    private fun setBundleNomeVisitTerc(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_NOME_VISIT_TERC, typeAddOcupante.ordinal)
+        bundle.putInt(POS_NOME_VISIT_TERC, pos)
+        bundle.putString(CPF_VISIT_TERC, cpf)
+        setFragmentResult(REQUEST_KEY_NOME_VISIT_TERC, bundle)
+    }
+
+    private fun setBundlePlacaVisitTerc(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_PLACA_VISIT_TERC, flowApp.ordinal)
+        bundle.putInt(POS_PLACA_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_PLACA_VISIT_TERC, bundle)
     }
 
     override fun onDestroy() {

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.RecoverListMovEquipResidenciaStarted
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.CloseSendAllMovResidencia
+import br.com.usinasantafe.pcpk.features.domain.usecases.residencia.RecoverListMovEquipResidenciaStarted
+import br.com.usinasantafe.pcpk.features.domain.usecases.residencia.CloseSendAllMovResidencia
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

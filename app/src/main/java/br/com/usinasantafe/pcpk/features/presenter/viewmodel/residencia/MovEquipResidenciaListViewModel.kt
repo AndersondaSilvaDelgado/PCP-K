@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.RecoverHeader
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.RecoverListMovEquipResidenciaOpen
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.StartMovEquipResidencia
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.RecoverHeader
+import br.com.usinasantafe.pcpk.features.domain.usecases.residencia.RecoverListMovEquipResidenciaOpen
+import br.com.usinasantafe.pcpk.features.domain.usecases.residencia.StartMovEquipResidencia
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import dagger.hilt.android.lifecycle.HiltViewModel

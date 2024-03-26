@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -14,7 +15,15 @@ import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.adapter.MovEquipResidenciaAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.FLOW_APP_OBSERV_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.POS_OBSERV_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.REQUEST_KEY_OBSERV_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.ObservResidenciaFragment.Companion.TYPE_MOV_OBSERV_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.FLOW_APP_VEIC_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.POS_VEIC_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.VeiculoResidenciaFragment.Companion.REQUEST_KEY_VEIC_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter.MovEquipVisitTercAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.MovEquipResidenciaListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.MovEquipResidenciaListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +89,8 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
     private fun handleListMov(movEquipResidenciaList: List<MovEquipResidenciaModel>){
         val listAdapter = MovEquipResidenciaAdapter(movEquipResidenciaList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerResidencia?.goObserv(TypeMov.OUTPUT, FlowApp.ADD,  pos)
+                setBundleObservResidencia(TypeMov.OUTPUT, FlowApp.ADD,  pos)
+                fragmentAttachListenerResidencia?.goObserv()
             }
         }
         binding.listViewMovResidencia.run {
@@ -91,7 +101,8 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
 
     private fun handleStartMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerResidencia?.goVeiculo(FlowApp.ADD)
+            setBundleVeicResidencia(FlowApp.ADD, 0)
+            fragmentAttachListenerResidencia?.goVeiculo()
             return
         }
         showGenericAlertDialog(
@@ -99,6 +110,21 @@ class MovEquipResidenciaListFragment : BaseFragment<FragmentMovEquipResidenciaLi
                 R.string.texto_failure_app,
             ), requireContext()
         )
+    }
+
+    private fun setBundleObservResidencia(typeMov: TypeMov, flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_MOV_OBSERV_RESIDENCIA, typeMov.ordinal)
+        bundle.putInt(FLOW_APP_OBSERV_RESIDENCIA, flowApp.ordinal)
+        bundle.putInt(POS_OBSERV_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_OBSERV_RESIDENCIA, bundle)
+    }
+
+    private fun setBundleVeicResidencia(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_VEIC_RESIDENCIA, flowApp.ordinal)
+        bundle.putInt(POS_VEIC_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_VEIC_RESIDENCIA, bundle)
     }
 
     override fun onAttach(context: Context) {

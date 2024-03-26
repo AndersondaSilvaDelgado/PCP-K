@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -11,6 +13,11 @@ import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentObservResidenciaBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.POS_DETALHE_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.REQUEST_KEY_DETALHE_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.FLOW_APP_MOTORISTA_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.POS_MOTORISTA_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.MotoristaResidenciaFragment.Companion.REQUEST_KEY_MOTORISTA_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.ObservResidenciaFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.ObservResidenciaViewModel
@@ -25,15 +32,30 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
     private val viewModel: ObservResidenciaViewModel by viewModels()
     private var fragmentAttachListenerResidencia: FragmentAttachListenerResidencia? = null
     private lateinit var flowApp: FlowApp
-    private var typeMov: TypeMov? = null
+    private lateinit var typeMov: TypeMov
     private var pos: Int = 0
+
+    companion object {
+        const val REQUEST_KEY_OBSERV_RESIDENCIA = "requestKeyObservResidencia"
+        const val FLOW_APP_OBSERV_RESIDENCIA = "flowAppObservResidencia"
+        const val TYPE_MOV_OBSERV_RESIDENCIA = "typeMovObservResidencia"
+        const val POS_OBSERV_RESIDENCIA = "posObservResidencia"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_OBSERV_RESIDENCIA) { _, bundle ->
+            this.flowApp = FlowApp.values()[bundle.getInt(FLOW_APP_OBSERV_RESIDENCIA)]
+            this.pos = bundle.getInt(POS_OBSERV_RESIDENCIA)
+            this.typeMov = TypeMov.values()[bundle.getInt(TYPE_MOV_OBSERV_RESIDENCIA)]
+        }
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.flowApp = fragmentAttachListenerResidencia?.getFlowApp()!!
-        this.typeMov = fragmentAttachListenerResidencia?.getTypeMov()
-        this.pos = fragmentAttachListenerResidencia?.getPos()!!
         observeState()
         setListener()
 
@@ -57,12 +79,19 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
             buttonCancObserv.setOnClickListener {
                 when (flowApp) {
                     FlowApp.ADD -> {
-                        when (typeMov!!) {
-                            TypeMov.INPUT -> fragmentAttachListenerResidencia?.goMotorista(flowApp)
+                        when (typeMov) {
+                            TypeMov.INPUT -> {
+                                setBundleMotoristaResidencia(flowApp, 0)
+                                fragmentAttachListenerResidencia?.goMotorista()
+                            }
                             TypeMov.OUTPUT -> fragmentAttachListenerResidencia?.goMovResidenciaList()
+                            else -> {}
                         }
                     }
-                    FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                    FlowApp.CHANGE -> {
+                        setBundleDetalheResidencia(pos)
+                        fragmentAttachListenerResidencia?.goDetalhe()
+                    }
                 }
             }
         }
@@ -78,7 +107,10 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
         if (check) {
             when(flowApp) {
                 FlowApp.ADD -> fragmentAttachListenerResidencia?.goMovResidenciaList()
-                FlowApp.CHANGE -> fragmentAttachListenerResidencia?.goDetalhe(pos)
+                FlowApp.CHANGE -> {
+                    setBundleDetalheResidencia(pos)
+                    fragmentAttachListenerResidencia?.goDetalhe()
+                }
             }
             return
         }
@@ -88,6 +120,19 @@ class ObservResidenciaFragment : BaseFragment<FragmentObservResidenciaBinding>(
                 "OBSERVAÇÃO"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalheResidencia(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_RESIDENCIA, bundle)
+    }
+
+    private fun setBundleMotoristaResidencia(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_MOTORISTA_RESIDENCIA, flowApp.ordinal)
+        bundle.putInt(POS_MOTORISTA_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_MOTORISTA_RESIDENCIA, bundle)
     }
 
     override fun onAttach(context: Context) {

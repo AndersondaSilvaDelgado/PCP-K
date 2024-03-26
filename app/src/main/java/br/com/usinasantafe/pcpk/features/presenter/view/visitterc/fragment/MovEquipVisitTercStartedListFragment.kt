@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -13,6 +14,8 @@ import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipVisitTercStartedList
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter.MovEquipVisitTercStartedAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.POS_DETALHE_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.REQUEST_KEY_DETALHE_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercStartedListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercEmptyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,13 +87,20 @@ class MovEquipVisitTercStartedListFragment : BaseFragment<FragmentMovEquipVisitT
     private fun handleListMov(movEquipVisitTercList: List<MovEquipVisitTercModel>) {
         val listAdapter = MovEquipVisitTercStartedAdapter(movEquipVisitTercList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                setBundleDetalheVisitTerc(pos)
+                fragmentAttachListenerVisitTerc?.goDetalhe()
             }
         }
         binding.listViewMov.run {
             setHasFixedSize(true)
             adapter = listAdapter
         }
+    }
+
+    private fun setBundleDetalheVisitTerc(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_VISIT_TERC, bundle)
     }
 
     override fun onAttach(context: Context) {

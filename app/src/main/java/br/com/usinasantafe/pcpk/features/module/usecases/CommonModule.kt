@@ -1,7 +1,8 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.common.*
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.*
+import br.com.usinasantafe.pcpk.features.domain.usecases.background.StartProcessSendData
+import br.com.usinasantafe.pcpk.features.domain.usecases.background.StartProcessSendDataImpl
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateVisitTerc
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.CheckCPFVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.database.UpdateVisitTerc
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.CheckCPFVisitTerc
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch

@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.residencia.*
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.residencia.*
+import br.com.usinasantafe.pcpk.features.domain.usecases.residencia.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.visitterc.*
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.visitterc.*
+import br.com.usinasantafe.pcpk.features.domain.usecases.visitterc.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -62,7 +61,7 @@ interface VisitTercModule {
 
     @Binds
     @Singleton
-    fun bindSetMotoristaPassagVisitTerc(usecase: SetCpfMotoristaPassagVisitTercImpl): SetCpfMotoristaPassagVisitTerc
+    fun bindSetMotoristaPassagVisitTerc(usecase: SetCPFMotoristaPassagVisitTercImpl): SetCPFMotoristaPassagVisitTerc
 
     @Binds
     @Singleton

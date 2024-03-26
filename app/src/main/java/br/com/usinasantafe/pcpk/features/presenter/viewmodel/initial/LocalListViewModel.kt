@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
-import br.com.usinasantafe.pcpk.features.domain.entities.stable.Local
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateLocal
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverListLocal
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.SetLocal
+import br.com.usinasantafe.pcpk.features.domain.usecases.database.UpdateLocal
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.RecoverListLocal
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.SetLocal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

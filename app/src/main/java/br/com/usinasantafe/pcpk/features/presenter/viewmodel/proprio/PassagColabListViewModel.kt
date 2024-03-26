@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.DeletePassagColab
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.proprio.RecoverListColabPassag
+import br.com.usinasantafe.pcpk.features.domain.usecases.proprio.DeletePassagColab
+import br.com.usinasantafe.pcpk.features.domain.usecases.proprio.RecoverListColabPassag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

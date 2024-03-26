@@ -11,4 +11,7 @@ interface ColabApi {
     @GET(WEB_ALL_COLAB)
     suspend fun all(@Header("Authorization") auth: String): Response<List<ColabRoomModel>>
 
+    @GET("colab-test.php")
+    suspend fun allTest(): Response<List<ColabRoomModel>>
+
 }

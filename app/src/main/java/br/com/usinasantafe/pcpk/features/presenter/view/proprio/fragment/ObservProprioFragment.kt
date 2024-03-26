@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -11,6 +13,11 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentObservProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.FLOW_APP_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.POS_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.REQUEST_KEY_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.ObservProprioFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.ObservProprioViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,11 +33,25 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_OBSERV_PROPRIO = "requestKeyObservProprio"
+        const val FLOW_APP_OBSERV_PROPRIO = "flowAppObservProprio"
+        const val POS_OBSERV_PROPRIO = "posObservProprio"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_OBSERV_PROPRIO) { _, bundle ->
+            this.flowApp = FlowApp.values()[bundle.getInt(FLOW_APP_OBSERV_PROPRIO)]
+            this.pos = bundle.getInt(POS_OBSERV_PROPRIO)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.flowApp = fragmentAttachListenerProprio?.getFlowApp()!!
-        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 
@@ -53,8 +74,14 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
             }
             buttonCancObserv.setOnClickListener {
                 when(flowApp) {
-                    FlowApp.ADD -> fragmentAttachListenerProprio?.goDestino(flowApp)
-                    FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                    FlowApp.ADD -> {
+                        setBundleDestino(flowApp, 0)
+                        fragmentAttachListenerProprio?.goDestino()
+                    }
+                    FlowApp.CHANGE -> {
+                        setBundleDetalhe(pos)
+                        fragmentAttachListenerProprio?.goDetalhe()
+                    }
                 }
             }
         }
@@ -70,7 +97,10 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
         if (check) {
             when(flowApp) {
                 FlowApp.ADD -> fragmentAttachListenerProprio?.goMovProprioList()
-                FlowApp.CHANGE -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                FlowApp.CHANGE -> {
+                    setBundleDetalhe(pos)
+                    fragmentAttachListenerProprio?.goDetalhe()
+                }
             }
             return
         }
@@ -80,6 +110,19 @@ class ObservProprioFragment : BaseFragment<FragmentObservProprioBinding>(
                 "OBSERVAÇÃO"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleDestino(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_DESTINO_PROPRIO, flowApp.ordinal)
+        bundle.putInt(POS_DESTINO_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DESTINO_PROPRIO, bundle)
     }
 
     override fun onAttach(context: Context) {

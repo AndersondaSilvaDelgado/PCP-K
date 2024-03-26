@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CheckMatricColab
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.update.UpdateColab
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.SetMatricVigia
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.CheckMatricColab
+import br.com.usinasantafe.pcpk.features.domain.usecases.database.UpdateColab
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.SetMatricVigia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch

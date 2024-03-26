@@ -25,9 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia {
 
     private lateinit var binding: ActivityResidenciaBinding
-    private var flowApp = FlowApp.ADD
-    private var pos = 0;
-    private var typeMov : TypeMov? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,46 +55,24 @@ class ResidenciaActivity : AppCompatActivity(), FragmentAttachListenerResidencia
         replaceFragment(MovEquipResidenciaStartedListFragment())
     }
 
-    override fun goVeiculo(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goVeiculo() {
         replaceFragment(VeiculoResidenciaFragment())
     }
 
-    override fun goPlaca(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goPlaca() {
         replaceFragment(PlacaResidenciaFragment())
     }
 
-    override fun goMotorista(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goMotorista() {
         replaceFragment(MotoristaResidenciaFragment())
     }
 
-    override fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int) {
-        this.typeMov = typeMov
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goObserv() {
         replaceFragment(ObservResidenciaFragment())
     }
 
-    override fun goDetalhe(pos: Int) {
-        this.pos = pos
+    override fun goDetalhe() {
         replaceFragment(DetalheMovEquipResidenciaFragment())
-    }
-
-    override fun getFlowApp(): FlowApp {
-        return flowApp
-    }
-
-    override fun getPos(): Int {
-        return pos
-    }
-
-    override fun getTypeMov(): TypeMov? {
-        return typeMov
     }
 
     private fun replaceFragment(fragment: Fragment) {

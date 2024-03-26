@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -11,6 +13,14 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentNomeColabBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.POS_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.REQUEST_KEY_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.TYPE_ADD_OCUPANTE_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.PassagColabListFragment.Companion.POS_PASSAG_COLAB_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.PassagColabListFragment.Companion.REQUEST_KEY_PASSAG_COLAB_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.PassagColabListFragment.Companion.TYPE_ADD_OCUPANTE_PASSAG_COLAB_LIST
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.NomeColabFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.NomeColabViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,12 +37,27 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_NOME_COLAB = "requestKeyNomeColab"
+        const val TYPE_ADD_OCUPANTE_NOME_COLAB = "typeAddOcupanteNomeColab"
+        const val MATRIC_COLAB = "matricColab"
+        const val POS_NOME_COLAB = "posNomeColab"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_NOME_COLAB) { _, bundle ->
+            this.typeAddOcupante = TypeAddOcupante.values()[bundle.getInt(TYPE_ADD_OCUPANTE_NOME_COLAB)]
+            this.pos = bundle.getInt(POS_NOME_COLAB)
+            this.matricColab = bundle.getString(MATRIC_COLAB, "")
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.matricColab = fragmentAttachListenerProprio?.getMatricColab()!!
-        this.typeAddOcupante = fragmentAttachListenerProprio?.getTypeAddOcupante()!!
-        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -55,7 +80,8 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
                 viewModel.setMatricMotorista(matricColab, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante, pos)
+                setBundleMatricColab(typeAddOcupante, pos)
+                fragmentAttachListenerProprio?.goMatricColab()
             }
         }
     }
@@ -76,10 +102,19 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
     private fun handleCheckSetMatricColab(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddOcupante) {
-                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerProprio?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
-                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> {
+                    setBundlePassagList(TypeAddOcupante.ADDPASSAGEIRO, 0)
+                    fragmentAttachListenerProprio?.goPassagList()
+                }
+                TypeAddOcupante.CHANGEMOTORISTA -> {
+                    setBundleDetalhe(pos)
+                    fragmentAttachListenerProprio?.goDetalhe()
+                }
                 TypeAddOcupante.ADDPASSAGEIRO,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goPassagList(typeAddOcupante, pos)
+                TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                    setBundlePassagList(typeAddOcupante, pos)
+                    fragmentAttachListenerProprio?.goPassagList()
+                }
             }
             return
         }
@@ -89,6 +124,26 @@ class NomeColabFragment : BaseFragment<FragmentNomeColabBinding>(
                 "MATRICULA DO COLABORADOR"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleMatricColab(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_MATRIC_COLAB, typeAddOcupante.ordinal)
+        bundle.putInt(POS_MATRIC_COLAB, pos)
+        setFragmentResult(REQUEST_KEY_MATRIC_COLAB, bundle)
+    }
+
+    private fun setBundlePassagList(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_PASSAG_COLAB_LIST, typeAddOcupante.ordinal)
+        bundle.putInt(POS_PASSAG_COLAB_LIST, pos)
+        setFragmentResult(REQUEST_KEY_PASSAG_COLAB_LIST, bundle)
     }
 
     override fun onAttach(context: Context) {

@@ -29,11 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProprioActivity : AppCompatActivity(), FragmentAttachListenerProprio {
 
     private lateinit var binding: ActivityProprioBinding
-    private var matricColab = ""
-    private var typeAddEquip = TypeAddEquip.ADDVEICULO
-    private var typeAddOcupante = TypeAddOcupante.ADDMOTORISTA
-    private var flowApp = FlowApp.ADD
-    private var pos = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,82 +55,44 @@ class ProprioActivity : AppCompatActivity(), FragmentAttachListenerProprio {
         startActivity(intent)
     }
 
-    override fun goVeiculoProprio(typeAddEquip: TypeAddEquip, pos: Int) {
-        this.typeAddEquip = typeAddEquip
-        this.pos = pos
+    override fun goVeiculoProprio() {
         replaceFragment(VeiculoProprioFragment())
     }
 
-    override fun goMatricColab(typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
+    override fun goMatricColab() {
         replaceFragment(MatricColabFragment())
     }
 
-    override fun goPassagList(typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
+    override fun goPassagList() {
         replaceFragment(PassagColabListFragment())
     }
 
-    override fun goVeicSegList(typeAddEquip: TypeAddEquip, pos: Int) {
-        this.typeAddEquip = typeAddEquip
-        this.pos = pos
+    override fun goVeicSegList() {
         replaceFragment(VeiculoSegProprioListFragment())
     }
 
-    override fun goDestino(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goDestino() {
         replaceFragment(DestinoProprioFragment())
     }
 
-    override fun goNotaFiscal(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goNotaFiscal() {
         replaceFragment(NotaFiscalProprioFragment())
     }
 
-    override fun goObserv(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goObserv() {
         replaceFragment(ObservProprioFragment())
     }
 
-    override fun goDetalhe(pos: Int) {
-        this.pos = pos
+    override fun goDetalhe() {
         replaceFragment(DetalheMovEquipProprioFragment())
     }
 
-    override fun goNomeColab(matricColab: String, typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
-        this.matricColab = matricColab
+    override fun goNomeColab() {
         replaceFragment(NomeColabFragment())
     }
 
     private fun replaceFragment(fragment: Fragment){
         replaceFragment(R.id.proprio_manager_fragment, fragment)
-    }
-
-    override fun getTypeAddEquip(): TypeAddEquip {
-        return typeAddEquip
-    }
-
-    override fun getTypeAddOcupante(): TypeAddOcupante {
-        return typeAddOcupante
-    }
-
-    override fun getFlowApp(): FlowApp {
-        return flowApp
-    }
-
-    override fun getPos(): Int {
-        return pos
-    }
-
-    override fun getMatricColab(): String {
-        return matricColab;
     }
 
 }

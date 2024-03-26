@@ -2,9 +2,10 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -18,6 +19,11 @@ import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoProprioBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoSegProprioListFragment.Companion.POS_VEICULO_SEG_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoSegProprioListFragment.Companion.REQUEST_KEY_VEICULO_SEG_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoSegProprioListFragment.Companion.TYPE_ADD_EQUIP_VEICULO_SEG_PROPRIO
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoProprioFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoProprioViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,11 +41,24 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
     private lateinit var typeAddEquip : TypeAddEquip
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_VEICULO_PROPRIO = "requestKeyVeiculoProprio"
+        const val TYPE_ADD_EQUIP_VEICULO_PROPRIO = "typeAddEquipVeiculoProprio"
+        const val POS_VEICULO_PROPRIO = "posVeiculoProprio"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_VEICULO_PROPRIO) { _, bundle ->
+            this.typeAddEquip = TypeAddEquip.values()[bundle.getInt(TYPE_ADD_EQUIP_VEICULO_PROPRIO)]
+            this.pos = bundle.getInt(POS_VEICULO_PROPRIO)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.typeAddEquip = fragmentAttachListenerProprio?.getTypeAddEquip()!!
-        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         setListener()
 
@@ -97,10 +116,19 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
     private fun handleCheckSetNroEquip(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddEquip) {
-                TypeAddEquip.ADDVEICULO -> fragmentAttachListenerProprio?.goVeicSegList(TypeAddEquip.ADDVEICULOSEG)
-                TypeAddEquip.CHANGEVEICULO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddEquip.ADDVEICULO -> {
+                    setBundleVeicSegProprio(TypeAddEquip.ADDVEICULO, 0)
+                    fragmentAttachListenerProprio?.goVeicSegList()
+                }
+                TypeAddEquip.CHANGEVEICULO -> {
+                    setBundleDetalhe(pos)
+                    fragmentAttachListenerProprio?.goDetalhe()
+                }
                 TypeAddEquip.ADDVEICULOSEG,
-                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip, pos)
+                TypeAddEquip.CHANGEVEICULOSEG -> {
+                    setBundleVeicSegProprio(typeAddEquip, pos)
+                    fragmentAttachListenerProprio?.goVeicSegList()
+                }
             }
             return
         }
@@ -165,11 +193,30 @@ class VeiculoProprioFragment : BaseFragment<FragmentVeiculoProprioBinding>(
         onBackPressed {
             when(typeAddEquip) {
                 TypeAddEquip.ADDVEICULO -> fragmentAttachListenerProprio?.goMovProprioList()
-                TypeAddEquip.CHANGEVEICULO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                TypeAddEquip.CHANGEVEICULO -> {
+                    setBundleDetalhe(pos)
+                    fragmentAttachListenerProprio?.goDetalhe()
+                }
                 TypeAddEquip.ADDVEICULOSEG,
-                TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goVeicSegList(typeAddEquip, pos)
+                TypeAddEquip.CHANGEVEICULOSEG -> {
+                    setBundleVeicSegProprio(typeAddEquip, pos)
+                    fragmentAttachListenerProprio?.goVeicSegList()
+                }
             }
         }
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleVeicSegProprio(typeAddEquip: TypeAddEquip, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_EQUIP_VEICULO_SEG_PROPRIO, typeAddEquip.ordinal)
+        bundle.putInt(POS_VEICULO_SEG_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_VEICULO_SEG_PROPRIO, bundle)
     }
 
     override fun onDestroy() {

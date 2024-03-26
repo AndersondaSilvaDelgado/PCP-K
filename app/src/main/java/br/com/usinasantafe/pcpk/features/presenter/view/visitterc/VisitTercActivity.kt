@@ -30,11 +30,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class VisitTercActivity : AppCompatActivity(), FragmentAttachListenerVisitTerc {
 
     private lateinit var binding: ActivityVisitTercBinding
-    private var cpf = ""
-    private var typeAddOcupante = TypeAddOcupante.ADDMOTORISTA
-    private var flowApp = FlowApp.ADD
-    private var pos = 0;
-    private var typeMov : TypeMov? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,15 +60,11 @@ class VisitTercActivity : AppCompatActivity(), FragmentAttachListenerVisitTerc {
         replaceFragment(MovEquipVisitTercStartedListFragment())
     }
 
-    override fun goVeiculo(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goVeiculo() {
         replaceFragment(VeiculoVisitTercFragment())
     }
 
-    override fun goPlaca(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goPlaca() {
         replaceFragment(PlacaVisitTercFragment())
     }
 
@@ -81,61 +72,28 @@ class VisitTercActivity : AppCompatActivity(), FragmentAttachListenerVisitTerc {
         replaceFragment(TipoVisitTercFragment())
     }
 
-    override fun goCPFVisitTerc(typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
+    override fun goCPFVisitTerc() {
         replaceFragment(CPFVisitTercFragment())
     }
 
-    override fun goNomeVisitTerc(cpf: String, typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.cpf = cpf
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
+    override fun goNomeVisitTerc() {
         replaceFragment(NomeVisitTercFragment())
     }
 
-    override fun goPassagList(typeAddOcupante: TypeAddOcupante, pos: Int) {
-        this.typeAddOcupante = typeAddOcupante
-        this.pos = pos
+    override fun goPassagList() {
         replaceFragment(PassagVisitTercListFragment())
     }
 
-    override fun goDestino(flowApp: FlowApp, pos: Int) {
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goDestino() {
         replaceFragment(DestinoVisitTercFragment())
     }
 
-    override fun goObserv(typeMov: TypeMov?, flowApp: FlowApp, pos: Int) {
-        this.typeMov = typeMov
-        this.flowApp = flowApp
-        this.pos = pos
+    override fun goObserv() {
         replaceFragment(ObservVisitTercFragment())
     }
 
-    override fun goDetalhe(pos: Int) {
-        this.pos = pos
+    override fun goDetalhe() {
         replaceFragment(DetalheMovEquipVisitTercFragment())
-    }
-
-    override fun getTypeAddOcupante(): TypeAddOcupante {
-        return typeAddOcupante
-    }
-
-    override fun getFlowApp(): FlowApp {
-        return flowApp
-    }
-
-    override fun getPos(): Int {
-        return pos
-    }
-
-    override fun getCPF(): String {
-        return cpf
-    }
-
-    override fun getTypeMov(): TypeMov? {
-        return typeMov
     }
 
     private fun replaceFragment(fragment: Fragment){

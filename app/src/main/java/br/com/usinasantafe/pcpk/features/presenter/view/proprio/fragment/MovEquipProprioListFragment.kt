@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -16,6 +17,11 @@ import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipProprioModel
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.adapter.MovEquipProprioAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.POS_VEICULO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.REQUEST_KEY_VEICULO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.TYPE_ADD_EQUIP_VEICULO_PROPRIO
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.MovEquipProprioListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -102,7 +108,8 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
 
     private fun handleStartMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULO)
+            setBundleVeicProprio(TypeAddEquip.ADDVEICULO, 0)
+            fragmentAttachListenerProprio?.goVeiculoProprio()
             return
         }
         showGenericAlertDialog(
@@ -115,13 +122,27 @@ class MovEquipProprioListFragment : BaseFragment<FragmentMovEquipProprioListBind
     private fun handleListMov(movEquipProprioList: List<MovEquipProprioModel>){
         val listAdapter = MovEquipProprioAdapter(movEquipProprioList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerProprio?.goDetalhe(pos)
+                setBundleDetalhe(pos)
+                fragmentAttachListenerProprio?.goDetalhe()
             }
         }
         binding.listViewMovProprio.run {
             setHasFixedSize(true)
             adapter = listAdapter
         }
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleVeicProprio(typeAddEquip: TypeAddEquip, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_EQUIP_VEICULO_PROPRIO, typeAddEquip.ordinal)
+        bundle.putInt(POS_VEICULO_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_VEICULO_PROPRIO, bundle)
     }
 
     override fun onAttach(context: Context) {

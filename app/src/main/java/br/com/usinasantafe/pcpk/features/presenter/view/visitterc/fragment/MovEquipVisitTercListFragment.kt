@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -15,6 +16,13 @@ import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.adapter.MovEquipVisitTercAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment.Companion.FLOW_APP_OBSERV_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment.Companion.POS_OBSERV_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment.Companion.REQUEST_KEY_OBSERV_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.ObservVisitTercFragment.Companion.TYPE_MOV_OBSERV_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.FLOW_APP_VEIC_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.POS_VEIC_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.REQUEST_KEY_VEIC_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.MovEquipVisitTercListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +88,8 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
     private fun handleListMov(movEquipVisitTercList: List<MovEquipVisitTercModel>){
         val listAdapter = MovEquipVisitTercAdapter(movEquipVisitTercList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerVisitTerc?.goObserv(TypeMov.OUTPUT, FlowApp.ADD,  pos)
+                setBundleObservVisitTerc(TypeMov.OUTPUT, FlowApp.ADD,  pos)
+                fragmentAttachListenerVisitTerc?.goObserv()
             }
         }
         binding.listViewMovVisitTerc.run {
@@ -91,7 +100,8 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
 
     private fun handleStartMov(check: Boolean) {
         if (check) {
-            fragmentAttachListenerVisitTerc?.goVeiculo(FlowApp.ADD)
+            setBundleVeicVisitTerc(FlowApp.ADD, 0)
+            fragmentAttachListenerVisitTerc?.goVeiculo()
             return
         }
         showGenericAlertDialog(
@@ -99,6 +109,21 @@ class MovEquipVisitTercListFragment : BaseFragment<FragmentMovEquipVisitTercList
                 R.string.texto_failure_app,
             ), requireContext()
         )
+    }
+
+    private fun setBundleVeicVisitTerc(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_VEIC_VISIT_TERC, flowApp.ordinal)
+        bundle.putInt(POS_VEIC_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_VEIC_VISIT_TERC, bundle)
+    }
+
+    private fun setBundleObservVisitTerc(typeMov: TypeMov, flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_OBSERV_VISIT_TERC, flowApp.ordinal)
+        bundle.putInt(TYPE_MOV_OBSERV_VISIT_TERC, typeMov.ordinal)
+        bundle.putInt(POS_OBSERV_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_OBSERV_VISIT_TERC, bundle)
     }
 
     override fun onAttach(context: Context) {

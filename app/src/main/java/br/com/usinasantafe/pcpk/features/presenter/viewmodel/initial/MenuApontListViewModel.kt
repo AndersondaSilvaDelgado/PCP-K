@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.RecoverHeader
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.CloseSendAllMov
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.RecoverHeader
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.CloseSendAllMov
 import br.com.usinasantafe.pcpk.features.presenter.model.HeaderModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

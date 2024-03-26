@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pcpk.features.module.usecases
 
-import br.com.usinasantafe.pcpk.features.domain.usecases.implementations.initial.*
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.*
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.StatusRecover
 import br.com.usinasantafe.pcpk.common.utils.StatusUpdate
 import br.com.usinasantafe.pcpk.common.utils.WEB_RETURN_CLEAR_EQUIP
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.database.UpdateAllDataBase
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.InitialConfig
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.RecoverConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.database.UpdateAllDataBase
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.InitialConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.RecoverConfig
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.features.presenter.model.ConfigModel
 import dagger.hilt.android.lifecycle.HiltViewModel

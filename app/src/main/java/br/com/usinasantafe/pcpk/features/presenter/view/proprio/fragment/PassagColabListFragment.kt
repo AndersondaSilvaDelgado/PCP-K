@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
@@ -14,6 +16,14 @@ import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentPassagColabListBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.FLOW_APP_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.POS_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DestinoProprioFragment.Companion.REQUEST_KEY_DESTINO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.POS_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.REQUEST_KEY_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.TYPE_ADD_OCUPANTE_MATRIC_COLAB
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.PassagColabListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.PassagColabListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +39,25 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_PASSAG_COLAB_LIST = "requestKeyPassagColabList"
+        const val TYPE_ADD_OCUPANTE_PASSAG_COLAB_LIST = "typeAddOcupantePassagColabList"
+        const val POS_PASSAG_COLAB_LIST = "posPassagColabList"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_PASSAG_COLAB_LIST) { _, bundle ->
+            this.typeAddOcupante = TypeAddOcupante.values()[bundle.getInt(TYPE_ADD_OCUPANTE_PASSAG_COLAB_LIST)]
+            this.pos = bundle.getInt(POS_PASSAG_COLAB_LIST)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.typeAddOcupante = fragmentAttachListenerProprio?.getTypeAddOcupante()!!
-        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -53,24 +77,35 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
     private fun setListener() {
         with(binding) {
             buttonInserirPassageiro.setOnClickListener {
-                fragmentAttachListenerProprio?.goMatricColab(typeAddOcupante, pos)
+                setBundleMatricColab(typeAddOcupante, pos)
+                fragmentAttachListenerProprio?.goMatricColab()
             }
             buttonOkPassageiro.setOnClickListener {
                 when (typeAddOcupante) {
                     TypeAddOcupante.ADDMOTORISTA,
-                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goDestino(
-                        FlowApp.ADD
-                    )
+                    TypeAddOcupante.ADDPASSAGEIRO -> {
+                        setBundleDestino(FlowApp.ADD, 0)
+                        fragmentAttachListenerProprio?.goDestino()
+                    }
                     TypeAddOcupante.CHANGEMOTORISTA,
-                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                        setBundleDetalhe(pos)
+                        fragmentAttachListenerProprio?.goDetalhe()
+                    }
                 }
             }
             buttonCancPassageiro.setOnClickListener {
                 when (typeAddOcupante) {
                     TypeAddOcupante.ADDMOTORISTA,
-                    TypeAddOcupante.ADDPASSAGEIRO -> fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.ADDMOTORISTA)
+                    TypeAddOcupante.ADDPASSAGEIRO -> {
+                        setBundleMatricColab(TypeAddOcupante.ADDMOTORISTA, 0)
+                        fragmentAttachListenerProprio?.goMatricColab()
+                    }
                     TypeAddOcupante.CHANGEMOTORISTA,
-                    TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                    TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                        setBundleDetalhe(pos)
+                        fragmentAttachListenerProprio?.goDetalhe()
+                    }
                 }
             }
         }
@@ -119,6 +154,26 @@ class PassagColabListFragment : BaseFragment<FragmentPassagColabListBinding>(
         showGenericAlertDialogCheck("DESEJA EXCLUIR O PASSAGEIRO?", requireContext()) {
             viewModel.deletePassag(posList, typeAddOcupante, pos)
         }
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleDestino(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_DESTINO_PROPRIO, flowApp.ordinal)
+        bundle.putInt(POS_DESTINO_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DESTINO_PROPRIO, bundle)
+    }
+
+    private fun setBundleMatricColab(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_MATRIC_COLAB, typeAddOcupante.ordinal)
+        bundle.putInt(POS_MATRIC_COLAB, pos)
+        setFragmentResult(REQUEST_KEY_MATRIC_COLAB, bundle)
     }
 
     override fun onAttach(context: Context) {

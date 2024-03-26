@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -12,6 +14,9 @@ import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.common.utils.TypeMov
 import br.com.usinasantafe.pcpk.databinding.FragmentObservVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DestinoVisitTercFragment.Companion.FLOW_APP_DESTINO_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DestinoVisitTercFragment.Companion.POS_DESTINO_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DestinoVisitTercFragment.Companion.REQUEST_KEY_DESTINO_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.ObservVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.ObservVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,15 +30,30 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
     private val viewModel: ObservVisitTercViewModel by viewModels()
     private var fragmentAttachListenerVisitTerc: FragmentAttachListenerVisitTerc? = null
     private lateinit var flowApp: FlowApp
-    private var typeMov: TypeMov? = null
+    private lateinit var typeMov: TypeMov
     private var pos: Int = 0
+
+    companion object {
+        const val REQUEST_KEY_OBSERV_VISIT_TERC = "requestKeyObservVisitTerc"
+        const val FLOW_APP_OBSERV_VISIT_TERC = "flowAppObservVisitTerc"
+        const val TYPE_MOV_OBSERV_VISIT_TERC = "typeMovObservVisitTerc"
+        const val POS_OBSERV_VISIT_TERC = "posObservVisitTerc"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_OBSERV_VISIT_TERC) { _, bundle ->
+            this.flowApp = FlowApp.values()[bundle.getInt(FLOW_APP_OBSERV_VISIT_TERC)]
+            this.pos = bundle.getInt(POS_OBSERV_VISIT_TERC)
+            this.typeMov = TypeMov.values()[bundle.getInt(TYPE_MOV_OBSERV_VISIT_TERC)]
+        }
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.flowApp = fragmentAttachListenerVisitTerc?.getFlowApp()!!
-        this.typeMov = fragmentAttachListenerVisitTerc?.getTypeMov()
-        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 
@@ -57,12 +77,19 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
             buttonCancObserv.setOnClickListener {
                 when (flowApp) {
                     FlowApp.ADD -> {
-                        when (typeMov!!) {
-                            TypeMov.INPUT -> fragmentAttachListenerVisitTerc?.goDestino(flowApp)
+                        when (typeMov) {
+                            TypeMov.INPUT -> {
+                                setBundleDestinoVisitTerc(flowApp, 0)
+                                fragmentAttachListenerVisitTerc?.goDestino()
+                            }
                             TypeMov.OUTPUT -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
+                            else -> {}
                         }
                     }
-                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                    FlowApp.CHANGE -> {
+                        setBundleDetalheVisitTerc(pos)
+                        fragmentAttachListenerVisitTerc?.goDetalhe()
+                    }
                 }
             }
         }
@@ -78,7 +105,10 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
         if (check) {
             when(flowApp){
                 FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goMovVisitTercList()
-                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                FlowApp.CHANGE -> {
+                    setBundleDetalheVisitTerc(pos)
+                    fragmentAttachListenerVisitTerc?.goDetalhe()
+                }
             }
             return
         }
@@ -88,6 +118,19 @@ class ObservVisitTercFragment : BaseFragment<FragmentObservVisitTercBinding>(
                 "OBSERVAÇÃO"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalheVisitTerc(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(DetalheMovEquipVisitTercFragment.POS_DETALHE_VISIT_TERC, pos)
+        setFragmentResult(DetalheMovEquipVisitTercFragment.REQUEST_KEY_DETALHE_VISIT_TERC, bundle)
+    }
+
+    private fun setBundleDestinoVisitTerc(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_DESTINO_VISIT_TERC, flowApp.ordinal)
+        bundle.putInt(POS_DESTINO_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_DESTINO_VISIT_TERC, bundle)
     }
 
     override fun onAttach(context: Context) {

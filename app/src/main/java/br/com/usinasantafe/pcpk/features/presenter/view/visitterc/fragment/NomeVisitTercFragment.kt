@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -12,6 +14,12 @@ import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.databinding.FragmentNomeVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.model.DisplayDataVisitTercModel
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.CPFVisitTercFragment.Companion.POS_CPF_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.CPFVisitTercFragment.Companion.REQUEST_KEY_CPF_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.CPFVisitTercFragment.Companion.TYPE_ADD_OCUPANTE_CPF_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.POS_PASSAG_VISIT_TERC_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.REQUEST_KEY_PASSAG_VISIT_TERC_LIST
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.PassagVisitTercListFragment.Companion.TYPE_ADD_OCUPANTE_PASSAG_VISIT_TERC_LIST
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.NomeVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.NomeVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,12 +36,27 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private lateinit var typeAddOcupante: TypeAddOcupante
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_NOME_VISIT_TERC = "requestKeyNomeVisitTerc"
+        const val TYPE_ADD_OCUPANTE_NOME_VISIT_TERC = "typeAddOcupanteNomeVisitTerc"
+        const val CPF_VISIT_TERC = "cpfVisitTerc"
+        const val POS_NOME_VISIT_TERC = "posNomeVisitTerc"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_NOME_VISIT_TERC) { _, bundle ->
+            this.typeAddOcupante = TypeAddOcupante.values()[bundle.getInt(TYPE_ADD_OCUPANTE_NOME_VISIT_TERC)]
+            this.pos = bundle.getInt(POS_NOME_VISIT_TERC)
+            this.cpfVisitTerc = bundle.getString(CPF_VISIT_TERC, "")
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.cpfVisitTerc = fragmentAttachListenerVisitTerc?.getCPF()!!
-        this.typeAddOcupante = fragmentAttachListenerVisitTerc?.getTypeAddOcupante()!!
-        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -56,7 +79,8 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
                 viewModel.setCPFVisitTerc(cpfVisitTerc, typeAddOcupante, pos)
             }
             buttonCancNome.setOnClickListener {
-                fragmentAttachListenerVisitTerc?.goCPFVisitTerc(typeAddOcupante, pos)
+                setBundleCPFVisitTerc(typeAddOcupante, pos)
+                fragmentAttachListenerVisitTerc?.goCPFVisitTerc()
             }
         }
     }
@@ -79,10 +103,19 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
     private fun handleCheckSetCPF(checkSetMatricColab: Boolean) {
         if (checkSetMatricColab) {
             when(typeAddOcupante) {
-                TypeAddOcupante.ADDMOTORISTA -> fragmentAttachListenerVisitTerc?.goPassagList(TypeAddOcupante.ADDPASSAGEIRO)
-                TypeAddOcupante.CHANGEMOTORISTA -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                TypeAddOcupante.ADDMOTORISTA -> {
+                    setBundlePassagVisitTerc(TypeAddOcupante.ADDPASSAGEIRO, 0)
+                    fragmentAttachListenerVisitTerc?.goPassagList()
+                }
+                TypeAddOcupante.CHANGEMOTORISTA -> {
+                    setBundleDetalheVisitTerc(pos)
+                    fragmentAttachListenerVisitTerc?.goDetalhe()
+                }
                 TypeAddOcupante.ADDPASSAGEIRO,
-                TypeAddOcupante.CHANGEPASSAGEIRO -> fragmentAttachListenerVisitTerc?.goPassagList(typeAddOcupante, pos)
+                TypeAddOcupante.CHANGEPASSAGEIRO -> {
+                    setBundlePassagVisitTerc(typeAddOcupante, pos)
+                    fragmentAttachListenerVisitTerc?.goPassagList()
+                }
             }
             return
         }
@@ -92,6 +125,26 @@ class NomeVisitTercFragment : BaseFragment<FragmentNomeVisitTercBinding>(
                 "MATRICULA DO COLABORADOR"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalheVisitTerc(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(DetalheMovEquipVisitTercFragment.POS_DETALHE_VISIT_TERC, pos)
+        setFragmentResult(DetalheMovEquipVisitTercFragment.REQUEST_KEY_DETALHE_VISIT_TERC, bundle)
+    }
+
+    private fun setBundlePassagVisitTerc(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_PASSAG_VISIT_TERC_LIST, typeAddOcupante.ordinal)
+        bundle.putInt(POS_PASSAG_VISIT_TERC_LIST, pos)
+        setFragmentResult(REQUEST_KEY_PASSAG_VISIT_TERC_LIST, bundle)
+    }
+
+    private fun setBundleCPFVisitTerc(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_CPF_VISIT_TERC, typeAddOcupante.ordinal)
+        bundle.putInt(POS_CPF_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_CPF_VISIT_TERC, bundle)
     }
 
     override fun onAttach(context: Context) {

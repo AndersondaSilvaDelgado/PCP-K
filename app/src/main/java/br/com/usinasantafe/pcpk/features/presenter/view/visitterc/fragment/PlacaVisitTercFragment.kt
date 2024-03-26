@@ -6,6 +6,8 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -14,6 +16,11 @@ import br.com.usinasantafe.pcpk.common.extension.showGenericAlertDialog
 import br.com.usinasantafe.pcpk.common.utils.FlowApp
 import br.com.usinasantafe.pcpk.databinding.FragmentPlacaVisitTercBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.FragmentAttachListenerVisitTerc
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.POS_DETALHE_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.DetalheMovEquipVisitTercFragment.Companion.REQUEST_KEY_DETALHE_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.FLOW_APP_VEIC_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.POS_VEIC_VISIT_TERC
+import br.com.usinasantafe.pcpk.features.presenter.view.visitterc.fragment.VeiculoVisitTercFragment.Companion.REQUEST_KEY_VEIC_VISIT_TERC
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PlacaVisitTercFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.visitterc.PlacaVisitTercViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,11 +37,25 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
     private lateinit var flowApp: FlowApp
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_PLACA_VISIT_TERC = "requestKeyPlacaVisitTerc"
+        const val FLOW_APP_PLACA_VISIT_TERC = "flowAppPlacaVisitTerc"
+        const val POS_PLACA_VISIT_TERC = "posPlacaVisitTerc"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_PLACA_VISIT_TERC) { _, bundle ->
+            this.flowApp = FlowApp.values()[bundle.getInt(FLOW_APP_PLACA_VISIT_TERC)]
+            this.pos = bundle.getInt(POS_PLACA_VISIT_TERC)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.flowApp = fragmentAttachListenerVisitTerc?.getFlowApp()!!
-        this.pos = fragmentAttachListenerVisitTerc?.getPos()!!
         observeState()
         setListener()
 
@@ -63,8 +84,14 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
             }
             buttonCancPlacaVisitTerc.setOnClickListener {
                 when(flowApp) {
-                    FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goVeiculo(flowApp)
-                    FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                    FlowApp.ADD -> {
+                        setBundleVeicVisitTerc(flowApp, 0)
+                        fragmentAttachListenerVisitTerc?.goVeiculo()
+                    }
+                    FlowApp.CHANGE -> {
+                        setBundleDetalheVisitTerc(pos)
+                        fragmentAttachListenerVisitTerc?.goDetalhe()
+                    }
                 }
             }
         }
@@ -80,7 +107,10 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
         if (check) {
             when(flowApp) {
                 FlowApp.ADD -> fragmentAttachListenerVisitTerc?.goTipoVisitTerc()
-                FlowApp.CHANGE -> fragmentAttachListenerVisitTerc?.goDetalhe(pos)
+                FlowApp.CHANGE -> {
+                    setBundleDetalheVisitTerc(pos)
+                    fragmentAttachListenerVisitTerc?.goDetalhe()
+                }
             }
             return
         }
@@ -90,6 +120,19 @@ class PlacaVisitTercFragment : BaseFragment<FragmentPlacaVisitTercBinding>(
                 "PLACA"
             ), requireContext()
         )
+    }
+
+    private fun setBundleDetalheVisitTerc(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_VISIT_TERC, bundle)
+    }
+
+    private fun setBundleVeicVisitTerc(flowApp: FlowApp, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(FLOW_APP_VEIC_VISIT_TERC, flowApp.ordinal)
+        bundle.putInt(POS_VEIC_VISIT_TERC, pos)
+        setFragmentResult(REQUEST_KEY_VEIC_VISIT_TERC, bundle)
     }
 
     override fun onAttach(context: Context) {

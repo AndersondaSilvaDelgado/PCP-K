@@ -3,6 +3,7 @@ package br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.base.BaseFragment
@@ -12,6 +13,8 @@ import br.com.usinasantafe.pcpk.databinding.FragmentMovEquipResidenciaStartedLis
 import br.com.usinasantafe.pcpk.features.presenter.model.MovEquipResidenciaModel
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.FragmentAttachListenerResidencia
 import br.com.usinasantafe.pcpk.features.presenter.view.residencia.adapter.MovEquipResidenciaStartedAdapter
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.POS_DETALHE_RESIDENCIA
+import br.com.usinasantafe.pcpk.features.presenter.view.residencia.fragment.DetalheMovEquipResidenciaFragment.Companion.REQUEST_KEY_DETALHE_RESIDENCIA
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.MovEquipResidenciaStartedListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.residencia.MovEquipResidenciaStartedListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,13 +86,20 @@ class MovEquipResidenciaStartedListFragment : BaseFragment<FragmentMovEquipResid
     private fun handleListMov(movEquipResidenciaList: List<MovEquipResidenciaModel>) {
         val listAdapter = MovEquipResidenciaStartedAdapter(movEquipResidenciaList).apply {
             onItemClick = { pos ->
-                fragmentAttachListenerResidencia?.goDetalhe(pos)
+                setBundleDetalheResidencia(pos)
+                fragmentAttachListenerResidencia?.goDetalhe()
             }
         }
         binding.listViewMov.run {
             setHasFixedSize(true)
             adapter = listAdapter
         }
+    }
+
+    private fun setBundleDetalheResidencia(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_RESIDENCIA, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_RESIDENCIA, bundle)
     }
 
     override fun onAttach(context: Context) {

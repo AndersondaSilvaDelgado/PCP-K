@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import br.com.usinasantafe.pcpk.R
 import br.com.usinasantafe.pcpk.common.adapter.CustomAdapter
@@ -14,6 +16,14 @@ import br.com.usinasantafe.pcpk.common.utils.TypeAddOcupante
 import br.com.usinasantafe.pcpk.common.utils.TypeAddEquip
 import br.com.usinasantafe.pcpk.databinding.FragmentVeiculoSegProprioListBinding
 import br.com.usinasantafe.pcpk.features.presenter.view.proprio.FragmentAttachListenerProprio
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.POS_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.DetalheMovEquipProprioFragment.Companion.REQUEST_KEY_DETALHE_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.POS_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.REQUEST_KEY_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.MatricColabFragment.Companion.TYPE_ADD_OCUPANTE_MATRIC_COLAB
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.POS_VEICULO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.REQUEST_KEY_VEICULO_PROPRIO
+import br.com.usinasantafe.pcpk.features.presenter.view.proprio.fragment.VeiculoProprioFragment.Companion.TYPE_ADD_EQUIP_VEICULO_PROPRIO
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoSegProprioListFragmentState
 import br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio.VeiculoSegProprioListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +39,25 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private lateinit var typeAddEquip : TypeAddEquip
     private var pos: Int = 0
 
+    companion object {
+        const val REQUEST_KEY_VEICULO_SEG_PROPRIO = "requestKeyVeiculoSegProprio"
+        const val TYPE_ADD_EQUIP_VEICULO_SEG_PROPRIO = "typeAddEquipVeiculoSegProprio"
+        const val POS_VEICULO_SEG_PROPRIO = "posVeiculoSegProprio"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(REQUEST_KEY_VEICULO_SEG_PROPRIO) { _, bundle ->
+            this.typeAddEquip = TypeAddEquip.values()[bundle.getInt(TYPE_ADD_EQUIP_VEICULO_SEG_PROPRIO)]
+            this.pos = bundle.getInt(POS_VEICULO_SEG_PROPRIO)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.typeAddEquip = fragmentAttachListenerProprio?.getTypeAddEquip()!!
-        this.pos = fragmentAttachListenerProprio?.getPos()!!
         observeState()
         startEvents()
         setListener()
@@ -53,22 +77,35 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
     private fun setListener() {
         with(binding) {
             buttonInserirVeiculoSeg.setOnClickListener {
-                fragmentAttachListenerProprio?.goVeiculoProprio(typeAddEquip, pos)
+                setBundleVeicProprio(typeAddEquip, pos)
+                fragmentAttachListenerProprio?.goVeiculoProprio()
             }
             buttonOkVeiculoSeg.setOnClickListener {
                 when(typeAddEquip) {
                     TypeAddEquip.ADDVEICULO,
-                    TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goMatricColab(TypeAddOcupante.ADDMOTORISTA)
+                    TypeAddEquip.ADDVEICULOSEG -> {
+                        setBundleMatricColab(TypeAddOcupante.ADDMOTORISTA, 0)
+                        fragmentAttachListenerProprio?.goMatricColab()
+                    }
                     TypeAddEquip.CHANGEVEICULO,
-                    TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                    TypeAddEquip.CHANGEVEICULOSEG -> {
+                        setBundleDetalhe(pos)
+                        fragmentAttachListenerProprio?.goDetalhe()
+                    }
                 }
             }
             buttonCancVeiculoSeg.setOnClickListener {
                 when(typeAddEquip) {
                     TypeAddEquip.ADDVEICULO,
-                    TypeAddEquip.ADDVEICULOSEG -> fragmentAttachListenerProprio?.goVeiculoProprio(TypeAddEquip.ADDVEICULO)
+                    TypeAddEquip.ADDVEICULOSEG -> {
+                        setBundleVeicProprio(TypeAddEquip.ADDVEICULO, 0)
+                        fragmentAttachListenerProprio?.goVeiculoProprio()
+                    }
                     TypeAddEquip.CHANGEVEICULO,
-                    TypeAddEquip.CHANGEVEICULOSEG -> fragmentAttachListenerProprio?.goDetalhe(pos)
+                    TypeAddEquip.CHANGEVEICULOSEG -> {
+                        setBundleDetalhe(pos)
+                        fragmentAttachListenerProprio?.goDetalhe()
+                    }
                 }
             }
         }
@@ -112,6 +149,26 @@ class VeiculoSegProprioListFragment : BaseFragment<FragmentVeiculoSegProprioList
         showGenericAlertDialogCheck("DESEJA EXCLUIR O VEÍCULO?", requireContext()) {
             viewModel.deleteEquip(posList, typeAddEquip, pos)
         }
+    }
+
+    private fun setBundleDetalhe(pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(POS_DETALHE_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_DETALHE_PROPRIO, bundle)
+    }
+
+    private fun setBundleVeicProprio(typeAddEquip: TypeAddEquip, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_EQUIP_VEICULO_PROPRIO, typeAddEquip.ordinal)
+        bundle.putInt(POS_VEICULO_PROPRIO, pos)
+        setFragmentResult(REQUEST_KEY_VEICULO_PROPRIO, bundle)
+    }
+
+    private fun setBundleMatricColab(typeAddOcupante: TypeAddOcupante, pos: Int){
+        val bundle = Bundle()
+        bundle.putInt(TYPE_ADD_OCUPANTE_MATRIC_COLAB, typeAddOcupante.ordinal)
+        bundle.putInt(POS_MATRIC_COLAB, pos)
+        setFragmentResult(REQUEST_KEY_MATRIC_COLAB, bundle)
     }
 
     override fun onAttach(context: Context) {

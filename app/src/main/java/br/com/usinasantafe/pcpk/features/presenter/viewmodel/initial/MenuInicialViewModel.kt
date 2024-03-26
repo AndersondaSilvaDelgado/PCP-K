@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.pcpk.common.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcpk.common.utils.StatusSend
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.GetStatusSendConfig
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.common.SetStatusSendConfig
-import br.com.usinasantafe.pcpk.features.domain.usecases.interfaces.initial.CheckAcessApont
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.GetStatusSendConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.common.SetStatusSendConfig
+import br.com.usinasantafe.pcpk.features.domain.usecases.initial.CheckAcessApont
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
