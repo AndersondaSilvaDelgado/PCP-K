@@ -1,7 +1,7 @@
-package br.com.usinasantafe.pcpk.features.external.webservices.datasource.stable
+package br.com.usinasantafe.pcpk.external.webservices.datasource.stable
 
-import br.com.usinasantafe.pcpk.features.external.webservices.api.stable.ColabApi
-import br.com.usinasantafe.pcpk.features.infra.models.room.stable.ColabRoomModel
+import br.com.usinasantafe.pcpk.external.webservices.api.stable.ColabApi
+import br.com.usinasantafe.pcpk.infra.models.room.stable.ColabRoomModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.single

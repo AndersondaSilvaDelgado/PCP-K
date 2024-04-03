@@ -7,11 +7,11 @@
     <string name="texto_padrao_cancelar">CANCELAR</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_senha_invalida">SENHA INVÁLIDA!</string>
-    <string name="texto_atualizacao_dados">ATUALIZAÇÃO DE DADOS...</string>
+    <string name="texto_atualizacao_dados">ATUALIZAÇÃO DE DADOS..</string>
     <string name="texto_nro_aparelho">NRO APARELHO:</string>
     <string name="texto_padrao_salvar">SALVAR</string>
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
-    <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
+    <string name="texto_inicio">INICIANDO O APLICATIVO..</string>
     <string name="texto_update_sucess">ATUALIZAÇÃO DA BASE DE DADOS REALIZADA COM SUCESSO!</string>
     <string name="texto_failure_app">FALHA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI</string>
     <string name="texto_update_failure">FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>

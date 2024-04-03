@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.presenter.view.initial.InitialActivity">
+    tools:context=".presenter.initial.InitialActivity">
 
     <FrameLayout
         android:id="@+id/initial_manager_fragment"

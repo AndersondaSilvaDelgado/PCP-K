@@ -1,13 +1,13 @@
-package br.com.usinasantafe.pcpk.features.external.room.database.stable
+package br.com.usinasantafe.pcpk.external.room.database.stable
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.usinasantafe.pcpk.features.external.room.AppDatabaseRoom
-import br.com.usinasantafe.pcpk.features.external.room.dao.stable.ColabDao
-import br.com.usinasantafe.pcpk.features.infra.models.room.stable.ColabRoomModel
+import br.com.usinasantafe.pcpk.external.room.AppDatabaseRoom
+import br.com.usinasantafe.pcpk.external.room.dao.stable.ColabDao
+import br.com.usinasantafe.pcpk.infra.models.room.stable.ColabRoomModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 

@@ -1,6 +1,6 @@
-package br.com.usinasantafe.pcpk.features.domain.usecases.proprio
+package br.com.usinasantafe.pcpk.domain.usecases.proprio
 
-import br.com.usinasantafe.pcpk.features.domain.repositories.stable.EquipRepository
+import br.com.usinasantafe.pcpk.domain.repositories.stable.EquipRepository
 import org.junit.Assert.*
 
 import kotlinx.coroutines.runBlocking

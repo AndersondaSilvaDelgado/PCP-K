@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.presenter.view.visitterc.VisitTercActivity">
+    tools:context=".presenter.visitterc.VisitTercActivity">
 
     <FrameLayout
         android:id="@+id/visit_terc_manager_fragment"

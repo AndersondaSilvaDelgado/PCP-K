@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcpk.features.domain.usecases
+package br.com.usinasantafe.pcpk.domain.usecases
 
 import org.junit.Assert.*
 

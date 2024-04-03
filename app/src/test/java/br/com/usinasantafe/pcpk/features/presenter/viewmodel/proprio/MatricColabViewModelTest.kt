@@ -1,12 +1,14 @@
-package br.com.usinasantafe.pcpk.features.presenter.viewmodel.proprio
+package br.com.usinasantafe.pcpk.presentermodel.proprio
 
 import androidx.annotation.VisibleForTesting
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.usinasantafe.pcpk.features.domain.usecases.common.CheckMatricColab
-import br.com.usinasantafe.pcpk.features.domain.usecases.database.UpdateColab
+import br.com.usinasantafe.pcpk.domain.usecases.common.CheckMatricColab
+import br.com.usinasantafe.pcpk.domain.usecases.database.UpdateColab
+import br.com.usinasantafe.pcpk.presenter.proprio.matric.MatricColabFragmentState
+import br.com.usinasantafe.pcpk.presenter.proprio.matric.MatricColabViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -69,13 +71,10 @@ class MatricColabViewModelTest {
         val observer = Observer<MatricColabFragmentState> {}
         try {
 
-            // Observe the LiveData forever
             viewModel.uiLiveData.observeForever(observer)
 
-            // When adding a new task
             viewModel.checkMatricColaborador("19759")
 
-            // Then the new task event is triggered
             val value = viewModel.uiLiveData.value
             assertEquals(value, MatricColabFragmentState.CheckMatric(true))
 

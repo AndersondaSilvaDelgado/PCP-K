@@ -1,9 +1,7 @@
-package br.com.usinasantafe.pcpk.features.external.sharedpreferences
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.pcpk.features.domain.entities.variable.Config
-import br.com.usinasantafe.pcpk.features.module.database.shared.SharedPreferencesModule
+import br.com.usinasantafe.pcpk.external.sharedpreferences.ConfigDatasourceSharedPreferencesImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +20,11 @@ class ConfigDatasourceSharedPreferencesImplTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val shared = context.getSharedPreferences("teste", Context.MODE_PRIVATE)
         val configDatasourceSharedPreferencesImpl = ConfigDatasourceSharedPreferencesImpl(shared)
-        configDatasourceSharedPreferencesImpl.saveConfig(Config(11L))
+        configDatasourceSharedPreferencesImpl.saveConfig(
+            br.com.usinasantafe.pcpk.domain.entities.variable.Config(
+                11L
+            )
+        )
         assertTrue(configDatasourceSharedPreferencesImpl.hasConfig())
     }
 }

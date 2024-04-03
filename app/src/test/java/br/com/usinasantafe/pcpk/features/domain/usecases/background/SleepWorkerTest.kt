@@ -1,4 +1,4 @@
-package br.com.usinasantafe.pcpk.features.domain.usecases.background
+package br.com.usinasantafe.pcpk.domain.usecases.background
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider

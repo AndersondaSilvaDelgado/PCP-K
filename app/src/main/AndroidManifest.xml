@@ -17,27 +17,27 @@
         android:theme="@style/Theme.PCPK"
         tools:targetApi="31">
         <activity
-            android:name=".features.presenter.view.visitterc.VisitTercActivity"
+            android:name=".presenter.visitterc.VisitTercActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".features.presenter.view.residencia.ResidenciaActivity"
+            android:name=".presenter.residencia.ResidenciaActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".features.presenter.view.proprio.ProprioActivity"
+            android:name=".presenter.proprio.ProprioActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".features.presenter.view.initial.InitialActivity"
+            android:name=".presenter.initial.InitialActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".features.presenter.view.splash.SplashActivity"
+            android:name=".presenter.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

@@ -1,0 +1,41 @@
+package br.com.usinasantafe.pcpk.domain.usecases.database
+
+import br.com.usinasantafe.pcpk.utils.ResultUpdateDatabase
+import br.com.usinasantafe.pcpk.utils.TB_COLAB
+import br.com.usinasantafe.pcpk.utils.TEXT_CLEAR_TB
+import br.com.usinasantafe.pcpk.utils.TEXT_RECEIVE_WS_TB
+import br.com.usinasantafe.pcpk.utils.TEXT_SAVE_DATA_TB
+import br.com.usinasantafe.pcpk.domain.repositories.stable.ColabRepository
+import br.com.usinasantafe.pcpk.domain.repositories.variable.ConfigRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+interface UpdateColab {
+    suspend operator fun invoke(contador: Int = 0, qtde: Int = 3): Flow<Result<ResultUpdateDatabase>>
+}
+
+class UpdateColabImpl @Inject constructor(
+    private val colabRepository: ColabRepository,
+    private val configRepository: ConfigRepository,
+): UpdateColab {
+
+    override suspend fun invoke(contador: Int, qtde: Int): Flow<Result<ResultUpdateDatabase>> = flow {
+        var contUpdate = contador
+        emit(Result.success(ResultUpdateDatabase(++contUpdate, TEXT_CLEAR_TB + TB_COLAB, qtde)))
+        colabRepository.deleteAllColab()
+        emit(Result.success(ResultUpdateDatabase(++contUpdate, TEXT_RECEIVE_WS_TB + TB_COLAB, qtde)))
+        val config = configRepository.getConfig()
+        colabRepository.recoverAllColab(config.nroAparelhoConfig!!)
+            .collect{ result ->
+                result.fold(
+                    onSuccess = { list ->
+                        emit(Result.success(ResultUpdateDatabase(++contUpdate, TEXT_SAVE_DATA_TB + TB_COLAB, qtde)))
+                        colabRepository.addAllColab(list)
+                    },
+                    onFailure = { exception -> emit(Result.failure(Throwable("$exception - $TB_COLAB") )) }
+                )
+            }
+    }
+
+}
