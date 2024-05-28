@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcp.domain.usecases.common
 
-import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.utils.PointerStart
 import br.com.usinasantafe.pcp.utils.StatusSend
 import br.com.usinasantafe.pcp.domain.repositories.variable.ConfigRepository

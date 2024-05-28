@@ -30,26 +30,6 @@ data class MovEquipVisitTercRoomModel(
     var statusSendMovEquipVisitTerc: StatusSend,
 )
 
-fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLocal: Long): MovEquipVisitTercRoomModel{
-    return with(this){
-        MovEquipVisitTercRoomModel(
-            idMovEquipVisitTerc = this.idMovEquipVisitTerc,
-            nroMatricVigiaMovEquipVisitTerc = matricVigia,
-            idLocalMovEquipVisitTerc = idLocal,
-            tipoMovEquipVisitTerc = this.tipoMovEquipVisitTerc!!,
-            idVisitTercMovEquipVisitTerc = this.idVisitTercMovEquipVisitTerc!!,
-            tipoVisitTercMovEquipVisitTerc = this.tipoVisitTercMovEquipVisitTerc!!,
-            dthrMovEquipVisitTerc = Date().time,
-            veiculoMovEquipVisitTerc = this.veiculoMovEquipVisitTerc!!,
-            placaMovEquipVisitTerc = this.placaMovEquipVisitTerc!!,
-            destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
-            observMovEquipVisitTerc = this.observMovEquipVisitTerc,
-            statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
-            statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,
-        )
-    }
-}
-
 fun MovEquipVisitTercRoomModel.modelRoomToMovEquipVisitTerc(): MovEquipVisitTerc {
     return with(this){
         MovEquipVisitTerc(
@@ -62,6 +42,26 @@ fun MovEquipVisitTercRoomModel.modelRoomToMovEquipVisitTerc(): MovEquipVisitTerc
             dthrMovEquipVisitTerc = Date(this.dthrMovEquipVisitTerc),
             veiculoMovEquipVisitTerc = this.veiculoMovEquipVisitTerc,
             placaMovEquipVisitTerc = this.placaMovEquipVisitTerc,
+            destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
+            observMovEquipVisitTerc = this.observMovEquipVisitTerc,
+            statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,
+            statusSendMovEquipVisitTerc = this.statusSendMovEquipVisitTerc,
+        )
+    }
+}
+
+fun MovEquipVisitTerc.entityToMovEquipVisitTercRoomModel(matricVigia: Long, idLocal: Long): MovEquipVisitTercRoomModel{
+    return with(this){
+        MovEquipVisitTercRoomModel(
+            idMovEquipVisitTerc = this.idMovEquipVisitTerc,
+            nroMatricVigiaMovEquipVisitTerc = matricVigia,
+            idLocalMovEquipVisitTerc = idLocal,
+            tipoMovEquipVisitTerc = this.tipoMovEquipVisitTerc!!,
+            idVisitTercMovEquipVisitTerc = this.idVisitTercMovEquipVisitTerc!!,
+            tipoVisitTercMovEquipVisitTerc = this.tipoVisitTercMovEquipVisitTerc!!,
+            dthrMovEquipVisitTerc = this.dthrMovEquipVisitTerc.time,
+            veiculoMovEquipVisitTerc = this.veiculoMovEquipVisitTerc!!,
+            placaMovEquipVisitTerc = this.placaMovEquipVisitTerc!!,
             destinoMovEquipVisitTerc = this.destinoMovEquipVisitTerc,
             observMovEquipVisitTerc = this.observMovEquipVisitTerc,
             statusMovEquipVisitTerc = this.statusMovEquipVisitTerc,

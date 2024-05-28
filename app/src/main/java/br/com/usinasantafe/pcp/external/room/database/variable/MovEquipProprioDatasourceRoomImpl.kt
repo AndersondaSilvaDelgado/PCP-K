@@ -44,7 +44,11 @@ class MovEquipProprioDatasourceRoomImpl @Inject constructor(
     }
 
     override suspend fun listMovEquipProprioSend(): List<MovEquipProprioRoomModel> {
-        return movEquipProprioDao.listMovStatusEnvio(StatusSend.SEND)
+        val list = movEquipProprioDao.listMovStatusEnvio(StatusSend.SEND)
+        for(model in list){
+            println("Data hora do Room = ${model.dthrMovEquipProprio}")
+        }
+        return list
     }
 
     override suspend fun listMovEquipProprioSent(): List<MovEquipProprioRoomModel> {

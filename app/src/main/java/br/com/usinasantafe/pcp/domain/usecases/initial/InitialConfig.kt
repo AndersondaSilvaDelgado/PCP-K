@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcp.domain.usecases.initial
 
-import br.com.usinasantafe.pcp.BuildConfig
 import br.com.usinasantafe.pcp.utils.ResultUpdateDatabase
 import br.com.usinasantafe.pcp.utils.TEXT_FINISH_UPDATE
 import br.com.usinasantafe.pcp.utils.TEXT_RECEIVE_TOKEN

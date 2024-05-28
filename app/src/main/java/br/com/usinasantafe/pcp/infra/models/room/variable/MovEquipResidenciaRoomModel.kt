@@ -27,24 +27,6 @@ data class MovEquipResidenciaRoomModel(
     var statusSendMovEquipResidencia: StatusSend,
 )
 
-fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, idLocal: Long): MovEquipResidenciaRoomModel{
-    return with(this){
-        MovEquipResidenciaRoomModel(
-            idMovEquipResidencia = this.idMovEquipResidencia,
-            nroMatricVigiaMovEquipResidencia = matricVigia,
-            idLocalMovEquipResidencia = idLocal,
-            dthrMovEquipResidencia = Date().time,
-            tipoMovEquipResidencia = this.tipoMovEquipResidencia!!,
-            motoristaMovEquipResidencia = this.motoristaMovEquipResidencia!!,
-            veiculoMovEquipResidencia = this.veiculoMovEquipResidencia!!,
-            placaMovEquipResidencia = this.placaMovEquipResidencia!!,
-            observMovEquipResidencia = this.observMovEquipResidencia,
-            statusMovEquipResidencia = this.statusMovEquipResidencia,
-            statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,
-        )
-    }
-}
-
 fun MovEquipResidenciaRoomModel.modelRoomToMovEquipResidencia(): MovEquipResidencia {
     return with(this){
         MovEquipResidencia(
@@ -56,6 +38,24 @@ fun MovEquipResidenciaRoomModel.modelRoomToMovEquipResidencia(): MovEquipResiden
             motoristaMovEquipResidencia = this.motoristaMovEquipResidencia,
             veiculoMovEquipResidencia = this.veiculoMovEquipResidencia,
             placaMovEquipResidencia = this.placaMovEquipResidencia,
+            observMovEquipResidencia = this.observMovEquipResidencia,
+            statusMovEquipResidencia = this.statusMovEquipResidencia,
+            statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,
+        )
+    }
+}
+
+fun MovEquipResidencia.entityToMovEquipResidenciaRoomModel(matricVigia: Long, idLocal: Long): MovEquipResidenciaRoomModel{
+    return with(this){
+        MovEquipResidenciaRoomModel(
+            idMovEquipResidencia = this.idMovEquipResidencia,
+            nroMatricVigiaMovEquipResidencia = matricVigia,
+            idLocalMovEquipResidencia = idLocal,
+            dthrMovEquipResidencia = this.dthrMovEquipResidencia.time,
+            tipoMovEquipResidencia = this.tipoMovEquipResidencia!!,
+            motoristaMovEquipResidencia = this.motoristaMovEquipResidencia!!,
+            veiculoMovEquipResidencia = this.veiculoMovEquipResidencia!!,
+            placaMovEquipResidencia = this.placaMovEquipResidencia!!,
             observMovEquipResidencia = this.observMovEquipResidencia,
             statusMovEquipResidencia = this.statusMovEquipResidencia,
             statusSendMovEquipResidencia = this.statusSendMovEquipResidencia,

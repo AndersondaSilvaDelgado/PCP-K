@@ -28,6 +28,8 @@ data class MovEquipProprioRoomModel(
 )
 
 fun MovEquipProprioRoomModel.modelRoomToMovEquipProprio(): MovEquipProprio {
+    println("Data Room = ${this.dthrMovEquipProprio}")
+    println("Data Entidade Convertido = ${Date(this.dthrMovEquipProprio)}")
     return with(this){
         MovEquipProprio(
             idMovEquipProprio = this.idMovEquipProprio,
@@ -52,7 +54,7 @@ fun MovEquipProprio.entityToMovEquipProprioRoomModel(matricVigia: Long, idLocal:
             nroMatricVigiaMovEquipProprio = matricVigia,
             idLocalMovEquipProprio = idLocal,
             tipoMovEquipProprio = this.tipoMovEquipProprio!!,
-            dthrMovEquipProprio = Date().time,
+            dthrMovEquipProprio = this.dthrMovEquipProprio.time,
             idEquipMovEquipProprio = this.idEquipMovEquipProprio!!,
             nroMatricColabMovEquipProprio = this.nroMatricColabMovEquipProprio!!,
             destinoMovEquipProprio = this.destinoMovEquipProprio!!,

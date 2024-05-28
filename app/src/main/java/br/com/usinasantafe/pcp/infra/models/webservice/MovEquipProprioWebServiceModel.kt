@@ -28,6 +28,8 @@ data class MovEquipProprioWebServiceModelInput(
 )
 
 fun MovEquipProprio.entityToMovEquipProprioWebServiceModel(nroAparelho: Long): MovEquipProprioWebServiceModelOutput {
+    println("Data hora da Entidade = ${this.dthrMovEquipProprio}")
+    println("Data hora da WebServiceModel = ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("pt", "BR")).format(this.dthrMovEquipProprio)}")
     return with(this){
         MovEquipProprioWebServiceModelOutput(
             idMovEquipProprio = this.idMovEquipProprio!!,
